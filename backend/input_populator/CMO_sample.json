@@ -1,0 +1,137 @@
+{
+  "success": true,
+  "liveboard_name": "Marketing - CMO",
+  "visualization_count": 126,
+  "kpis": {
+    "KPI_1": {
+      "name": "New Customer Opportunity ACV",
+      "measure": "[Opportunity ACV]",
+      "formula": "sum([Opportunity ACV])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total Annual Contract Value for new customer opportunities, a key revenue metric for business growth.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_2": {
+      "name": "Existing Customer Expansion ACV",
+      "measure": "[Opportunity ACV]",
+      "formula": "sum([Opportunity ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'"
+      ],
+      "description": "Total Annual Contract Value for existing customer expansion opportunities, measuring upsell and cross-sell success.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_3": {
+      "name": "Booking ACV Target Achievement",
+      "measure": "[Booking ACV Target]",
+      "formula": "sum([Booking ACV Target])",
+      "filters": [],
+      "description": "Target booking Annual Contract Value used for performance measurement and goal tracking.",
+      "chart_type": "TABLE",
+      "table_name": "Sales Creation/Booking - Target/Achieved",
+      "table_id": "Sales Creation/Booking - Target/Achieved",
+      "score": 0
+    },
+    "KPI_4": {
+      "name": "S1 Pipeline ACV for New Customers",
+      "measure": "[Opportunity S1 Starting ACV]",
+      "formula": "sum([Opportunity S1 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Annual Contract Value of opportunities in S1 stage for new customers, indicating early-stage pipeline health.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_5": {
+      "name": "S1 Opportunities Created Count",
+      "measure": "[f Opportunity S1 Created Count]",
+      "formula": "sum([f Opportunity S1 Created Count])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Number of new opportunities created in the S1 defining stage, measuring sales pipeline generation.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_6": {
+      "name": "S1+ Pipeline Coverage",
+      "measure": "[Pipeline ACV]",
+      "formula": "sum([Pipeline ACV])",
+      "filters": [],
+      "description": "Total pipeline Annual Contract Value for S1 and above stages, used for pipeline coverage analysis.",
+      "chart_type": "TABLE",
+      "table_name": "Sales Creation/Booking - Target/Achieved",
+      "table_id": "Sales Creation/Booking - Target/Achieved",
+      "score": 0
+    },
+    "KPI_7": {
+      "name": "S0 Pipeline ACV for New Customers",
+      "measure": "[Opportunity S0 Starting ACV]",
+      "formula": "sum([Opportunity S0 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Annual Contract Value of opportunities in S0 qualifying stage for new customers, measuring early pipeline value.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_8": {
+      "name": "S0 Opportunities Created Count",
+      "measure": "[f Opportunity S0 Created Count]",
+      "formula": "sum([f Opportunity S0 Created Count])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Number of new opportunities created in the S0 qualifying stage, indicating top-of-funnel activity.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_9": {
+      "name": "S3 Pipeline ACV for New Customers",
+      "measure": "[Opportunity S3 Starting ACV]",
+      "formula": "sum([Opportunity S3 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Annual Contract Value of opportunities in S3 stage for new customers, representing qualified late-stage pipeline.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_10": {
+      "name": "S3 Opportunities Created Count",
+      "measure": "[f Opportunity S3 Created Count]",
+      "formula": "sum([f Opportunity S3 Created Count])",
+      "filters": [
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Number of new opportunities created in the S3 stage, measuring progression to advanced sales stages.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    }
+  },
+  "attributes": "Opportunity Type, Booking Target Geo (by BT RegSeg), Opportunity Source MQL Classification, Opportunity Stage, Creation Target Geo",
+  "date_column": "Opportunity Close Date",
+  "goal": "Monitor and optimize sales pipeline performance across all stages to drive revenue growth and achieve quarterly booking targets.",
+  "user_context": "CMO and senior marketing executives use this dashboard during quarterly business reviews and monthly pipeline meetings to comprehensively assess marketing and sales performance by first examining the Health of Business tab to review quarterly booking targets versus achievements across regions and segments, then analyzing the Stage Age & Conversions tab to understand funnel progression from M1 through S3 stages and identify conversion bottlenecks, followed by evaluating the Lead Source Analysis tab to determine which marketing channels and campaigns are generating the highest quality MQLs and pipeline, next reviewing the Trials tab to assess free trial conversion rates and user activation metrics, then examining the Pipeline Coverage tab to ensure adequate pipeline coverage for current and future quarters by geography and segment, and finally using the Creation to Targets tab to track progress against creation targets for each stage while identifying areas requiring immediate attention or resource reallocation."
+}

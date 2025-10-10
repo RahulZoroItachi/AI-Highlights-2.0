@@ -1,0 +1,176 @@
+[
+    {
+      "output": {
+        "data_fetch_plan": [
+          {
+            "answer_id": "1.1",
+            "original_phase_number": "1",
+            "original_step_title": "Last Week's NPS Performance Analysis",
+            "prompt": "Fetch the Survey Completion Date Time, Case NPS Score Segment, Account Name, Case Owner Name, Case NPS Feedback Comments, Case Number, and Case Invalid Survey for all survey responses from last week where the survey is not invalid.",
+            "data_requirements": {
+              "columns_to_fetch": [
+                "Survey Completion Date Time",
+                "Case NPS Score Segment",
+                "Account Name",
+                "Case Owner Name",
+                "Case NPS Feedback Comments",
+                "Case Number",
+                "Case Invalid Survey"
+              ],
+              "filters": [
+                {
+                  "column": "Survey Completion Date Time",
+                  "condition": "in",
+                  "value": "Last Week"
+                },
+                {
+                  "column": "Case Invalid Survey",
+                  "condition": "equals",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          {
+            "answer_id": "2.1",
+            "original_phase_number": "1",
+            "original_step_title": "Prior Week's NPS Performance Analysis",
+            "prompt": "Fetch the Survey Completion Date Time, Case NPS Score Segment, Account Name, Case Owner Name, Case Number, and Case Invalid Survey for all survey responses from the week before last where the survey is not invalid.",
+            "data_requirements": {
+              "columns_to_fetch": [
+                "Survey Completion Date Time",
+                "Case NPS Score Segment",
+                "Account Name",
+                "Case Owner Name",
+                "Case Number",
+                "Case Invalid Survey"
+              ],
+              "filters": [
+                {
+                  "column": "Survey Completion Date Time",
+                  "condition": "in",
+                  "value": "Last to Last Week"
+                },
+                {
+                  "column": "Case Invalid Survey",
+                  "condition": "equals",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          {
+            "answer_id": "3.1",
+            "original_phase_number": "1",
+            "original_step_title": "Last 8-Week Average NPS Performance",
+            "prompt": "Fetch the Survey Completion Date Time, Case NPS Score Segment, Case Owner Name, Account Name, and Case Invalid Survey for all survey responses from the last 8 weeks where the survey is not invalid.",
+            "data_requirements": {
+              "columns_to_fetch": [
+                "Survey Completion Date Time",
+                "Case NPS Score Segment",
+                "Account Name",
+                "Case Owner Name",
+                "Case Invalid Survey"
+              ],
+              "filters": [
+                {
+                  "column": "Survey Completion Date Time",
+                  "condition": "in",
+                  "value": "Last 8 Weeks"
+                },
+                {
+                  "column": "Case Invalid Survey",
+                  "condition": "equals",
+                  "value": "false"
+                }
+              ]
+            }
+          }
+        ],
+        "analysis_plan": [
+          {
+            "step": "1",
+            "title": "Last Week's NPS Performance Analysis",
+            "objective": "Using the fetched data for last week, group by NPS segment, account, and case owner to count the number of responses and list feedback comments. This will identify the top detractors and passives.",
+            "source_answer_ids": [
+              "1.1"
+            ],
+            "depends_on_steps": [],
+            "computations": {
+              "group_by": [
+                "Case NPS Score Segment",
+                "Account Name",
+                "Case Owner Name"
+              ],
+              "aggregations": [
+                "COUNT(Case Number) as Number of Responses",
+                "LIST(Case NPS Feedback Comments) as Feedback Comments"
+              ]
+            },
+            "key_insights_questions_answered": "What was the overall performance for each NPS segment last week? For Detractors and Passives, which Case Owners and Account Names were most frequently cited? What were the specific feedback comments provided?"
+          },
+          {
+            "step": "2",
+            "title": "Prior Week's NPS Performance Analysis",
+            "objective": "Using the fetched data for the prior week, group by NPS segment, account, and case owner to count the number of responses. This establishes a baseline for week-over-week comparison.",
+            "source_answer_ids": [
+              "2.1"
+            ],
+            "depends_on_steps": [],
+            "computations": {
+              "group_by": [
+                "Case NPS Score Segment",
+                "Account Name",
+                "Case Owner Name"
+              ],
+              "aggregations": [
+                "COUNT(Case Number) as Number of Responses"
+              ]
+            },
+            "key_insights_questions_answered": "What was the performance for each NPS segment in the prior week? How does this compare to last week's performance? Are there recurring issues or improvements?"
+          },
+          {
+            "step": "3",
+            "title": "Last 8-Week Average NPS Performance",
+            "objective": "Using the fetched data from the last 8 weeks, first calculate the weekly response count for each NPS segment. Then, compute the average of these weekly counts for each segment to establish a historical benchmark.",
+            "source_answer_ids": [
+              "3.1"
+            ],
+            "depends_on_steps": [],
+            "computations": {
+              "group_by": [
+                "Week of Survey Completion Date Time",
+                "Case NPS Score Segment"
+              ],
+              "aggregations": [
+                "COUNT(Case Number) as Weekly Response Count",
+                "After computing weekly counts, calculate AVERAGE(Weekly Response Count) grouped by Case NPS Score Segment"
+              ]
+            },
+            "key_insights_questions_answered": "What is the average weekly number of Promoters, Detractors, and Passives over the last 8 weeks? This provides a baseline to measure weekly performance against."
+          },
+          {
+            "step": "4",
+            "title": "Comparative Analysis: Last Week vs. 8-Week Average",
+            "objective": "Compare the results from Step 1 (Total Last Week Responses) with the results from Step 3 (Average 8 Week Responses) for each NPS segment to identify significant deviations and trends.",
+            "source_answer_ids": [],
+            "depends_on_steps": [
+              "1",
+              "3"
+            ],
+            "computations": {
+              "group_by": [
+                "Case NPS Score Segment"
+              ],
+              "aggregations": [
+                "SUM(Number of Responses from step 1) as Total Last Week Responses",
+                "TAKE(Average 8 Week Responses from step 3)",
+                "CALCULATE VARIANCE(Total Last Week Responses, Average 8 Week Responses)"
+              ]
+            },
+            "key_insights_questions_answered": "How did the number of Promoters, Detractors, and Passives last week compare to the trailing 8-week average? Is our customer experience trending in the right direction? Where should we focus our efforts for improvement?"
+          }
+        ]
+      }
+    }
+  ]

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Configuration Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 AI Hybrid Analysis Platform</h1>
+            <p>Configure inputs and run analysis for data insights</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('configuration')">📝 Configuration</button>
+            <button class="tab-btn" onclick="switchTab('analysis')">📊 Analysis</button>
+        </div>
+
+        <!-- Configuration Tab -->
+        <div id="configuration-tab" class="tab-content active">
+
+        <div class="scenario-selector">
+            <label for="scenario">Scenario:</label>
+            <select id="scenario" onchange="loadScenario()">
+                <option value="">Select a scenario...</option>
+            </select>
+            <button type="button" id="refresh-scenarios-btn" onclick="refreshScenarios()" title="Refresh scenarios from inputs.json">🔄</button>
+            <button id="new-scenario-btn" onclick="createNewScenario()">+ New Scenario</button>
+        </div>
+
+        <form id="input-form" style="display: none;">
+            <div class="form-section">
+                <h2>📋 Basic Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="liveboard_id">Liveboard ID:</label>
+                    <input type="text" id="liveboard_id" placeholder="e.g., 12345678-abcd-1234-efgh-123456789012">
+                    <small>Enter the ThoughtSpot Liveboard ID to extract configuration automatically</small>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="autoFillConfiguration()" class="auto-fill-btn">
+                        🤖 Auto Fill Configuration
+                    </button>
+                    <small>Automatically populate configuration fields using Liveboard ID</small>
+                </div>
+                
+                <!-- Live Progress Log for Auto Fill -->
+                <div id="auto-fill-progress" class="progress-container" style="display: none;">
+                    <h4>🔄 Auto Fill Progress</h4>
+                    <div class="progress-output">
+                        <div id="auto-fill-log" class="progress-log"></div>
+                    </div>
+                    <button type="button" onclick="clearAutoFillLog()" class="secondary-btn" style="margin-top: 10px;">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="worksheet_id">Worksheet ID:</label>
+                    <input type="text" id="worksheet_id" placeholder="e.g., 9cfb299b-7378-48cb-ae20-a0bc5a82b223">
+                    <small>Optional: Specify worksheet ID if different from auto-detected</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>📈 KPIs and Metrics</h2>
+                
+                <div class="form-group">
+                    <label for="kpi">Key Performance Indicators (KPIs):</label>
+                    <textarea id="kpi" rows="4" placeholder="Describe the primary KPIs, their measures, and calculations..."></textarea>
+                    <small>Example: The primary KPIs are M1, S0, and S1, which are different values within the 'Opportunity Stage' column...</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="aggregations">Aggregations:</label>
+                    <textarea id="aggregations" rows="3" placeholder="Describe the important numbers and aggregations..."></textarea>
+                    <small>Example: The most important numbers are the count of opportunities and the total sum of 'Opportunity ACV'.</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>🎯 Analysis Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="date_column">Date Column:</label>
+                    <input type="text" id="date_column" placeholder="e.g., Opportunity Created Date">
+                    <small>The primary date column used for time-based analysis</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="attributes">Attributes for Analysis:</label>
+                    <textarea id="attributes" rows="3" placeholder="List the key attributes to slice and analyze the data by..."></textarea>
+                    <small>Example: Opportunity Type, Opportunity Owner Name, Opportunity Creator Name, etc.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal">Analysis Goal:</label>
+                    <textarea id="goal" rows="4" placeholder="Describe the primary goal of the analysis..."></textarea>
+                    <small>What do you want to understand or achieve with this analysis?</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_context">User Context & Requirements:</label>
+                    <textarea id="user_context" rows="12" placeholder="Provide detailed context about how the analysis should be performed..."></textarea>
+                    <small>Include time periods, specific requirements, filters, and any special instructions.</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>📄 Report Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="report_format">Report Format:</label>
+                    <textarea id="report_format" rows="4" placeholder="Describe the desired structure and format of the final report..."></textarea>
+                    <small>Example: The report should have 1. Executive summary 2. Detailed analysis 3. Comparisons...</small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="saveConfiguration()">💾 Save Configuration</button>
+                <button type="button" onclick="exportConfiguration()">📤 Export JSON</button>
+                <button type="button" onclick="importConfiguration()">📥 Import JSON</button>
+                <button type="button" onclick="clearForm()">🗑️ Clear Form</button>
+            </div>
+        </form>
+
+        <div id="output" style="display: none;">
+            <h3>📋 Generated Configuration</h3>
+            <pre id="json-output"></pre>
+            <button onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+        </div>
+
+        </div> <!-- End Configuration Tab -->
+
+        <!-- Analysis Tab -->
+        <div id="analysis-tab" class="tab-content">
+            <div class="analysis-header">
+                <h2>🔍 Analysis Dashboard</h2>
+                <p>Select a scenario to view configuration and run analysis</p>
+            </div>
+
+            <div class="analysis-scenario-selector">
+                <label for="analysis-scenario">Select Scenario for Analysis:</label>
+                <select id="analysis-scenario" onchange="loadAnalysisScenario()">
+                    <option value="">Choose a scenario to analyze...</option>
+                </select>
+                <button type="button" id="refresh-analysis-scenarios-btn" onclick="refreshAnalysisScenarios()" title="Refresh scenarios from inputs.json">🔄</button>
+            </div>
+
+            <div id="analysis-content" style="display: none;">
+                <!-- Configuration Overview -->
+                <div class="config-overview">
+                    <h3>📋 Current Configuration</h3>
+                    <div class="config-grid">
+                        <div class="config-item">
+                            <label>Worksheet ID:</label>
+                            <span id="config-worksheet-id">-</span>
+                        </div>
+                        <div class="config-item">
+                            <label>Date Column:</label>
+                            <span id="config-date-column">-</span>
+                        </div>
+                        <div class="config-item">
+                            <label>KPIs:</label>
+                            <div id="config-kpi" class="config-text">-</div>
+                        </div>
+                        <div class="config-item">
+                            <label>Attributes:</label>
+                            <div id="config-attributes" class="config-text">-</div>
+                        </div>
+                        <div class="config-item">
+                            <label>Goal:</label>
+                            <div id="config-goal" class="config-text">-</div>
+                        </div>
+                        <div class="config-item">
+                            <label>User Context:</label>
+                            <div id="config-user-context" class="config-text">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Options -->
+                <div class="analysis-options">
+                    <h3>⚙️ Analysis Configuration</h3>
+                    <div class="analysis-controls">
+                        <div class="control-group">
+                            <label for="llm-provider">LLM Provider:</label>
+                            <select id="llm-provider">
+                                <option value="gemini">Gemini Pro</option>
+                                <option value="claude" selected>Claude Sonnet</option>
+                            </select>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="load-previous-plan">Load Previous Plan:</label>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <select id="load-previous-plan" style="flex: 1;">
+                                    <option value="">Generate New Plan</option>
+                                </select>
+                                <button type="button" onclick="updateVersionDropdowns(document.getElementById('analysis-scenario').value)" 
+                                        title="Refresh available versions" style="padding: 5px 8px; font-size: 12px;">🔄</button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="load-previous-data">Load Previous Data:</label>
+                            <select id="load-previous-data">
+                                <option value="">Fetch Fresh Data</option>
+                            </select>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="report-analysis-version">Report Analysis Version:</label>
+                            <select id="report-analysis-version">
+                                <option value="">Run Full Analysis</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="analysis-actions">
+                    <button type="button" id="run-analysis-btn" onclick="runAnalysis()" class="primary-btn">
+                        🚀 Run Analysis
+                    </button>
+                    <button type="button" id="stop-analysis-btn" onclick="stopAnalysis()" class="stop-btn" style="display: none;">
+                        🛑 Stop Analysis
+                    </button>
+                    <button type="button" id="view-results-btn" onclick="viewResults()" class="secondary-btn">
+                        📊 View Previous Results
+                    </button>
+                    <button type="button" id="edit-config-btn" onclick="editConfiguration()" class="secondary-btn">
+                        ✏️ Edit Configuration
+                    </button>
+                </div>
+
+                <!-- Status Display -->
+                <div id="analysis-status" class="status-display" style="display: none;">
+                    <h4>📈 Analysis Status</h4>
+                    <div id="status-content">Ready to run analysis...</div>
+                    <div id="progress-output" class="progress-output" style="display: none;">
+                        <h5>📋 Live Progress:</h5>
+                        <div id="progress-log"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="message-container"></div>
+
+        <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
