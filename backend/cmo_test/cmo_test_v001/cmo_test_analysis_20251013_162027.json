@@ -1,0 +1,261 @@
+{
+  "1.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "1.1.1",
+    "title": "Analysis 1: Total Closed Won Revenue by Geography",
+    "question": "What is the total closed-won revenue achieved in the current quarter for each geographic region and segment?",
+    "fetchStepId": "1.1"
+  },
+  "1.1.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "1.1.2",
+    "title": "Analysis 2: Revenue Distribution Concentration",
+    "question": "What percentage of total quarterly revenue does each geography contribute, and is revenue concentration a risk?",
+    "fetchStepId": "1.1"
+  },
+  "1.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "1.2.1",
+    "title": "Analysis 3: Revenue by Opportunity Type",
+    "question": "What is the revenue split between new customer acquisition and existing customer expansion in the current quarter?",
+    "fetchStepId": "1.2"
+  },
+  "1.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "1.3.1",
+    "title": "Analysis 4: Deal Count by Owner Team",
+    "question": "How many closed-won deals did each owner team close in the current quarter?",
+    "fetchStepId": "1.3"
+  },
+  "1.3.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "1.3.2",
+    "title": "Analysis 5: Average Deal Size by Owner Team",
+    "question": "What is the average deal size for each owner team, and are there significant variations?",
+    "fetchStepId": "1.3"
+  },
+  "2.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "2.1.1",
+    "title": "Analysis 6: Total MQL Volume for Current Quarter",
+    "question": "What is the total number of marketing qualified leads generated in the current quarter (excluding mode migration)?",
+    "fetchStepId": "2.1"
+  },
+  "2.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "2.2.1",
+    "title": "Analysis 7: Quarter-over-Quarter MQL Trend",
+    "question": "What is the quarter-over-quarter trend in MQL generation, and is marketing lead generation growing or declining?",
+    "fetchStepId": "2.2"
+  },
+  "2.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "2.3.1",
+    "title": "Analysis 8: Total Free Trial Users for Current Quarter",
+    "question": "How many unique free trial users were acquired through web sources in the current quarter?",
+    "fetchStepId": "2.3"
+  },
+  "2.4.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "2.4.1",
+    "title": "Analysis 9: Quarter-over-Quarter Free Trial User Trend",
+    "question": "What is the quarter-over-quarter trend in free trial user acquisition, and is product-led growth accelerating?",
+    "fetchStepId": "2.4"
+  },
+  "3.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.1.1",
+    "title": "Analysis 10: Total M1 Opportunities Created",
+    "question": "How many M1 stage opportunities were created in the current quarter, split by new customer vs expansion?",
+    "fetchStepId": "3.1"
+  },
+  "3.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.2.1",
+    "title": "Analysis 11: S0 Opportunity Count by Type",
+    "question": "How many S0 stage opportunities with positive ACV were created in the current quarter by opportunity type?",
+    "fetchStepId": "3.2"
+  },
+  "3.2.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.2.2",
+    "title": "Analysis 12: Total S0 Starting ACV by Type",
+    "question": "What is the total pipeline value (starting ACV) at S0 stage for the current quarter by opportunity type?",
+    "fetchStepId": "3.2"
+  },
+  "3.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.3.1",
+    "title": "Analysis 13: S1 Opportunity Count by Type",
+    "question": "How many S1 stage opportunities with positive ACV were created in the current quarter by opportunity type?",
+    "fetchStepId": "3.3"
+  },
+  "3.3.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.3.2",
+    "title": "Analysis 14: Total S1 Starting ACV by Type",
+    "question": "What is the total pipeline value (starting ACV) at S1 stage for the current quarter by opportunity type?",
+    "fetchStepId": "3.3"
+  },
+  "3.4.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.4.1",
+    "title": "Analysis 15: S3 Opportunity Count by Type",
+    "question": "How many S3 stage opportunities with positive ACV were created in the current quarter by opportunity type?",
+    "fetchStepId": "3.4"
+  },
+  "3.4.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.4.2",
+    "title": "Analysis 16: Total S3 Starting ACV by Type",
+    "question": "What is the total pipeline value (starting ACV) at S3 stage for the current quarter by opportunity type?",
+    "fetchStepId": "3.4"
+  },
+  "4.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.1.1",
+    "title": "Analysis 17: S0 Opportunity Count by Geography",
+    "question": "Which geographic regions are creating the most S0 stage opportunities in the current quarter?",
+    "fetchStepId": "4.1"
+  },
+  "4.1.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.1.2",
+    "title": "Analysis 18: S0 Starting ACV by Geography",
+    "question": "What is the total S0 pipeline value by geographic region, and which regions have the highest potential revenue?",
+    "fetchStepId": "4.1"
+  },
+  "4.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.2.1",
+    "title": "Analysis 19: S1 Opportunity Count by MQL Source",
+    "question": "Which MQL source classifications are generating the most S1 stage opportunities in the current quarter?",
+    "fetchStepId": "4.2"
+  },
+  "4.2.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.2.2",
+    "title": "Analysis 20: S1 Starting ACV by MQL Source",
+    "question": "What is the total S1 pipeline value by MQL source classification, and which sources drive higher-value opportunities?",
+    "fetchStepId": "4.2"
+  },
+  "4.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.3.1",
+    "title": "Analysis 21: Closed Won Revenue by MQL Source",
+    "question": "Which MQL source classifications contributed the most closed-won revenue in the current quarter?",
+    "fetchStepId": "4.3"
+  },
+  "4.4.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.4.1",
+    "title": "Analysis 22: S3 Opportunity Count by Geography and Segment",
+    "question": "Which geographic regions and segments have the most S3 stage opportunities, indicating near-term revenue potential?",
+    "fetchStepId": "4.4"
+  },
+  "4.4.2": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.4.2",
+    "title": "Analysis 23: S3 Starting ACV by Geography and Segment",
+    "question": "What is the total S3 pipeline value by geography and segment, and which regions have adequate coverage for next quarter?",
+    "fetchStepId": "4.4"
+  },
+  "5.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.1.1",
+    "title": "Analysis 24: M1 Opportunity Count for New Customer",
+    "question": "How many M1 stage opportunities were created for new customers in the current quarter?",
+    "fetchStepId": "5.1"
+  },
+  "5.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.2.1",
+    "title": "Analysis 25: M1-to-S0 Conversion Rate for New Customer",
+    "question": "What is the M1-to-S0 conversion rate for new customer opportunities, and is there a qualification bottleneck?",
+    "fetchStepId": "5.2"
+  },
+  "5.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.3.1",
+    "title": "Analysis 26: S0-to-S1 Conversion Rate for New Customer",
+    "question": "What is the S0-to-S1 conversion rate for new customer opportunities, and are there issues in early qualification?",
+    "fetchStepId": "5.3"
+  },
+  "5.4.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.4.1",
+    "title": "Analysis 27: S1-to-S3 Conversion Rate for New Customer",
+    "question": "What is the S1-to-S3 conversion rate for new customer opportunities, and are there bottlenecks in mid-stage progression?",
+    "fetchStepId": "5.4"
+  },
+  "5.5.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.5.1",
+    "title": "Analysis 28: M1 Opportunity Count for Existing Customer Expansion",
+    "question": "How many M1 stage opportunities were created for existing customer expansion in the current quarter?",
+    "fetchStepId": "5.5"
+  },
+  "5.6.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.6.1",
+    "title": "Analysis 29: M1-to-S0 Conversion Rate for Existing Customer Expansion",
+    "question": "What is the M1-to-S0 conversion rate for existing customer expansion, and how does it compare to new customer rates?",
+    "fetchStepId": "5.6"
+  },
+  "5.7.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.7.1",
+    "title": "Analysis 30: S1 Opportunity Count for Existing Customer Expansion",
+    "question": "How many S1 stage opportunities exist for existing customer expansion in the current quarter?",
+    "fetchStepId": "5.7"
+  },
+  "5.8.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.8.1",
+    "title": "Analysis 31: S1-to-S3 Conversion Rate for Existing Customer Expansion",
+    "question": "What is the S1-to-S3 conversion rate for existing customer expansion, and does it indicate healthy expansion motion?",
+    "fetchStepId": "5.8"
+  },
+  "6.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.1.1",
+    "title": "Analysis 32: Quarter-over-Quarter Revenue Trend",
+    "question": "What is the quarter-over-quarter revenue trend, and is the business on a consistent growth trajectory?",
+    "fetchStepId": "6.1"
+  },
+  "6.2.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.2.1",
+    "title": "Analysis 33: Quarter-over-Quarter S0 Pipeline Value Trend",
+    "question": "What is the trend in S0 starting ACV over the last 4 quarters, and is early-stage pipeline generation consistent?",
+    "fetchStepId": "6.2"
+  },
+  "6.3.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.3.1",
+    "title": "Analysis 34: Quarter-over-Quarter S3 Pipeline Value Trend",
+    "question": "What is the trend in S3 starting ACV over the last 4 quarters, and does it indicate consistent late-stage pipeline health?",
+    "fetchStepId": "6.3"
+  },
+  "6.4.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.4.1",
+    "title": "Analysis 35: Next Quarter Pipeline Coverage by Geography",
+    "question": "Does each geography have adequate S3 pipeline coverage for next quarter targets, and where are the coverage gaps?",
+    "fetchStepId": "6.4"
+  },
+  "6.5.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.5.1",
+    "title": "Analysis 36: Future Quarter Pipeline Coverage by Geography",
+    "question": "Does each geography have adequate S1 pipeline coverage for the quarter after next (Q+2), and where should we invest in pipeline generation?",
+    "fetchStepId": "6.5"
+  },
+  "6.6.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "6.6.1",
+    "title": "Analysis 37: Deal Count Trend by Opportunity Type",
+    "question": "What is the trend in deal velocity (number of deals closed) by opportunity type over the last 4 quarters?",
+    "fetchStepId": "6.6"
+  }
+}

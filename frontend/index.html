@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Configuration Manager</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=futuristic-modal-fixed-v4">
 </head>
 <body>
     <div class="container">
@@ -230,8 +230,8 @@
                     <button type="button" id="stop-analysis-btn" onclick="stopAnalysis()" class="stop-btn" style="display: none;">
                         🛑 Stop Analysis
                     </button>
-                    <button type="button" id="view-results-btn" onclick="viewResults()" class="secondary-btn">
-                        📊 View Previous Results
+                    <button type="button" id="view-results-btn" onclick="viewAnalysis()" class="secondary-btn">
+                        📊 View Analysis
                     </button>
                     <button type="button" id="edit-config-btn" onclick="editConfiguration()" class="secondary-btn">
                         ✏️ Edit Configuration
@@ -255,6 +255,6 @@
         <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=modal-fix-2025"></script>
 </body>
 </html>

@@ -1,0 +1,1131 @@
+{
+  "primaryGoal": "Track week-over-week changes in 6 KPIs (M1 ACV, M1 Count, S0 ACV, S0 Count, S1 ACV, S1 Count) to assess trending towards targets, with analysis at overall and regional segment levels.",
+  "assumptions": [
+    "The [Creation Month] field contains accurate and complete weekly data for both 'this week' and 'last week'.",
+    "The mandatory filters ([Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer') and [Opportunity Deployment] != 'mode') are consistently applied across all data.",
+    "Target values ([Creation Target] and [Creation ACV Target]) remain constant between last week and this week for accurate percentage of target calculations.",
+    "Each [Creation Target Creation Metric] value (M1, S0, S1) maps to exactly one KPI category.",
+    "Regional segments in [Creation Target Region Segment] are mutually exclusive and collectively exhaustive."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics",
+      "phaseDescription": "Establish baseline week-over-week performance for M1 ACV and M1 Count KPIs at the overall level, calculating absolute change, percentage change, and percentage of target.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch 1: M1 ACV This Week Overall",
+          "objective": "Retrieve the total M1 ACV achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.2",
+          "title": "Fetch 2: M1 ACV Last Week Overall",
+          "objective": "Retrieve the total M1 ACV achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.3",
+          "title": "Fetch 3: M1 Count This Week Overall",
+          "objective": "Retrieve the total M1 Count achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.4",
+          "title": "Fetch 4: M1 Count Last Week Overall",
+          "objective": "Retrieve the total M1 Count achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "1.1.1",
+          "title": "Analysis 1: Calculate M1 ACV This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total M1 ACV achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total M1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute M1 ACV value and the percentage of target achieved.",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.2.1",
+          "title": "Analysis 2: Calculate M1 ACV Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total M1 ACV achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total M1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute M1 ACV value and the percentage of target achieved.",
+          "fetchStepId": "1.2",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.3.1",
+          "title": "Analysis 3: Calculate M1 Count This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total M1 Count achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total M1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute M1 Count value and the percentage of target achieved.",
+          "fetchStepId": "1.3",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        },
+        {
+          "stepId": "1.4.1",
+          "title": "Analysis 4: Calculate M1 Count Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total M1 Count achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total M1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute M1 Count value and the percentage of target achieved.",
+          "fetchStepId": "1.4",
+          "phaseNumber": 1,
+          "phaseTitle": "Overall KPI Performance - M1 Metrics"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics",
+      "phaseDescription": "Establish baseline week-over-week performance for S0 ACV and S0 Count KPIs at the overall level, calculating absolute change, percentage change, and percentage of target.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Fetch 5: S0 ACV This Week Overall",
+          "objective": "Retrieve the total S0 ACV achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.2",
+          "title": "Fetch 6: S0 ACV Last Week Overall",
+          "objective": "Retrieve the total S0 ACV achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.3",
+          "title": "Fetch 7: S0 Count This Week Overall",
+          "objective": "Retrieve the total S0 Count achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.4",
+          "title": "Fetch 8: S0 Count Last Week Overall",
+          "objective": "Retrieve the total S0 Count achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Analysis 5: Calculate S0 ACV This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total S0 ACV achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S0 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S0 ACV value and the percentage of target achieved.",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.2.1",
+          "title": "Analysis 6: Calculate S0 ACV Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total S0 ACV achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S0 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S0 ACV value and the percentage of target achieved.",
+          "fetchStepId": "2.2",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.3.1",
+          "title": "Analysis 7: Calculate S0 Count This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total S0 Count achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S0 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S0 Count value and the percentage of target achieved.",
+          "fetchStepId": "2.3",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        },
+        {
+          "stepId": "2.4.1",
+          "title": "Analysis 8: Calculate S0 Count Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total S0 Count achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S0 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S0 Count value and the percentage of target achieved.",
+          "fetchStepId": "2.4",
+          "phaseNumber": 2,
+          "phaseTitle": "Overall KPI Performance - S0 Metrics"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics",
+      "phaseDescription": "Establish baseline week-over-week performance for S1 ACV and S1 Count KPIs at the overall level, calculating absolute change, percentage change, and percentage of target.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Fetch 9: S1 ACV This Week Overall",
+          "objective": "Retrieve the total S1 ACV achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.2",
+          "title": "Fetch 10: S1 ACV Last Week Overall",
+          "objective": "Retrieve the total S1 ACV achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.3",
+          "title": "Fetch 11: S1 Count This Week Overall",
+          "objective": "Retrieve the total S1 Count achieved and target for this week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.4",
+          "title": "Fetch 12: S1 Count Last Week Overall",
+          "objective": "Retrieve the total S1 Count achieved and target for last week at the overall level.",
+          "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Analysis 9: Calculate S1 ACV This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total S1 ACV achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S1 ACV value and the percentage of target achieved.",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.2.1",
+          "title": "Analysis 10: Calculate S1 ACV Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "What is the total S1 ACV achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S1 ACV value and the percentage of target achieved.",
+          "fetchStepId": "3.2",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.3.1",
+          "title": "Analysis 11: Calculate S1 Count This Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total S1 Count achieved this week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S1 Count value and the percentage of target achieved.",
+          "fetchStepId": "3.3",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        },
+        {
+          "stepId": "3.4.1",
+          "title": "Analysis 12: Calculate S1 Count Last Week and Percentage of Target",
+          "groupBy": "No grouping (overall aggregate)",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "What is the total S1 Count achieved last week and what percentage of the target does it represent?",
+          "analysisPrompt": "Using the fetched data, calculate the total S1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S1 Count value and the percentage of target achieved.",
+          "fetchStepId": "3.4",
+          "phaseNumber": 3,
+          "phaseTitle": "Overall KPI Performance - S1 Metrics"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment",
+      "phaseDescription": "Drill down into M1 ACV performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Fetch 13: M1 ACV This Week by Region Segment",
+          "objective": "Retrieve M1 ACV achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 4,
+          "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+        },
+        {
+          "stepId": "4.2",
+          "title": "Fetch 14: M1 ACV Last Week by Region Segment",
+          "objective": "Retrieve M1 ACV achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 4,
+          "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Analysis 13: Calculate M1 ACV This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the M1 ACV achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute M1 ACV value, and percentage of target for each region.",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+        },
+        {
+          "stepId": "4.2.1",
+          "title": "Analysis 14: Calculate M1 ACV Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the M1 ACV achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute M1 ACV value, and percentage of target for each region.",
+          "fetchStepId": "4.2",
+          "phaseNumber": 4,
+          "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 5,
+      "phaseTitle": "Regional Breakdown - M1 Count by Region Segment",
+      "phaseDescription": "Drill down into M1 Count performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "5.1",
+          "title": "Fetch 15: M1 Count This Week by Region Segment",
+          "objective": "Retrieve M1 Count achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 5,
+          "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+        },
+        {
+          "stepId": "5.2",
+          "title": "Fetch 16: M1 Count Last Week by Region Segment",
+          "objective": "Retrieve M1 Count achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 5,
+          "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "5.1.1",
+          "title": "Analysis 15: Calculate M1 Count This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the M1 Count achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute M1 Count value, and percentage of target for each region.",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+        },
+        {
+          "stepId": "5.2.1",
+          "title": "Analysis 16: Calculate M1 Count Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the M1 Count achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute M1 Count value, and percentage of target for each region.",
+          "fetchStepId": "5.2",
+          "phaseNumber": 5,
+          "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 6,
+      "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment",
+      "phaseDescription": "Drill down into S0 ACV performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "6.1",
+          "title": "Fetch 17: S0 ACV This Week by Region Segment",
+          "objective": "Retrieve S0 ACV achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 6,
+          "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+        },
+        {
+          "stepId": "6.2",
+          "title": "Fetch 18: S0 ACV Last Week by Region Segment",
+          "objective": "Retrieve S0 ACV achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 6,
+          "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "6.1.1",
+          "title": "Analysis 17: Calculate S0 ACV This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the S0 ACV achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S0 ACV value, and percentage of target for each region.",
+          "fetchStepId": "6.1",
+          "phaseNumber": 6,
+          "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+        },
+        {
+          "stepId": "6.2.1",
+          "title": "Analysis 18: Calculate S0 ACV Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the S0 ACV achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S0 ACV value, and percentage of target for each region.",
+          "fetchStepId": "6.2",
+          "phaseNumber": 6,
+          "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 7,
+      "phaseTitle": "Regional Breakdown - S0 Count by Region Segment",
+      "phaseDescription": "Drill down into S0 Count performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "7.1",
+          "title": "Fetch 19: S0 Count This Week by Region Segment",
+          "objective": "Retrieve S0 Count achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 7,
+          "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+        },
+        {
+          "stepId": "7.2",
+          "title": "Fetch 20: S0 Count Last Week by Region Segment",
+          "objective": "Retrieve S0 Count achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 7,
+          "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "7.1.1",
+          "title": "Analysis 19: Calculate S0 Count This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the S0 Count achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S0 Count value, and percentage of target for each region.",
+          "fetchStepId": "7.1",
+          "phaseNumber": 7,
+          "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+        },
+        {
+          "stepId": "7.2.1",
+          "title": "Analysis 20: Calculate S0 Count Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the S0 Count achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S0 Count value, and percentage of target for each region.",
+          "fetchStepId": "7.2",
+          "phaseNumber": 7,
+          "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 8,
+      "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment",
+      "phaseDescription": "Drill down into S1 ACV performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "8.1",
+          "title": "Fetch 21: S1 ACV This Week by Region Segment",
+          "objective": "Retrieve S1 ACV achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 8,
+          "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+        },
+        {
+          "stepId": "8.2",
+          "title": "Fetch 22: S1 ACV Last Week by Region Segment",
+          "objective": "Retrieve S1 ACV achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 8,
+          "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "8.1.1",
+          "title": "Analysis 21: Calculate S1 ACV This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the S1 ACV achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S1 ACV value, and percentage of target for each region.",
+          "fetchStepId": "8.1",
+          "phaseNumber": 8,
+          "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+        },
+        {
+          "stepId": "8.2.1",
+          "title": "Analysis 22: Calculate S1 ACV Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+          "question": "For each regional segment, what is the S1 ACV achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S1 ACV value, and percentage of target for each region.",
+          "fetchStepId": "8.2",
+          "phaseNumber": 8,
+          "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 9,
+      "phaseTitle": "Regional Breakdown - S1 Count by Region Segment",
+      "phaseDescription": "Drill down into S1 Count performance by Creation Target Region Segment to identify which regions are driving or lagging week-over-week changes.",
+      "fetchSteps": [
+        {
+          "stepId": "9.1",
+          "title": "Fetch 23: S1 Count This Week by Region Segment",
+          "objective": "Retrieve S1 Count achieved and target for this week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 9,
+          "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+        },
+        {
+          "stepId": "9.2",
+          "title": "Fetch 24: S1 Count Last Week by Region Segment",
+          "objective": "Retrieve S1 Count achieved and target for last week broken down by each regional segment.",
+          "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+          "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+          "phaseNumber": 9,
+          "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "9.1.1",
+          "title": "Analysis 23: Calculate S1 Count This Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the S1 Count achieved this week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S1 Count value, and percentage of target for each region.",
+          "fetchStepId": "9.1",
+          "phaseNumber": 9,
+          "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+        },
+        {
+          "stepId": "9.2.1",
+          "title": "Analysis 24: Calculate S1 Count Last Week and Percentage of Target by Region",
+          "groupBy": "[Creation Target Region Segment]",
+          "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+          "question": "For each regional segment, what is the S1 Count achieved last week and what percentage of the regional target does it represent?",
+          "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S1 Count value, and percentage of target for each region.",
+          "fetchStepId": "9.2",
+          "phaseNumber": 9,
+          "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch 1: M1 ACV This Week Overall",
+      "objective": "Retrieve the total M1 ACV achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.2",
+      "title": "Fetch 2: M1 ACV Last Week Overall",
+      "objective": "Retrieve the total M1 ACV achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.3",
+      "title": "Fetch 3: M1 Count This Week Overall",
+      "objective": "Retrieve the total M1 Count achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.4",
+      "title": "Fetch 4: M1 Count Last Week Overall",
+      "objective": "Retrieve the total M1 Count achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Fetch 5: S0 ACV This Week Overall",
+      "objective": "Retrieve the total S0 ACV achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.2",
+      "title": "Fetch 6: S0 ACV Last Week Overall",
+      "objective": "Retrieve the total S0 ACV achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.3",
+      "title": "Fetch 7: S0 Count This Week Overall",
+      "objective": "Retrieve the total S0 Count achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.4",
+      "title": "Fetch 8: S0 Count Last Week Overall",
+      "objective": "Retrieve the total S0 Count achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Fetch 9: S1 ACV This Week Overall",
+      "objective": "Retrieve the total S1 ACV achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.2",
+      "title": "Fetch 10: S1 ACV Last Week Overall",
+      "objective": "Retrieve the total S1 ACV achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch the sum of [Creation ACV Achieved] and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.3",
+      "title": "Fetch 11: S1 Count This Week Overall",
+      "objective": "Retrieve the total S1 Count achieved and target for this week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.4",
+      "title": "Fetch 12: S1 Count Last Week Overall",
+      "objective": "Retrieve the total S1 Count achieved and target for last week at the overall level.",
+      "requiredData": "Columns: [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch the sum of [Creation Achieved] and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'.",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Fetch 13: M1 ACV This Week by Region Segment",
+      "objective": "Retrieve M1 ACV achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 4,
+      "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+    },
+    {
+      "stepId": "4.2",
+      "title": "Fetch 14: M1 ACV Last Week by Region Segment",
+      "objective": "Retrieve M1 ACV achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 4,
+      "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+    },
+    {
+      "stepId": "5.1",
+      "title": "Fetch 15: M1 Count This Week by Region Segment",
+      "objective": "Retrieve M1 Count achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 5,
+      "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+    },
+    {
+      "stepId": "5.2",
+      "title": "Fetch 16: M1 Count Last Week by Region Segment",
+      "objective": "Retrieve M1 Count achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'M1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'M1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 5,
+      "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+    },
+    {
+      "stepId": "6.1",
+      "title": "Fetch 17: S0 ACV This Week by Region Segment",
+      "objective": "Retrieve S0 ACV achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 6,
+      "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+    },
+    {
+      "stepId": "6.2",
+      "title": "Fetch 18: S0 ACV Last Week by Region Segment",
+      "objective": "Retrieve S0 ACV achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 6,
+      "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+    },
+    {
+      "stepId": "7.1",
+      "title": "Fetch 19: S0 Count This Week by Region Segment",
+      "objective": "Retrieve S0 Count achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 7,
+      "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+    },
+    {
+      "stepId": "7.2",
+      "title": "Fetch 20: S0 Count Last Week by Region Segment",
+      "objective": "Retrieve S0 Count achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S0', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S0' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 7,
+      "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+    },
+    {
+      "stepId": "8.1",
+      "title": "Fetch 21: S1 ACV This Week by Region Segment",
+      "objective": "Retrieve S1 ACV achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 8,
+      "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+    },
+    {
+      "stepId": "8.2",
+      "title": "Fetch 22: S1 ACV Last Week by Region Segment",
+      "objective": "Retrieve S1 ACV achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation ACV Achieved], [Creation ACV Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation ACV Achieved], SUM of [Creation ACV Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation ACV Achieved], and sum of [Creation ACV Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 8,
+      "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+    },
+    {
+      "stepId": "9.1",
+      "title": "Fetch 23: S1 Count This Week by Region Segment",
+      "objective": "Retrieve S1 Count achieved and target for this week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'this week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'this week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 9,
+      "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+    },
+    {
+      "stepId": "9.2",
+      "title": "Fetch 24: S1 Count Last Week by Region Segment",
+      "objective": "Retrieve S1 Count achieved and target for last week broken down by each regional segment.",
+      "requiredData": "Columns: [Creation Target Region Segment], [Creation Achieved], [Creation Target]. Filters: [Creation Month] = 'last week', [Creation Target Creation Metric] = 'S1', [Creation Target Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Group by [Creation Target Region Segment], SUM of [Creation Achieved], SUM of [Creation Target].",
+      "fetchPrompt": "Fetch [Creation Target Region Segment], sum of [Creation Achieved], and sum of [Creation Target] where [Creation Month] is 'last week' and [Creation Target Creation Metric] is 'S1' and [Creation Target Opportunity Type] is either 'existing customer expansion' or 'new customer' and [Opportunity Deployment] is not 'mode'. Group the results by [Creation Target Region Segment].",
+      "phaseNumber": 9,
+      "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "1.1.1",
+      "title": "Analysis 1: Calculate M1 ACV This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total M1 ACV achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total M1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute M1 ACV value and the percentage of target achieved.",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.2.1",
+      "title": "Analysis 2: Calculate M1 ACV Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total M1 ACV achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total M1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute M1 ACV value and the percentage of target achieved.",
+      "fetchStepId": "1.2",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.3.1",
+      "title": "Analysis 3: Calculate M1 Count This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total M1 Count achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total M1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute M1 Count value and the percentage of target achieved.",
+      "fetchStepId": "1.3",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "1.4.1",
+      "title": "Analysis 4: Calculate M1 Count Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total M1 Count achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total M1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute M1 Count value and the percentage of target achieved.",
+      "fetchStepId": "1.4",
+      "phaseNumber": 1,
+      "phaseTitle": "Overall KPI Performance - M1 Metrics"
+    },
+    {
+      "stepId": "2.1.1",
+      "title": "Analysis 5: Calculate S0 ACV This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total S0 ACV achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S0 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S0 ACV value and the percentage of target achieved.",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.2.1",
+      "title": "Analysis 6: Calculate S0 ACV Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total S0 ACV achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S0 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S0 ACV value and the percentage of target achieved.",
+      "fetchStepId": "2.2",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.3.1",
+      "title": "Analysis 7: Calculate S0 Count This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total S0 Count achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S0 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S0 Count value and the percentage of target achieved.",
+      "fetchStepId": "2.3",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "2.4.1",
+      "title": "Analysis 8: Calculate S0 Count Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total S0 Count achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S0 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S0 Count value and the percentage of target achieved.",
+      "fetchStepId": "2.4",
+      "phaseNumber": 2,
+      "phaseTitle": "Overall KPI Performance - S0 Metrics"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Analysis 9: Calculate S1 ACV This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total S1 ACV achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S1 ACV value and the percentage of target achieved.",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.2.1",
+      "title": "Analysis 10: Calculate S1 ACV Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "What is the total S1 ACV achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation ACV Target] and multiplying by 100. Report both the absolute S1 ACV value and the percentage of target achieved.",
+      "fetchStepId": "3.2",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.3.1",
+      "title": "Analysis 11: Calculate S1 Count This Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total S1 Count achieved this week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S1 Count value and the percentage of target achieved.",
+      "fetchStepId": "3.3",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "3.4.1",
+      "title": "Analysis 12: Calculate S1 Count Last Week and Percentage of Target",
+      "groupBy": "No grouping (overall aggregate)",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "What is the total S1 Count achieved last week and what percentage of the target does it represent?",
+      "analysisPrompt": "Using the fetched data, calculate the total S1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target by dividing the total achieved by the sum of [Creation Target] and multiplying by 100. Report both the absolute S1 Count value and the percentage of target achieved.",
+      "fetchStepId": "3.4",
+      "phaseNumber": 3,
+      "phaseTitle": "Overall KPI Performance - S1 Metrics"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Analysis 13: Calculate M1 ACV This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the M1 ACV achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute M1 ACV value, and percentage of target for each region.",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+    },
+    {
+      "stepId": "4.2.1",
+      "title": "Analysis 14: Calculate M1 ACV Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the M1 ACV achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute M1 ACV value, and percentage of target for each region.",
+      "fetchStepId": "4.2",
+      "phaseNumber": 4,
+      "phaseTitle": "Regional Breakdown - M1 ACV by Region Segment"
+    },
+    {
+      "stepId": "5.1.1",
+      "title": "Analysis 15: Calculate M1 Count This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the M1 Count achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute M1 Count value, and percentage of target for each region.",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+    },
+    {
+      "stepId": "5.2.1",
+      "title": "Analysis 16: Calculate M1 Count Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the M1 Count achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total M1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute M1 Count value, and percentage of target for each region.",
+      "fetchStepId": "5.2",
+      "phaseNumber": 5,
+      "phaseTitle": "Regional Breakdown - M1 Count by Region Segment"
+    },
+    {
+      "stepId": "6.1.1",
+      "title": "Analysis 17: Calculate S0 ACV This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the S0 ACV achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S0 ACV value, and percentage of target for each region.",
+      "fetchStepId": "6.1",
+      "phaseNumber": 6,
+      "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+    },
+    {
+      "stepId": "6.2.1",
+      "title": "Analysis 18: Calculate S0 ACV Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the S0 ACV achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S0 ACV value, and percentage of target for each region.",
+      "fetchStepId": "6.2",
+      "phaseNumber": 6,
+      "phaseTitle": "Regional Breakdown - S0 ACV by Region Segment"
+    },
+    {
+      "stepId": "7.1.1",
+      "title": "Analysis 19: Calculate S0 Count This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the S0 Count achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S0 Count value, and percentage of target for each region.",
+      "fetchStepId": "7.1",
+      "phaseNumber": 7,
+      "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+    },
+    {
+      "stepId": "7.2.1",
+      "title": "Analysis 20: Calculate S0 Count Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the S0 Count achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S0 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S0 Count value, and percentage of target for each region.",
+      "fetchStepId": "7.2",
+      "phaseNumber": 7,
+      "phaseTitle": "Regional Breakdown - S0 Count by Region Segment"
+    },
+    {
+      "stepId": "8.1.1",
+      "title": "Analysis 21: Calculate S1 ACV This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the S1 ACV achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 ACV achieved this week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S1 ACV value, and percentage of target for each region.",
+      "fetchStepId": "8.1",
+      "phaseNumber": 8,
+      "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+    },
+    {
+      "stepId": "8.2.1",
+      "title": "Analysis 22: Calculate S1 ACV Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation ACV Achieved], SUM of [Creation ACV Target]",
+      "question": "For each regional segment, what is the S1 ACV achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 ACV achieved last week by summing [Creation ACV Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation ACV Target] and multiplying by 100. Report the region name, absolute S1 ACV value, and percentage of target for each region.",
+      "fetchStepId": "8.2",
+      "phaseNumber": 8,
+      "phaseTitle": "Regional Breakdown - S1 ACV by Region Segment"
+    },
+    {
+      "stepId": "9.1.1",
+      "title": "Analysis 23: Calculate S1 Count This Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the S1 Count achieved this week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 Count achieved this week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S1 Count value, and percentage of target for each region.",
+      "fetchStepId": "9.1",
+      "phaseNumber": 9,
+      "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+    },
+    {
+      "stepId": "9.2.1",
+      "title": "Analysis 24: Calculate S1 Count Last Week and Percentage of Target by Region",
+      "groupBy": "[Creation Target Region Segment]",
+      "aggregation": "SUM of [Creation Achieved], SUM of [Creation Target]",
+      "question": "For each regional segment, what is the S1 Count achieved last week and what percentage of the regional target does it represent?",
+      "analysisPrompt": "Using the fetched data grouped by [Creation Target Region Segment], for each region calculate the total S1 Count achieved last week by summing [Creation Achieved]. Then calculate the percentage of target for each region by dividing the achieved value by the sum of [Creation Target] and multiplying by 100. Report the region name, absolute S1 Count value, and percentage of target for each region.",
+      "fetchStepId": "9.2",
+      "phaseNumber": 9,
+      "phaseTitle": "Regional Breakdown - S1 Count by Region Segment"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [
+      "1.1.1"
+    ],
+    "1.2": [
+      "1.2.1"
+    ],
+    "1.3": [
+      "1.3.1"
+    ],
+    "1.4": [
+      "1.4.1"
+    ],
+    "2.1": [
+      "2.1.1"
+    ],
+    "2.2": [
+      "2.2.1"
+    ],
+    "2.3": [
+      "2.3.1"
+    ],
+    "2.4": [
+      "2.4.1"
+    ],
+    "3.1": [
+      "3.1.1"
+    ],
+    "3.2": [
+      "3.2.1"
+    ],
+    "3.3": [
+      "3.3.1"
+    ],
+    "3.4": [
+      "3.4.1"
+    ],
+    "4.1": [
+      "4.1.1"
+    ],
+    "4.2": [
+      "4.2.1"
+    ],
+    "5.1": [
+      "5.1.1"
+    ],
+    "5.2": [
+      "5.2.1"
+    ],
+    "6.1": [
+      "6.1.1"
+    ],
+    "6.2": [
+      "6.2.1"
+    ],
+    "7.1": [
+      "7.1.1"
+    ],
+    "7.2": [
+      "7.2.1"
+    ],
+    "8.1": [
+      "8.1.1"
+    ],
+    "8.2": [
+      "8.2.1"
+    ],
+    "9.1": [
+      "9.1.1"
+    ],
+    "9.2": [
+      "9.2.1"
+    ]
+  }
+}

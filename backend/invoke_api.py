@@ -44,17 +44,15 @@ class ThoughtSpotAPI:
         Returns:
             Worksheet ID for the scenario
         """
-        scenario_functions = {
-            'pg': scenario_pg,
-            'support': scenario_support,
-            'ta': scenario_ta,
-            'cmo': scenario_cmo,
-        }
+        # Import here to avoid circular imports
+        from inputs import get_available_scenarios, get_scenario_inputs
         
-        if scenario not in scenario_functions:
-            raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {list(scenario_functions.keys())}")
+        # Get available scenarios dynamically
+        available_scenarios = get_available_scenarios()
+        if scenario not in available_scenarios:
+            raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {available_scenarios}")
         
-        inputs = scenario_functions[scenario]()
+        inputs = get_scenario_inputs(scenario)
         return inputs.get('Worksheet_ID', '')
     
     def create_answer(self, prompt: str, scenario: str) -> Dict[str, Any]:

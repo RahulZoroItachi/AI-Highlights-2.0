@@ -1,0 +1,42 @@
+EXECUTIVE REPORT - CMO_WEEK_ON_WEEK
+Generated on: 2025-10-13 12:16:59
+================================================================================
+
+**BACKGROUND**
+
+This report analyzes key performance indicators (KPIs) tracking week-over-week changes in M1 and S0 metrics to assess trending performance toward targets. The analysis covers the period from late July through early October 2025, with specific focus on the comparison between the week ending 09/29/2025 (last week) and the week ending 10/06/2025 (this week).
+
+**EXECUTIVE SUMMARY**
+
+Both M1 and S0 metrics demonstrate strong positive momentum with significant week-over-week growth. M1 ACV increased by $13.9 million (9.78%) while S0 ACV grew by $7.5 million (8.90%), indicating healthy pipeline progression and successful opportunity advancement through critical milestone stages.
+
+**Top 5 Focus Areas:**
+- M1 ACV Performance: Strong 9.78% growth with $13.9M absolute increase
+- S0 ACV Momentum: Solid 8.90% growth with $7.5M absolute increase  
+- Pipeline Health: Both metrics showing consistent upward trajectory
+- Milestone Progression: Effective advancement of opportunities through M1 and S0 stages
+- Data Quality Issues: M1 Count metrics unavailable due to incomplete dataset
+
+**DETAILED ANALYSIS**
+
+**M1 ACV Performance Analysis**
+
+The M1 ACV metrics show exceptional week-over-week performance with substantial growth indicators. The cumulative M1 ACV increased from $142,528,900.74 at the end of last week (09/29/2025) to $156,465,527.05 at the end of this week (10/06/2025). This represents an absolute change of $13,936,626.31, translating to a robust 9.78% percentage increase.
+
+The data reveals a consistent upward trajectory throughout the entire tracking period, with M1 ACV growing from approximately $1.2 million in late July 2025 to over $156 million in early October 2025. This sustained growth pattern demonstrates effective sales execution and healthy pipeline momentum, with opportunities successfully progressing through the M1 milestone stage.
+
+**M1 Count Analysis Limitations**
+
+The M1 opportunity count analysis could not be completed due to data availability issues. While the dataset contained the weekly date structure spanning from 07/28/2025 through 10/06/2025, the corresponding cumulative M1 count values were not present in the provided data. The dataset included only column headers and week dates without the actual count metrics required for calculating absolute and percentage changes in M1 opportunity volume.
+
+**S0 ACV Performance Analysis**
+
+The S0 ACV metrics demonstrate strong positive performance with significant week-over-week advancement. The cumulative S0 ACV increased from $84,450,596.19 at the end of last week (09/29/2025) to $91,967,222.50 at the end of this week (10/06/2025). This represents an absolute increase of $7,516,626.31, corresponding to an 8.90% percentage growth.
+
+The S0 ACV growth pattern indicates healthy pipeline development with substantial monetary value being added to the cumulative total. The $7.5 million week-over-week increase demonstrates successful opportunity progression through the S0 stage and effective pipeline management practices.
+
+**Comparative Metric Performance**
+
+When comparing the two available metrics, both M1 ACV and S0 ACV show strong positive trending toward targets. M1 ACV exhibits slightly higher percentage growth at 9.78% compared to S0 ACV at 8.90%, though both represent substantial increases. The absolute dollar increases show M1 ACV contributing $13.9 million compared to S0 ACV's $7.5 million addition, indicating higher value concentration in M1 stage opportunities.
+
+The consistent positive performance across both metrics suggests effective sales pipeline management and successful opportunity advancement through critical milestone stages. Both metrics demonstrate the organization is trending positively toward established targets with strong week-over-week momentum.

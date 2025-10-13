@@ -1,0 +1,295 @@
+{
+  "primaryGoal": "Track weekly cumulative KPI trends (M1 ACV, M1 Count, S0 ACV) within the current quarter to understand week-over-week changes and assess progress toward targets.",
+  "assumptions": [
+    "The cumulative_sum formula correctly resets at the start of each quarter based on quarter_number calculation.",
+    "Weekly aggregation captures complete weeks, and 'this week' and 'last week' are clearly defined in the system.",
+    "All mandatory filters (Opportunity Type IN ('existing customer expansion', 'new customer') AND Opportunity Deployment != 'mode') are consistently applied across all data fetches.",
+    "The date columns [Opportunity M1 Date] and [Opportunity S0 Date] are accurate and complete for the current quarter.",
+    "The measures [Opportunity M1 Starting ACV], [f Opportunity M1 Created Count], and [Opportunity S0 Starting ACV] are correctly populated and represent the intended business metrics."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis",
+      "phaseDescription": "Calculate the cumulative M1 ACV from the start of the current quarter on a weekly basis, identify the change from last week to this week, and compute percentage change to assess momentum.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch 1: M1 ACV Cumulative by Week for Current Quarter",
+          "objective": "Retrieve weekly cumulative M1 ACV values for the current quarter to enable week-over-week comparison.",
+          "requiredData": "Columns: [Opportunity M1 Date] aggregated at weekly level, cumulative_sum([Opportunity M1 Starting ACV], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+          "fetchPrompt": "Calculate the cumulative sum of [Opportunity M1 Starting ACV] by [Opportunity M1 Date], restarting for each quarter using the formula cumulative_sum([Opportunity M1 Starting ACV], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Apply filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity M1 Date] and the cumulative M1 ACV value.",
+          "phaseNumber": 1,
+          "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "1.1.1",
+          "title": "Analysis 1: Calculate M1 ACV for Last Week and This Week",
+          "groupBy": "Week of [Opportunity M1 Date]",
+          "aggregation": "Cumulative M1 ACV value (already calculated in fetch)",
+          "question": "What was the cumulative M1 ACV at the end of last week versus the end of this week?",
+          "analysisPrompt": "Using the fetched data, identify the cumulative M1 ACV value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'M1 ACV until last week' and 'M1 ACV until this week'. Report both values clearly.",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+        },
+        {
+          "stepId": "1.1.2",
+          "title": "Analysis 2: Calculate M1 ACV Change and Percentage Change",
+          "groupBy": "N/A (scalar calculation)",
+          "aggregation": "Difference and percentage difference between two cumulative values",
+          "question": "What is the absolute change and percentage change in M1 ACV from last week to this week?",
+          "analysisPrompt": "Calculate the absolute change in M1 ACV: (M1 ACV until this week) - (M1 ACV until last week). Then calculate the percentage change: [(M1 ACV until this week - M1 ACV until last week) / M1 ACV until last week] * 100. Present the results in a summary format: 'M1 ACV until last week', 'M1 ACV until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis",
+      "phaseDescription": "Calculate the cumulative M1 Count from the start of the current quarter on a weekly basis, identify the change from last week to this week, and compute percentage change to assess volume trends.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Fetch 2: M1 Count Cumulative by Week for Current Quarter",
+          "objective": "Retrieve weekly cumulative M1 Count values for the current quarter to enable week-over-week comparison.",
+          "requiredData": "Columns: [Opportunity M1 Date] aggregated at weekly level, cumulative_sum([f Opportunity M1 Created Count], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+          "fetchPrompt": "Calculate the cumulative sum of [f Opportunity M1 Created Count] by [Opportunity M1 Date], restarting for each quarter using the formula cumulative_sum([f Opportunity M1 Created Count], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Apply filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity M1 Date] and the cumulative M1 Count value.",
+          "phaseNumber": 2,
+          "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Analysis 3: Calculate M1 Count for Last Week and This Week",
+          "groupBy": "Week of [Opportunity M1 Date]",
+          "aggregation": "Cumulative M1 Count value (already calculated in fetch)",
+          "question": "What was the cumulative M1 Count at the end of last week versus the end of this week?",
+          "analysisPrompt": "Using the fetched data, identify the cumulative M1 Count value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'M1 Count until last week' and 'M1 Count until this week'. Report both values clearly.",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+        },
+        {
+          "stepId": "2.1.2",
+          "title": "Analysis 4: Calculate M1 Count Change and Percentage Change",
+          "groupBy": "N/A (scalar calculation)",
+          "aggregation": "Difference and percentage difference between two cumulative values",
+          "question": "What is the absolute change and percentage change in M1 Count from last week to this week?",
+          "analysisPrompt": "Calculate the absolute change in M1 Count: (M1 Count until this week) - (M1 Count until last week). Then calculate the percentage change: [(M1 Count until this week - M1 Count until last week) / M1 Count until last week] * 100. Present the results in a summary format: 'M1 Count until last week', 'M1 Count until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis",
+      "phaseDescription": "Calculate the cumulative S0 ACV from the start of the current quarter on a weekly basis, identify the change from last week to this week, and compute percentage change to assess early-stage pipeline health.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Fetch 3: S0 ACV Cumulative by Week for Current Quarter",
+          "objective": "Retrieve weekly cumulative S0 ACV values for the current quarter to enable week-over-week comparison.",
+          "requiredData": "Columns: [Opportunity S0 Date] aggregated at weekly level, cumulative_sum([Opportunity S0 Starting ACV], [Opportunity S0 Date], quarter_number([Opportunity S0 Date])). Filters: [Opportunity S0 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+          "fetchPrompt": "Calculate the cumulative sum of [Opportunity S0 Starting ACV] by [Opportunity S0 Date], restarting for each quarter using the formula cumulative_sum([Opportunity S0 Starting ACV], [Opportunity S0 Date], quarter_number([Opportunity S0 Date])). Apply filters: [Opportunity S0 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity S0 Date] and the cumulative S0 ACV value.",
+          "phaseNumber": 3,
+          "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Analysis 5: Calculate S0 ACV for Last Week and This Week",
+          "groupBy": "Week of [Opportunity S0 Date]",
+          "aggregation": "Cumulative S0 ACV value (already calculated in fetch)",
+          "question": "What was the cumulative S0 ACV at the end of last week versus the end of this week?",
+          "analysisPrompt": "Using the fetched data, identify the cumulative S0 ACV value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'S0 ACV until last week' and 'S0 ACV until this week'. Report both values clearly.",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+        },
+        {
+          "stepId": "3.1.2",
+          "title": "Analysis 6: Calculate S0 ACV Change and Percentage Change",
+          "groupBy": "N/A (scalar calculation)",
+          "aggregation": "Difference and percentage difference between two cumulative values",
+          "question": "What is the absolute change and percentage change in S0 ACV from last week to this week?",
+          "analysisPrompt": "Calculate the absolute change in S0 ACV: (S0 ACV until this week) - (S0 ACV until last week). Then calculate the percentage change: [(S0 ACV until this week - S0 ACV until last week) / S0 ACV until last week] * 100. Present the results in a summary format: 'S0 ACV until last week', 'S0 ACV until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Consolidated KPI Performance Summary",
+      "phaseDescription": "Synthesize the week-over-week changes across all three KPIs to provide a holistic view of performance trends and identify which KPIs are on track versus those requiring attention.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Fetch 4: No Additional Fetch Required (Synthesis Step)",
+          "objective": "Consolidate insights from Phases 1, 2, and 3 to create a unified performance dashboard view.",
+          "requiredData": "Results from Analysis 1.1.2 (M1 ACV), Analysis 2.1.2 (M1 Count), and Analysis 3.1.2 (S0 ACV).",
+          "fetchPrompt": "N/A - This is a synthesis step using previously fetched and analyzed data.",
+          "phaseNumber": 4,
+          "phaseTitle": "Consolidated KPI Performance Summary"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Analysis 7: Consolidated KPI Dashboard",
+          "groupBy": "KPI Name (M1 ACV, M1 Count, S0 ACV)",
+          "aggregation": "N/A (summary table creation)",
+          "question": "How are all three KPIs trending week-over-week, and which KPIs show the strongest or weakest momentum?",
+          "analysisPrompt": "Create a consolidated summary table with the following structure: | KPI Name | Value Until Last Week | Value Until This Week | Absolute Change | Percentage Change | Trend Assessment |. Populate this table with data from M1 ACV (Analysis 1.1.2), M1 Count (Analysis 2.1.2), and S0 ACV (Analysis 3.1.2). For each KPI, provide a brief trend assessment (e.g., 'Strong Growth', 'Moderate Growth', 'Flat', 'Declining'). Identify which KPI shows the highest percentage growth and which shows the lowest or negative growth. Provide actionable recommendations: if any KPI is declining or flat, suggest areas for investigation (e.g., pipeline generation, conversion rates, sales team activity).",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Consolidated KPI Performance Summary"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch 1: M1 ACV Cumulative by Week for Current Quarter",
+      "objective": "Retrieve weekly cumulative M1 ACV values for the current quarter to enable week-over-week comparison.",
+      "requiredData": "Columns: [Opportunity M1 Date] aggregated at weekly level, cumulative_sum([Opportunity M1 Starting ACV], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+      "fetchPrompt": "Calculate the cumulative sum of [Opportunity M1 Starting ACV] by [Opportunity M1 Date], restarting for each quarter using the formula cumulative_sum([Opportunity M1 Starting ACV], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Apply filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity M1 Date] and the cumulative M1 ACV value.",
+      "phaseNumber": 1,
+      "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Fetch 2: M1 Count Cumulative by Week for Current Quarter",
+      "objective": "Retrieve weekly cumulative M1 Count values for the current quarter to enable week-over-week comparison.",
+      "requiredData": "Columns: [Opportunity M1 Date] aggregated at weekly level, cumulative_sum([f Opportunity M1 Created Count], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+      "fetchPrompt": "Calculate the cumulative sum of [f Opportunity M1 Created Count] by [Opportunity M1 Date], restarting for each quarter using the formula cumulative_sum([f Opportunity M1 Created Count], [Opportunity M1 Date], quarter_number([Opportunity M1 Date])). Apply filters: [Opportunity M1 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity M1 Date] and the cumulative M1 Count value.",
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Fetch 3: S0 ACV Cumulative by Week for Current Quarter",
+      "objective": "Retrieve weekly cumulative S0 ACV values for the current quarter to enable week-over-week comparison.",
+      "requiredData": "Columns: [Opportunity S0 Date] aggregated at weekly level, cumulative_sum([Opportunity S0 Starting ACV], [Opportunity S0 Date], quarter_number([Opportunity S0 Date])). Filters: [Opportunity S0 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), [Opportunity Deployment] != 'mode'. Aggregation: Weekly granularity.",
+      "fetchPrompt": "Calculate the cumulative sum of [Opportunity S0 Starting ACV] by [Opportunity S0 Date], restarting for each quarter using the formula cumulative_sum([Opportunity S0 Starting ACV], [Opportunity S0 Date], quarter_number([Opportunity S0 Date])). Apply filters: [Opportunity S0 Date] is 'This Quarter', [Opportunity Type] IN ('existing customer expansion', 'new customer'), and [Opportunity Deployment] != 'mode'. Aggregate the result at weekly granularity. Include columns: week of [Opportunity S0 Date] and the cumulative S0 ACV value.",
+      "phaseNumber": 3,
+      "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Fetch 4: No Additional Fetch Required (Synthesis Step)",
+      "objective": "Consolidate insights from Phases 1, 2, and 3 to create a unified performance dashboard view.",
+      "requiredData": "Results from Analysis 1.1.2 (M1 ACV), Analysis 2.1.2 (M1 Count), and Analysis 3.1.2 (S0 ACV).",
+      "fetchPrompt": "N/A - This is a synthesis step using previously fetched and analyzed data.",
+      "phaseNumber": 4,
+      "phaseTitle": "Consolidated KPI Performance Summary"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "1.1.1",
+      "title": "Analysis 1: Calculate M1 ACV for Last Week and This Week",
+      "groupBy": "Week of [Opportunity M1 Date]",
+      "aggregation": "Cumulative M1 ACV value (already calculated in fetch)",
+      "question": "What was the cumulative M1 ACV at the end of last week versus the end of this week?",
+      "analysisPrompt": "Using the fetched data, identify the cumulative M1 ACV value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'M1 ACV until last week' and 'M1 ACV until this week'. Report both values clearly.",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "1.1.2",
+      "title": "Analysis 2: Calculate M1 ACV Change and Percentage Change",
+      "groupBy": "N/A (scalar calculation)",
+      "aggregation": "Difference and percentage difference between two cumulative values",
+      "question": "What is the absolute change and percentage change in M1 ACV from last week to this week?",
+      "analysisPrompt": "Calculate the absolute change in M1 ACV: (M1 ACV until this week) - (M1 ACV until last week). Then calculate the percentage change: [(M1 ACV until this week - M1 ACV until last week) / M1 ACV until last week] * 100. Present the results in a summary format: 'M1 ACV until last week', 'M1 ACV until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "M1 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "2.1.1",
+      "title": "Analysis 3: Calculate M1 Count for Last Week and This Week",
+      "groupBy": "Week of [Opportunity M1 Date]",
+      "aggregation": "Cumulative M1 Count value (already calculated in fetch)",
+      "question": "What was the cumulative M1 Count at the end of last week versus the end of this week?",
+      "analysisPrompt": "Using the fetched data, identify the cumulative M1 Count value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'M1 Count until last week' and 'M1 Count until this week'. Report both values clearly.",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "2.1.2",
+      "title": "Analysis 4: Calculate M1 Count Change and Percentage Change",
+      "groupBy": "N/A (scalar calculation)",
+      "aggregation": "Difference and percentage difference between two cumulative values",
+      "question": "What is the absolute change and percentage change in M1 Count from last week to this week?",
+      "analysisPrompt": "Calculate the absolute change in M1 Count: (M1 Count until this week) - (M1 Count until last week). Then calculate the percentage change: [(M1 Count until this week - M1 Count until last week) / M1 Count until last week] * 100. Present the results in a summary format: 'M1 Count until last week', 'M1 Count until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Count Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Analysis 5: Calculate S0 ACV for Last Week and This Week",
+      "groupBy": "Week of [Opportunity S0 Date]",
+      "aggregation": "Cumulative S0 ACV value (already calculated in fetch)",
+      "question": "What was the cumulative S0 ACV at the end of last week versus the end of this week?",
+      "analysisPrompt": "Using the fetched data, identify the cumulative S0 ACV value for the most recent complete week (this week) and the week immediately preceding it (last week). Extract these two values: 'S0 ACV until last week' and 'S0 ACV until this week'. Report both values clearly.",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "3.1.2",
+      "title": "Analysis 6: Calculate S0 ACV Change and Percentage Change",
+      "groupBy": "N/A (scalar calculation)",
+      "aggregation": "Difference and percentage difference between two cumulative values",
+      "question": "What is the absolute change and percentage change in S0 ACV from last week to this week?",
+      "analysisPrompt": "Calculate the absolute change in S0 ACV: (S0 ACV until this week) - (S0 ACV until last week). Then calculate the percentage change: [(S0 ACV until this week - S0 ACV until last week) / S0 ACV until last week] * 100. Present the results in a summary format: 'S0 ACV until last week', 'S0 ACV until this week', 'Absolute change', 'Percentage change'. Interpret whether the trend is positive (increasing) or negative (decreasing).",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "S0 ACV Weekly Cumulative Trend Analysis"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Analysis 7: Consolidated KPI Dashboard",
+      "groupBy": "KPI Name (M1 ACV, M1 Count, S0 ACV)",
+      "aggregation": "N/A (summary table creation)",
+      "question": "How are all three KPIs trending week-over-week, and which KPIs show the strongest or weakest momentum?",
+      "analysisPrompt": "Create a consolidated summary table with the following structure: | KPI Name | Value Until Last Week | Value Until This Week | Absolute Change | Percentage Change | Trend Assessment |. Populate this table with data from M1 ACV (Analysis 1.1.2), M1 Count (Analysis 2.1.2), and S0 ACV (Analysis 3.1.2). For each KPI, provide a brief trend assessment (e.g., 'Strong Growth', 'Moderate Growth', 'Flat', 'Declining'). Identify which KPI shows the highest percentage growth and which shows the lowest or negative growth. Provide actionable recommendations: if any KPI is declining or flat, suggest areas for investigation (e.g., pipeline generation, conversion rates, sales team activity).",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Consolidated KPI Performance Summary"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [
+      "1.1.1",
+      "1.1.2"
+    ],
+    "2.1": [
+      "2.1.1",
+      "2.1.2"
+    ],
+    "3.1": [
+      "3.1.1",
+      "3.1.2"
+    ],
+    "4.1": [
+      "4.1.1"
+    ]
+  }
+}

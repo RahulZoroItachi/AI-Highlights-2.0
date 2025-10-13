@@ -1,0 +1,2075 @@
+{
+  "primaryGoal": "Track and optimize sales opportunity pipeline management to drive revenue growth and improve sales team performance across the EMEA region by identifying pipeline hygiene issues, optimizing SE resource allocation, improving conversion rates, and accelerating deal velocity.",
+  "assumptions": [
+    "Opportunity Stage values follow a sequential progression from S1 (discovery) through S7 (closed won), with M0/M1 representing earlier qualification stages.",
+    "The [Opportunity Close Date] field accurately reflects expected or actual close dates for opportunities.",
+    "Null values in [Opportunity SE Name] indicate genuinely unassigned opportunities requiring attention.",
+    "EMEA team designations in [Opportunity Owner Team] are mutually exclusive and comprehensive for the region.",
+    "The [Opportunity S2 To S7 Conversion] metric is pre-calculated and represents a reliable conversion rate.",
+    "[Activity Hours] logged by SEs accurately reflect their workload and engagement levels.",
+    "Opportunities with [Opportunity ACV] > 0 represent legitimate revenue opportunities worthy of analysis.",
+    "The user context indicates 'past-due close dates' and 'stuck in stages' are critical pipeline health indicators, though specific date thresholds may need to be defined."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview",
+      "phaseDescription": "Establish baseline understanding of overall EMEA pipeline health by measuring total opportunity volume, revenue potential, and closed revenue across the region to identify macro-level performance trends.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch 1.1: EMEA Regional Opportunity Volume",
+          "objective": "Retrieve total count of opportunities for all EMEA teams to understand overall pipeline volume.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity Count]. Filters: [Opportunity Owner Team] in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Aggregation: Count of opportunities.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Include columns [Opportunity Owner Team] and [Opportunity Name] for counting.",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        },
+        {
+          "stepId": "1.2",
+          "title": "Fetch 1.2: Total EMEA Pipeline ACV",
+          "objective": "Retrieve total Annual Contract Value across all EMEA opportunities to measure revenue potential.",
+          "requiredData": "Columns: [Opportunity ACV]. Filters: [Opportunity Owner Team] in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Aggregation: Sum of [Opportunity ACV].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Include columns [Opportunity ACV] and [Opportunity Name].",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        },
+        {
+          "stepId": "1.3",
+          "title": "Fetch 1.3: Closed Won Revenue (Booked ACV)",
+          "objective": "Retrieve actual booked revenue from closed won opportunities to measure realized performance.",
+          "requiredData": "Columns: [Opportunity Booked ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won'. Aggregation: Sum of [Opportunity Booked ACV].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Booked ACV] and [Opportunity Name].",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "1.1.1",
+          "title": "Analysis 1.1.1: Calculate Total EMEA Opportunity Count",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "What is the total volume of opportunities currently in the EMEA pipeline?",
+          "analysisPrompt": "Using the fetched EMEA opportunity data, calculate the total count of opportunities across all EMEA teams. Provide this as the baseline pipeline volume metric and state: 'Total EMEA pipeline contains [X] opportunities across all regional teams.'",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        },
+        {
+          "stepId": "1.1.2",
+          "title": "Analysis 1.1.2: Identify Top 3 EMEA Teams by Volume",
+          "groupBy": "[Opportunity Owner Team]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "Which EMEA teams have the highest opportunity volumes?",
+          "analysisPrompt": "Group the fetched data by [Opportunity Owner Team] and count opportunities for each team. Identify and report the top 3 teams with the highest opportunity counts. Format as: 'Top 3 EMEA teams by volume: 1) [Team A] with [X] opportunities, 2) [Team B] with [Y] opportunities, 3) [Team C] with [Z] opportunities. This indicates where pipeline activity is concentrated.'",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        },
+        {
+          "stepId": "1.2.1",
+          "title": "Analysis 1.2.1: Calculate Total Pipeline ACV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total Annual Contract Value of the EMEA pipeline?",
+          "analysisPrompt": "Using the fetched data, calculate the sum of [Opportunity ACV] across all EMEA opportunities. Report as: 'Total EMEA pipeline ACV is $[X], representing the total annual revenue potential if all opportunities close successfully.'",
+          "fetchStepId": "1.2",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        },
+        {
+          "stepId": "1.3.1",
+          "title": "Analysis 1.3.1: Calculate Total Booked ACV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity Booked ACV]",
+          "question": "What is the total actual revenue from closed won opportunities?",
+          "analysisPrompt": "Using the fetched closed won opportunity data, calculate the sum of [Opportunity Booked ACV]. Report as: 'Total booked ACV from closed won opportunities is $[X], representing actual revenue generated by the EMEA sales organization.'",
+          "fetchStepId": "1.3",
+          "phaseNumber": 1,
+          "phaseTitle": "Executive Pipeline Health Overview"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities",
+      "phaseDescription": "Identify critical gaps in opportunity assignment that could stall pipeline progression, focusing on opportunities lacking Sales Engineer support at various stages.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Fetch 2.1: Unassigned Opportunities (No SE)",
+          "objective": "Identify all opportunities that lack Sales Engineer assignment, excluding those owned by Paul Way.",
+          "requiredData": "Columns: [Opportunity Name], [Opportunity SE Name], [Opportunity Owner Name], [Opportunity Stage], [Opportunity ACV]. Filters: [Opportunity SE Name] is null, [Opportunity Owner Name] != 'paul way'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity SE Name] is null and [Opportunity Owner Name] is not equal to 'paul way'. Include columns [Opportunity Name], [Opportunity Stage], [Opportunity Owner Name], [Opportunity Owner Team], and [Opportunity ACV].",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.2",
+          "title": "Fetch 2.2: S1 Discovery Stage Opportunities Without SE",
+          "objective": "Identify early-stage discovery opportunities lacking SE support.",
+          "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] is null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], [Opportunity Owner Name], and [Opportunity ACV].",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.3",
+          "title": "Fetch 2.3: Renewal Opportunities Without SE",
+          "objective": "Identify renewal opportunities lacking SE assignment, which pose retention risk.",
+          "requiredData": "Columns: [Opportunity Name], [Opportunity Type], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Type] contains 'renewal', [Opportunity SE Name] is null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'renewal' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], [Opportunity Owner Name], and [Opportunity ACV].",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.4",
+          "title": "Fetch 2.4: M0 and M1 Stage Unassigned Opportunities",
+          "objective": "Identify very early stage (M0/M1) opportunities without SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] in ('m0', 'm1'), [Opportunity SE Name] is null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'm0' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity Stage].",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.5",
+          "title": "Fetch 2.5: M1 Stage Unassigned Opportunities",
+          "objective": "Identify M1 stage opportunities without SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'm1', [Opportunity SE Name] is null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'm1' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity Stage].",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Analysis 2.1.1: Count Total Unassigned Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities currently lack Sales Engineer assignment?",
+          "analysisPrompt": "Count the total number of opportunities in the fetched data. Report as: '[X] opportunities are currently unassigned to any Sales Engineer, representing a critical resource allocation gap that may impede deal progression.'",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.1.2",
+          "title": "Analysis 2.1.2: Calculate Revenue at Risk from Unassigned Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total ACV value at risk due to missing SE assignments?",
+          "analysisPrompt": "Calculate the sum of [Opportunity ACV] for all unassigned opportunities. Report as: '$[X] in ACV is at risk due to missing SE assignments. This represents [Y%] of total pipeline (calculate percentage if baseline ACV is known from Phase 1). Immediate action required to assign resources.'",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.2.1",
+          "title": "Analysis 2.2.1: Count S1 Opportunities Without SE Assignment",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S1 discovery stage opportunities lack SE assignment?",
+          "analysisPrompt": "Count the opportunities in S1 discovery stage without SE assignment. Report as: '[X] opportunities in S1 discovery stage lack SE assignment. These early-stage opportunities require immediate SE allocation to ensure proper technical discovery and qualification.'",
+          "fetchStepId": "2.2",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.2.2",
+          "title": "Analysis 2.2.2: Identify Teams with Most S1 Unassigned Opportunities",
+          "groupBy": "[Opportunity Owner Team]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "Which EMEA teams have the most S1 discovery opportunities without SE support?",
+          "analysisPrompt": "Group by [Opportunity Owner Team] and count opportunities. Identify the top 3 teams with the most unassigned S1 opportunities. Report as: 'Teams with highest S1 unassigned counts: [Team A] - [X] opportunities, [Team B] - [Y] opportunities, [Team C] - [Z] opportunities. These teams require priority SE resource allocation.'",
+          "fetchStepId": "2.2",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.3.1",
+          "title": "Analysis 2.3.1: Count Unassigned Renewal Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many renewal opportunities lack SE assignment?",
+          "analysisPrompt": "Count the total renewal opportunities without SE assignment. Report as: '[X] renewal opportunities lack SE assignment, representing customer retention risk. Renewals require technical validation and relationship management to prevent churn.'",
+          "fetchStepId": "2.3",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.3.2",
+          "title": "Analysis 2.3.2: Calculate Renewal ACV at Risk",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total renewal ACV at risk due to missing SE assignments?",
+          "analysisPrompt": "Calculate the sum of [Opportunity ACV] for unassigned renewal opportunities. Report as: '$[X] in renewal ACV is at risk due to missing SE assignments. This existing revenue requires immediate attention to prevent customer churn.'",
+          "fetchStepId": "2.3",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.4.1",
+          "title": "Analysis 2.4.1: Count M0 Stage Unassigned Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many M0 stage opportunities lack SE assignment?",
+          "analysisPrompt": "Count M0 stage opportunities without SE assignment. Report as: '[X] opportunities in M0 stage lack SE assignment. While early-stage, these opportunities may need SE triage to assess technical fit and prioritize resource allocation.'",
+          "fetchStepId": "2.4",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        },
+        {
+          "stepId": "2.5.1",
+          "title": "Analysis 2.5.1: Count M1 Stage Unassigned Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many M1 stage opportunities lack SE assignment?",
+          "analysisPrompt": "Count M1 stage opportunities without SE assignment. Report as: '[X] opportunities in M1 stage lack SE assignment. These opportunities are progressing and require SE engagement for technical qualification.'",
+          "fetchStepId": "2.5",
+          "phaseNumber": 2,
+          "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis",
+      "phaseDescription": "Analyze EMEA regional team performance by examining opportunity distribution, revenue contribution, and Total Contract Value to identify high-performing teams and those requiring support.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Fetch 3.1: EMEA Benelux Team Performance",
+          "objective": "Retrieve opportunity count and TCV for EMEA Benelux team.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea benelux'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea benelux'. Include columns [Opportunity Name] and [Opportunity TCV].",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.2",
+          "title": "Fetch 3.2: EMEA DACH Team Performance",
+          "objective": "Retrieve opportunity count and TCV for EMEA DACH team.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea dach'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea dach'. Include columns [Opportunity Name] and [Opportunity TCV].",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.3",
+          "title": "Fetch 3.3: EMEA UKI Team Performance",
+          "objective": "Retrieve opportunity count and TCV for EMEA UKI team.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea uki'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea uki'. Include columns [Opportunity Name] and [Opportunity TCV].",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.4",
+          "title": "Fetch 3.4: EMEA Commercial Teams Performance",
+          "objective": "Retrieve opportunity count and TCV for all EMEA Commercial sub-teams.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] in ('emea commercial', 'emea commercial 1', 'emea commercial 2').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea commercial', 'emea commercial 1', 'emea commercial 2'). Include columns [Opportunity Owner Team], [Opportunity Name], and [Opportunity TCV].",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.5",
+          "title": "Fetch 3.5: All EMEA Teams TCV Comparison",
+          "objective": "Retrieve TCV data for all primary EMEA teams to enable comparative analysis.",
+          "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV]. Filters: [Opportunity Owner Team] in ('emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea uki').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea uki'). Include columns [Opportunity Owner Team] and [Opportunity TCV].",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Analysis 3.1.1: Calculate EMEA Benelux Total TCV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "What is the total contract value for the EMEA Benelux team?",
+          "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA Benelux. Report as: 'EMEA Benelux team has $[X] in total contract value, representing their complete pipeline value including multi-year deals.'",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.1.2",
+          "title": "Analysis 3.1.2: Count EMEA Benelux Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities does the EMEA Benelux team have?",
+          "analysisPrompt": "Count the total opportunities for EMEA Benelux. Report as: 'EMEA Benelux team manages [X] opportunities.'",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.2.1",
+          "title": "Analysis 3.2.1: Calculate EMEA DACH Total TCV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "What is the total contract value for the EMEA DACH team?",
+          "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA DACH. Report as: 'EMEA DACH team has $[X] in total contract value.'",
+          "fetchStepId": "3.2",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.2.2",
+          "title": "Analysis 3.2.2: Count EMEA DACH Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities does the EMEA DACH team have?",
+          "analysisPrompt": "Count the total opportunities for EMEA DACH. Report as: 'EMEA DACH team manages [X] opportunities.'",
+          "fetchStepId": "3.2",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.3.1",
+          "title": "Analysis 3.3.1: Calculate EMEA UKI Total TCV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "What is the total contract value for the EMEA UKI team?",
+          "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA UKI. Report as: 'EMEA UKI team has $[X] in total contract value.'",
+          "fetchStepId": "3.3",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.3.2",
+          "title": "Analysis 3.3.2: Count EMEA UKI Opportunities",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities does the EMEA UKI team have?",
+          "analysisPrompt": "Count the total opportunities for EMEA UKI. Report as: 'EMEA UKI team manages [X] opportunities.'",
+          "fetchStepId": "3.3",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.4.1",
+          "title": "Analysis 3.4.1: Calculate Total TCV Across Commercial Teams",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "What is the combined total contract value for all EMEA Commercial teams?",
+          "analysisPrompt": "Calculate the sum of [Opportunity TCV] across all commercial teams. Report as: 'EMEA Commercial teams (combined) have $[X] in total contract value.'",
+          "fetchStepId": "3.4",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.4.2",
+          "title": "Analysis 3.4.2: Compare TCV by Commercial Sub-Team",
+          "groupBy": "[Opportunity Owner Team]",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "How does TCV compare across the different EMEA Commercial sub-teams?",
+          "analysisPrompt": "Group by [Opportunity Owner Team] and sum [Opportunity TCV] for each commercial sub-team. Report as: 'TCV distribution across commercial teams: [Team 1]: $[X], [Team 2]: $[Y], [Team 3]: $[Z]. This shows pipeline concentration within the commercial organization.'",
+          "fetchStepId": "3.4",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        },
+        {
+          "stepId": "3.5.1",
+          "title": "Analysis 3.5.1: Rank EMEA Teams by Total Contract Value",
+          "groupBy": "[Opportunity Owner Team]",
+          "aggregation": "Sum of [Opportunity TCV]",
+          "question": "Which EMEA teams have the highest and lowest total contract values?",
+          "analysisPrompt": "Group by [Opportunity Owner Team] and sum [Opportunity TCV]. Rank teams from highest to lowest TCV. Report as: 'EMEA team TCV ranking: 1) [Team A] - $[X], 2) [Team B] - $[Y], ... Bottom performer: [Team Z] - $[N]. This identifies which teams are carrying the largest pipeline value and which may need support or have capacity for more opportunities.'",
+          "fetchStepId": "3.5",
+          "phaseNumber": 3,
+          "phaseTitle": "Regional Performance Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis",
+      "phaseDescription": "Evaluate sales effectiveness by analyzing conversion rates from S2 to S7 stages, with specific focus on new customer acquisition and opportunity type performance.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Fetch 4.1: New Customer S2 to S7 Conversion Rate",
+          "objective": "Retrieve conversion rate data specifically for new customer opportunities.",
+          "requiredData": "Columns: [Opportunity S2 To S7 Conversion], [Opportunity Type], [Opportunity Name]. Filters: [Opportunity Type] = 'new customer'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Type] is 'new customer'. Include columns [Opportunity Name] and [Opportunity S2 To S7 Conversion].",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.2",
+          "title": "Fetch 4.2: All Opportunity Types for Conversion Comparison",
+          "objective": "Retrieve conversion rate data across all opportunity types to enable comparative analysis.",
+          "requiredData": "Columns: [Opportunity Type], [Opportunity S2 To S7 Conversion], [Opportunity Name]. Filters: None (all opportunity types).",
+          "fetchPrompt": "Fetch all opportunities with non-null [Opportunity Type] values. Include columns [Opportunity Type], [Opportunity Name], and [Opportunity S2 To S7 Conversion].",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.3",
+          "title": "Fetch 4.3: Opportunities Currently in S2 Stage",
+          "objective": "Identify opportunities currently in S2 stage to understand the volume entering the conversion funnel.",
+          "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Stage] = 's2'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2'. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity ACV].",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.4",
+          "title": "Fetch 4.4: Opportunities in S7 Closed Won Stage",
+          "objective": "Retrieve count and value of successfully closed opportunities.",
+          "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV], [Opportunity Type]. Filters: [Opportunity Stage] = 's7 closed won'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name], [Opportunity Type], and [Opportunity Booked ACV].",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Analysis 4.1.1: Calculate Average New Customer Conversion Rate",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Average of [Opportunity S2 To S7 Conversion]",
+          "question": "What is the average conversion rate from S2 to S7 for new customer opportunities?",
+          "analysisPrompt": "Calculate the average of [Opportunity S2 To S7 Conversion] for new customer opportunities. Report as: 'New customer opportunities convert from S2 to S7 at an average rate of [X]%. This represents sales effectiveness in closing net-new business and is a critical metric for growth.'",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.2.1",
+          "title": "Analysis 4.2.1: Compare Conversion Rates by Opportunity Type",
+          "groupBy": "[Opportunity Type]",
+          "aggregation": "Average of [Opportunity S2 To S7 Conversion]",
+          "question": "How do conversion rates differ across opportunity types (new customer, expansion, renewal)?",
+          "analysisPrompt": "Group by [Opportunity Type] and calculate the average [Opportunity S2 To S7 Conversion] for each type. Report as: 'S2 to S7 conversion rates by opportunity type: New Customer: [X]%, Expansion: [Y]%, Renewal: [Z]%. [Identify highest and lowest]. This reveals which motion (new logo, expansion, renewal) has the strongest sales execution.'",
+          "fetchStepId": "4.2",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.3.1",
+          "title": "Analysis 4.3.1: Count Opportunities in S2 Stage",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities are currently in S2 stage across EMEA?",
+          "analysisPrompt": "Count the total opportunities in S2 stage. Report as: '[X] opportunities are currently in S2 stage, representing the volume entering the mid-pipeline conversion funnel. These opportunities are critical to monitor for progression to S7.'",
+          "fetchStepId": "4.3",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.3.2",
+          "title": "Analysis 4.3.2: Calculate Total ACV in S2 Stage",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total ACV value of opportunities in S2 stage?",
+          "analysisPrompt": "Sum the [Opportunity ACV] for all S2 stage opportunities. Report as: '$[X] in ACV is currently in S2 stage. Based on average conversion rates from Analysis 4.1.1 or 4.2.1, this represents approximately $[Y] in potential closed revenue (calculate as ACV × conversion rate).'",
+          "fetchStepId": "4.3",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        },
+        {
+          "stepId": "4.4.1",
+          "title": "Analysis 4.4.1: Count Closed Won Opportunities by Type",
+          "groupBy": "[Opportunity Type]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities have been closed won, broken down by opportunity type?",
+          "analysisPrompt": "Group by [Opportunity Type] and count closed won opportunities. Report as: 'Closed won opportunity count by type: New Customer: [X], Expansion: [Y], Renewal: [Z]. This shows the volume of wins across different sales motions.'",
+          "fetchStepId": "4.4",
+          "phaseNumber": 4,
+          "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance",
+      "phaseDescription": "Analyze SE workload distribution, capacity utilization, and contribution to revenue to optimize resource allocation and identify overburdened or underutilized team members.",
+      "fetchSteps": [
+        {
+          "stepId": "5.1",
+          "title": "Fetch 5.1: Activity Hours by Named EMEA SEs",
+          "objective": "Retrieve total activity hours logged by specific EMEA Sales Engineers.",
+          "requiredData": "Columns: [Opportunity Owner SE Name], [Activity Hours]. Filters: [Opportunity Owner SE Name] in ('Addie McNamara', 'Cameron Nicholls', 'Charlie Birch', 'Daniel Nazeriha', 'Pinelopi Chamalelli', 'Ricky Patel').",
+          "fetchPrompt": "Fetch all activity records where [Opportunity Owner SE Name] is in ('Addie McNamara', 'Cameron Nicholls', 'Charlie Birch', 'Daniel Nazeriha', 'Pinelopi Chamalelli', 'Ricky Patel'). Include columns [Opportunity Owner SE Name] and [Activity Hours].",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.2",
+          "title": "Fetch 5.2: Opportunity Count by Assigned SE",
+          "objective": "Retrieve the number of opportunities assigned to each Sales Engineer.",
+          "requiredData": "Columns: [Opportunity SE Name], [Opportunity Name]. Filters: [Opportunity SE Name] is not null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity SE Name] is not null. Include columns [Opportunity SE Name] and [Opportunity Name].",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.3",
+          "title": "Fetch 5.3: Closed Won Opportunities with SE Assignment",
+          "objective": "Retrieve closed won opportunities that had SE support to measure SE contribution to revenue.",
+          "requiredData": "Columns: [Opportunity SE Name], [Opportunity Name], [Opportunity Booked ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won', [Opportunity SE Name] is not null.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won' and [Opportunity SE Name] is not null. Include columns [Opportunity SE Name], [Opportunity Name], and [Opportunity Booked ACV].",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.4",
+          "title": "Fetch 5.4: Field Opportunity ACV for Closed Won Deals",
+          "objective": "Retrieve field operations perspective on closed won ACV to validate revenue metrics.",
+          "requiredData": "Columns: [Field Opportunity ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won'.",
+          "fetchPrompt": "Fetch all opportunities from the GTM Customer Field Operations table where [Opportunity Stage] is 's7 closed won'. Include columns [Field Opportunity ACV] and [Opportunity Name].",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "5.1.1",
+          "title": "Analysis 5.1.1: Calculate Total EMEA SE Activity Hours",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Activity Hours]",
+          "question": "What is the total number of hours logged by EMEA Sales Engineers?",
+          "analysisPrompt": "Calculate the sum of [Activity Hours] across all named EMEA SEs. Report as: 'EMEA Sales Engineers have logged a total of [X] activity hours, representing the overall SE capacity utilization in the region.'",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.1.2",
+          "title": "Analysis 5.1.2: Compare Activity Hours by Individual SE",
+          "groupBy": "[Opportunity Owner SE Name]",
+          "aggregation": "Sum of [Activity Hours]",
+          "question": "How do activity hours compare across individual EMEA Sales Engineers?",
+          "analysisPrompt": "Group by [Opportunity Owner SE Name] and sum [Activity Hours] for each SE. Rank from highest to lowest. Report as: 'SE activity hours distribution: [SE A]: [X] hours, [SE B]: [Y] hours, ... [SE Z]: [N] hours. Identify the highest and lowest: [SE Name] is logging the most hours at [X] (potential overload), while [SE Name] has the lowest at [N] hours (potential capacity or underutilization). This indicates workload balance issues requiring attention.'",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.2.1",
+          "title": "Analysis 5.2.1: Count Opportunities per SE",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities is each Sales Engineer supporting?",
+          "analysisPrompt": "Group by [Opportunity SE Name] and count opportunities. Identify SEs with the highest and lowest opportunity counts. Report as: 'Opportunity distribution across SEs: [SE A] supports [X] opportunities (highest), [SE B] supports [Y] opportunities, ... [SE Z] supports [N] opportunities (lowest). Average is [AVG] opportunities per SE. High variance suggests uneven workload distribution.'",
+          "fetchStepId": "5.2",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.3.1",
+          "title": "Analysis 5.3.1: Calculate Revenue Contribution by SE",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Sum of [Opportunity Booked ACV]",
+          "question": "How much booked ACV has each Sales Engineer contributed to?",
+          "analysisPrompt": "Group by [Opportunity SE Name] and sum [Opportunity Booked ACV]. Rank SEs by revenue contribution. Report as: 'SE revenue contribution (Booked ACV): [SE A] contributed to $[X] in wins, [SE B] contributed to $[Y], ... This measures SE effectiveness in driving deals to close. Top performers should be recognized and their practices shared.'",
+          "fetchStepId": "5.3",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.3.2",
+          "title": "Analysis 5.3.2: Count Closed Won Opportunities by SE",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities has each Sales Engineer helped close?",
+          "analysisPrompt": "Group by [Opportunity SE Name] and count closed won opportunities. Report as: 'SE win count: [SE A] contributed to [X] closed deals, [SE B] to [Y] deals, ... This measures SE involvement in successful outcomes regardless of deal size.'",
+          "fetchStepId": "5.3",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        },
+        {
+          "stepId": "5.4.1",
+          "title": "Analysis 5.4.1: Calculate Total Field Opportunity ACV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Field Opportunity ACV]",
+          "question": "What is the total Field Opportunity ACV for closed won deals?",
+          "analysisPrompt": "Calculate the sum of [Field Opportunity ACV] for all closed won opportunities. Report as: 'Total Field Opportunity ACV for closed won deals is $[X]. This represents the field operations view of revenue and should align closely with Opportunity Booked ACV from previous analysis (Phase 1, Step 1.3.1) for data validation.'",
+          "fetchStepId": "5.4",
+          "phaseNumber": 5,
+          "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis",
+      "phaseDescription": "Evaluate the effectiveness of technical pre-sales activities, specifically Proof of Value engagements and trials, in driving deal success and informing resource allocation decisions.",
+      "fetchSteps": [
+        {
+          "stepId": "6.1",
+          "title": "Fetch 6.1: Completed PoV Deliverables",
+          "objective": "Retrieve count of completed Proof of Value deliverables.",
+          "requiredData": "Columns: [Vivun Deliverables Count], [Vivun Deliverable Status], [Vivun Deliverable Type]. Filters: [Vivun Deliverable Status] = 'finished', [Vivun Deliverable Type] = 'proof of value (pov)'.",
+          "fetchPrompt": "Fetch all Vivun deliverables where [Vivun Deliverable Status] is 'finished' and [Vivun Deliverable Type] is 'proof of value (pov)'. Include columns [Vivun Deliverables Count] and [Opportunity Name].",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.2",
+          "title": "Fetch 6.2: Completed Trial Deliverables",
+          "objective": "Retrieve count of completed trial deliverables.",
+          "requiredData": "Columns: [Vivun Deliverables Count], [Vivun Deliverable Status], [Vivun Deliverable Type]. Filters: [Vivun Deliverable Status] = 'finished', [Vivun Deliverable Type] = 'trial'.",
+          "fetchPrompt": "Fetch all Vivun deliverables where [Vivun Deliverable Status] is 'finished' and [Vivun Deliverable Type] is 'trial'. Include columns [Vivun Deliverables Count] and [Opportunity Name].",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.3",
+          "title": "Fetch 6.3: Opportunities with Completed PoV that Closed Won",
+          "objective": "Identify opportunities that had completed PoVs and resulted in closed won deals to calculate PoV win rate.",
+          "requiredData": "Columns: [Vivun Deliverable Type], [Vivun Deliverable Status], [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV]. Filters: [Vivun Deliverable Type] = 'proof of value (pov)', [Vivun Deliverable Status] = 'finished', [Opportunity Stage] = 's7 closed won'.",
+          "fetchPrompt": "Fetch all opportunities where [Vivun Deliverable Type] is 'proof of value (pov)' and [Vivun Deliverable Status] is 'finished' and [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name] and [Opportunity Booked ACV].",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.4",
+          "title": "Fetch 6.4: Opportunities with Completed Trials that Closed Won",
+          "objective": "Identify opportunities that had completed trials and resulted in closed won deals.",
+          "requiredData": "Columns: [Vivun Deliverable Type], [Vivun Deliverable Status], [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV]. Filters: [Vivun Deliverable Type] = 'trial', [Vivun Deliverable Status] = 'finished', [Opportunity Stage] = 's7 closed won'.",
+          "fetchPrompt": "Fetch all opportunities where [Vivun Deliverable Type] is 'trial' and [Vivun Deliverable Status] is 'finished' and [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name] and [Opportunity Booked ACV].",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "6.1.1",
+          "title": "Analysis 6.1.1: Count Completed PoV Deliverables",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Vivun Deliverables Count]",
+          "question": "How many Proof of Value engagements have been completed?",
+          "analysisPrompt": "Calculate the sum of [Vivun Deliverables Count] for finished PoV deliverables. Report as: '[X] Proof of Value engagements have been completed. PoVs represent significant pre-sales investment and are critical for validating technical fit and driving deal progression.'",
+          "fetchStepId": "6.1",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.2.1",
+          "title": "Analysis 6.2.1: Count Completed Trial Deliverables",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Vivun Deliverables Count]",
+          "question": "How many trial engagements have been completed?",
+          "analysisPrompt": "Calculate the sum of [Vivun Deliverables Count] for finished trial deliverables. Report as: '[X] trial engagements have been completed. Trials provide hands-on product experience and are an important pre-sales tool.'",
+          "fetchStepId": "6.2",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.3.1",
+          "title": "Analysis 6.3.1: Count PoV Opportunities that Closed Won",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities with completed PoVs resulted in closed won deals?",
+          "analysisPrompt": "Count opportunities that had finished PoVs and closed won. Report as: '[X] opportunities with completed PoVs resulted in closed won deals. To calculate PoV win rate, divide this by the total completed PoVs from Analysis 6.1.1: Win rate = [X won] / [Y total PoVs] = [Z]%. This measures the effectiveness of PoV engagements in driving deal success.'",
+          "fetchStepId": "6.3",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.3.2",
+          "title": "Analysis 6.3.2: Calculate Revenue from PoV-Supported Wins",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity Booked ACV]",
+          "question": "What is the total booked ACV from opportunities that completed PoVs and closed won?",
+          "analysisPrompt": "Sum [Opportunity Booked ACV] for PoV-supported closed won opportunities. Report as: '$[X] in booked ACV came from opportunities that completed PoV engagements. This represents the revenue impact of technical pre-sales investment and justifies PoV resource allocation.'",
+          "fetchStepId": "6.3",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.4.1",
+          "title": "Analysis 6.4.1: Count Trial Opportunities that Closed Won",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many opportunities with completed trials resulted in closed won deals?",
+          "analysisPrompt": "Count opportunities that had finished trials and closed won. Report as: '[X] opportunities with completed trials resulted in closed won deals. Trial conversion rate = [X won] / [Y total trials from Analysis 6.2.1] = [Z]%. This measures trial effectiveness in converting prospects to customers.'",
+          "fetchStepId": "6.4",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        },
+        {
+          "stepId": "6.4.2",
+          "title": "Analysis 6.4.2: Calculate Revenue from Trial-Supported Wins",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity Booked ACV]",
+          "question": "What is the total booked ACV from opportunities that completed trials and closed won?",
+          "analysisPrompt": "Sum [Opportunity Booked ACV] for trial-supported closed won opportunities. Report as: '$[X] in booked ACV came from opportunities that completed trial engagements. Compare this to PoV-supported revenue (Analysis 6.3.2) to understand which pre-sales motion generates more revenue.'",
+          "fetchStepId": "6.4",
+          "phaseNumber": 6,
+          "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance",
+      "phaseDescription": "Analyze top-of-funnel marketing effectiveness by evaluating Marketing Qualified Lead generation across EMEA regions to ensure healthy pipeline flow.",
+      "fetchSteps": [
+        {
+          "stepId": "7.1",
+          "title": "Fetch 7.1: MQLs for EMEA Benelux Region",
+          "objective": "Retrieve MQL count for EMEA Benelux region.",
+          "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea benelux'.",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea benelux'. Include columns [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.2",
+          "title": "Fetch 7.2: MQLs for EMEA DACH Region",
+          "objective": "Retrieve MQL count for EMEA DACH region.",
+          "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea dach'.",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea dach'. Include columns [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.3",
+          "title": "Fetch 7.3: MQLs for EMEA Nordic Region",
+          "objective": "Retrieve MQL count for EMEA Nordic region.",
+          "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea nordic'.",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea nordic'. Include columns [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.4",
+          "title": "Fetch 7.4: MQLs for EMEA Western Europe Region",
+          "objective": "Retrieve MQL count for EMEA Western Europe region.",
+          "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea western europe'.",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea western europe'. Include columns [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.5",
+          "title": "Fetch 7.5: MQLs for EMEA Commercial Region",
+          "objective": "Retrieve MQL count for EMEA Commercial region.",
+          "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea commercial'.",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea commercial'. Include columns [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.6",
+          "title": "Fetch 7.6: All EMEA Regional MQLs for Comparison",
+          "objective": "Retrieve MQL data across all EMEA regions for comparative analysis.",
+          "requiredData": "Columns: [Person Account Region], [Person Mqls Count]. Filters: [Person Account Region] in ('emea benelux', 'emea commercial', 'emea dach', 'emea nordic', 'emea western europe').",
+          "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is in ('emea benelux', 'emea commercial', 'emea dach', 'emea nordic', 'emea western europe'). Include columns [Person Account Region] and [Person Mqls Count].",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "7.1.1",
+          "title": "Analysis 7.1.1: Calculate Total MQLs for EMEA Benelux",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "How many Marketing Qualified Leads have been generated in the EMEA Benelux region?",
+          "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Benelux. Report as: 'EMEA Benelux has generated [X] Marketing Qualified Leads, representing top-of-funnel marketing performance in this region.'",
+          "fetchStepId": "7.1",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.2.1",
+          "title": "Analysis 7.2.1: Calculate Total MQLs for EMEA DACH",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "How many Marketing Qualified Leads have been generated in the EMEA DACH region?",
+          "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA DACH. Report as: 'EMEA DACH has generated [X] Marketing Qualified Leads.'",
+          "fetchStepId": "7.2",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.3.1",
+          "title": "Analysis 7.3.1: Calculate Total MQLs for EMEA Nordic",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "How many Marketing Qualified Leads have been generated in the EMEA Nordic region?",
+          "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Nordic. Report as: 'EMEA Nordic has generated [X] Marketing Qualified Leads.'",
+          "fetchStepId": "7.3",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.4.1",
+          "title": "Analysis 7.4.1: Calculate Total MQLs for EMEA Western Europe",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "How many Marketing Qualified Leads have been generated in the EMEA Western Europe region?",
+          "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Western Europe. Report as: 'EMEA Western Europe has generated [X] Marketing Qualified Leads.'",
+          "fetchStepId": "7.4",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.5.1",
+          "title": "Analysis 7.5.1: Calculate Total MQLs for EMEA Commercial",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "How many Marketing Qualified Leads have been generated in the EMEA Commercial region?",
+          "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Commercial. Report as: 'EMEA Commercial has generated [X] Marketing Qualified Leads.'",
+          "fetchStepId": "7.5",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        },
+        {
+          "stepId": "7.6.1",
+          "title": "Analysis 7.6.1: Compare MQL Generation Across EMEA Regions",
+          "groupBy": "[Person Account Region]",
+          "aggregation": "Sum of [Person Mqls Count]",
+          "question": "Which EMEA regions are generating the most and least Marketing Qualified Leads?",
+          "analysisPrompt": "Group by [Person Account Region] and sum [Person Mqls Count]. Rank regions from highest to lowest MQL generation. Report as: 'MQL generation by EMEA region: 1) [Region A]: [X] MQLs, 2) [Region B]: [Y] MQLs, ... Lowest: [Region Z]: [N] MQLs. Regions with low MQL counts may indicate marketing investment gaps or market maturity differences. Strong MQL generation should correlate with healthy pipeline volume (cross-reference with Phase 1 and Phase 3 findings).'",
+          "fetchStepId": "7.6",
+          "phaseNumber": 7,
+          "phaseTitle": "Lead Generation and Marketing Performance"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators",
+      "phaseDescription": "Identify pipeline health issues by analyzing opportunity stage distribution, potential bottlenecks, and deals requiring attention to improve overall pipeline quality and velocity.",
+      "fetchSteps": [
+        {
+          "stepId": "8.1",
+          "title": "Fetch 8.1: Opportunity Distribution Across All Stages",
+          "objective": "Retrieve opportunity counts across all pipeline stages to understand stage distribution.",
+          "requiredData": "Columns: [Opportunity Stage], [Opportunity Name]. Filters: None (all stages).",
+          "fetchPrompt": "Fetch all opportunities with non-null [Opportunity Stage] values. Include columns [Opportunity Stage] and [Opportunity Name].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.2",
+          "title": "Fetch 8.2: Open Opportunities with Positive ACV",
+          "objective": "Retrieve all open opportunities with positive ACV to focus on revenue-generating deals.",
+          "requiredData": "Columns: [Opportunity Stage], [Opportunity ACV], [Opportunity Name]. Filters: [Opportunity Stage] not in ('s7 closed won', 's7 closed lost'), [Opportunity ACV] > 0.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is not 's7 closed won' and not 's7 closed lost' and [Opportunity ACV] is greater than 0. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.3",
+          "title": "Fetch 8.3: New Customer Opportunities in Early Stages",
+          "objective": "Identify new customer opportunities in early stages (M0, M1, S1) to assess new logo pipeline health.",
+          "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] = 'new customer', [Opportunity Stage] in ('m0', 'm1', 's1 discovery').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Type] is 'new customer' and [Opportunity Stage] is in ('m0', 'm1', 's1 discovery'). Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.4",
+          "title": "Fetch 8.4: Renewal Opportunities by Stage",
+          "objective": "Analyze renewal opportunity distribution across stages to assess retention pipeline health.",
+          "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] contains 'renewal'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'renewal'. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.5",
+          "title": "Fetch 8.5: Expansion Opportunities by Stage",
+          "objective": "Analyze expansion opportunity distribution to assess upsell/cross-sell pipeline health.",
+          "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] contains 'expansion'.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'expansion'. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.6",
+          "title": "Fetch 8.6: High-Value Opportunities (ACV > $100K) by Stage",
+          "objective": "Identify distribution of high-value opportunities to focus executive attention.",
+          "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity ACV], [Opportunity Owner Team]. Filters: [Opportunity ACV] > 100000, [Opportunity Stage] not in ('s7 closed won', 's7 closed lost').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity ACV] is greater than 100000 and [Opportunity Stage] is not 's7 closed won' and not 's7 closed lost'. Include columns [Opportunity Stage], [Opportunity Name], [Opportunity ACV], and [Opportunity Owner Team].",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "8.1.1",
+          "title": "Analysis 8.1.1: Count Opportunities by Pipeline Stage",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How are opportunities distributed across pipeline stages?",
+          "analysisPrompt": "Group by [Opportunity Stage] and count opportunities in each stage. Report as: 'Opportunity distribution by stage: M0: [X], M1: [Y], S1: [Z], S2: [A], S3: [B], S4: [C], S5: [D], S6: [E], S7 Closed Won: [F], S7 Closed Lost: [G]. Identify stages with unusual concentrations (bottlenecks) or unexpectedly low counts (leakage points). Healthy pipelines show progressive narrowing from early to late stages.'",
+          "fetchStepId": "8.1",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.2.1",
+          "title": "Analysis 8.2.1: Count Open Opportunities with Positive ACV",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many open opportunities have positive ACV values?",
+          "analysisPrompt": "Count all open opportunities with positive ACV. Report as: '[X] open opportunities have positive ACV values, representing active revenue-generating deals in the pipeline that require ongoing management.'",
+          "fetchStepId": "8.2",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.2.2",
+          "title": "Analysis 8.2.2: Calculate Total ACV of Open Pipeline",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total ACV value of the open pipeline?",
+          "analysisPrompt": "Sum [Opportunity ACV] for all open opportunities. Report as: 'Total open pipeline ACV is $[X], representing the active revenue potential requiring sales team focus. Compare this to closed won ACV (from Phase 1, Step 1.3.1) to understand pipeline-to-revenue ratio.'",
+          "fetchStepId": "8.2",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.3.1",
+          "title": "Analysis 8.3.1: Count Early-Stage New Customer Opportunities",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many new customer opportunities are in early pipeline stages?",
+          "analysisPrompt": "Group by [Opportunity Stage] and count new customer opportunities in M0, M1, and S1. Report as: 'Early-stage new customer pipeline: M0: [X] opportunities, M1: [Y] opportunities, S1 Discovery: [Z] opportunities. Total: [SUM] early-stage new customer opportunities. This indicates the health of new logo acquisition pipeline.'",
+          "fetchStepId": "8.3",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.4.1",
+          "title": "Analysis 8.4.1: Count Renewal Opportunities by Stage",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How are renewal opportunities distributed across pipeline stages?",
+          "analysisPrompt": "Group by [Opportunity Stage] and count renewal opportunities. Report as: 'Renewal opportunity distribution: [Stage A]: [X], [Stage B]: [Y], ... S7 Closed Won: [Z]. Renewal opportunities should progress quickly through stages. Any renewals stuck in early stages (M0, M1, S1) indicate customer health issues requiring immediate attention.'",
+          "fetchStepId": "8.4",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.4.2",
+          "title": "Analysis 8.4.2: Calculate Total Renewal ACV in Pipeline",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total ACV value of renewal opportunities in the pipeline?",
+          "analysisPrompt": "Sum [Opportunity ACV] for all renewal opportunities. Report as: '$[X] in renewal ACV is in the pipeline, representing revenue at risk if renewals do not close successfully. This is existing customer revenue that must be protected.'",
+          "fetchStepId": "8.4",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.5.1",
+          "title": "Analysis 8.5.1: Count Expansion Opportunities by Stage",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How are expansion opportunities distributed across pipeline stages?",
+          "analysisPrompt": "Group by [Opportunity Stage] and count expansion opportunities. Report as: 'Expansion opportunity distribution: [Stage A]: [X], [Stage B]: [Y], ... S7 Closed Won: [Z]. Healthy expansion pipelines indicate strong customer success and land-and-expand strategy execution.'",
+          "fetchStepId": "8.5",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.5.2",
+          "title": "Analysis 8.5.2: Calculate Total Expansion ACV in Pipeline",
+          "groupBy": "None (total aggregate)",
+          "aggregation": "Sum of [Opportunity ACV]",
+          "question": "What is the total ACV value of expansion opportunities?",
+          "analysisPrompt": "Sum [Opportunity ACV] for all expansion opportunities. Report as: '$[X] in expansion ACV is in the pipeline, representing growth potential from existing customers. Compare to new customer and renewal ACV to understand pipeline composition.'",
+          "fetchStepId": "8.5",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.6.1",
+          "title": "Analysis 8.6.1: Count High-Value Opportunities by Stage",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How are high-value opportunities (>$100K ACV) distributed across stages?",
+          "analysisPrompt": "Group by [Opportunity Stage] and count opportunities with ACV > $100K. Report as: 'High-value opportunity (>$100K ACV) distribution: [Stage A]: [X] deals, [Stage B]: [Y] deals, ... Total: [Z] high-value opportunities in active pipeline. These deals require executive sponsorship and close monitoring.'",
+          "fetchStepId": "8.6",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        },
+        {
+          "stepId": "8.6.2",
+          "title": "Analysis 8.6.2: Identify Teams with Most High-Value Opportunities",
+          "groupBy": "[Opportunity Owner Team]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "Which teams have the most high-value opportunities?",
+          "analysisPrompt": "Group by [Opportunity Owner Team] and count high-value opportunities. Report as: 'Teams with most high-value opportunities: [Team A]: [X] deals, [Team B]: [Y] deals, [Team C]: [Z] deals. These teams are managing the most strategic deals and may require additional executive support or resources.'",
+          "fetchStepId": "8.6",
+          "phaseNumber": 8,
+          "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch 1.1: EMEA Regional Opportunity Volume",
+      "objective": "Retrieve total count of opportunities for all EMEA teams to understand overall pipeline volume.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity Count]. Filters: [Opportunity Owner Team] in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Aggregation: Count of opportunities.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Include columns [Opportunity Owner Team] and [Opportunity Name] for counting.",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "1.2",
+      "title": "Fetch 1.2: Total EMEA Pipeline ACV",
+      "objective": "Retrieve total Annual Contract Value across all EMEA opportunities to measure revenue potential.",
+      "requiredData": "Columns: [Opportunity ACV]. Filters: [Opportunity Owner Team] in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Aggregation: Sum of [Opportunity ACV].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea', 'emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea emerging enterprise', 'emea partner', 'emea uki', 'emea western europe'). Include columns [Opportunity ACV] and [Opportunity Name].",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "1.3",
+      "title": "Fetch 1.3: Closed Won Revenue (Booked ACV)",
+      "objective": "Retrieve actual booked revenue from closed won opportunities to measure realized performance.",
+      "requiredData": "Columns: [Opportunity Booked ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won'. Aggregation: Sum of [Opportunity Booked ACV].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Booked ACV] and [Opportunity Name].",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Fetch 2.1: Unassigned Opportunities (No SE)",
+      "objective": "Identify all opportunities that lack Sales Engineer assignment, excluding those owned by Paul Way.",
+      "requiredData": "Columns: [Opportunity Name], [Opportunity SE Name], [Opportunity Owner Name], [Opportunity Stage], [Opportunity ACV]. Filters: [Opportunity SE Name] is null, [Opportunity Owner Name] != 'paul way'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity SE Name] is null and [Opportunity Owner Name] is not equal to 'paul way'. Include columns [Opportunity Name], [Opportunity Stage], [Opportunity Owner Name], [Opportunity Owner Team], and [Opportunity ACV].",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.2",
+      "title": "Fetch 2.2: S1 Discovery Stage Opportunities Without SE",
+      "objective": "Identify early-stage discovery opportunities lacking SE support.",
+      "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] is null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], [Opportunity Owner Name], and [Opportunity ACV].",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.3",
+      "title": "Fetch 2.3: Renewal Opportunities Without SE",
+      "objective": "Identify renewal opportunities lacking SE assignment, which pose retention risk.",
+      "requiredData": "Columns: [Opportunity Name], [Opportunity Type], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Type] contains 'renewal', [Opportunity SE Name] is null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'renewal' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], [Opportunity Owner Name], and [Opportunity ACV].",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.4",
+      "title": "Fetch 2.4: M0 and M1 Stage Unassigned Opportunities",
+      "objective": "Identify very early stage (M0/M1) opportunities without SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] in ('m0', 'm1'), [Opportunity SE Name] is null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'm0' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity Stage].",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.5",
+      "title": "Fetch 2.5: M1 Stage Unassigned Opportunities",
+      "objective": "Identify M1 stage opportunities without SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'm1', [Opportunity SE Name] is null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'm1' and [Opportunity SE Name] is null. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity Stage].",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Fetch 3.1: EMEA Benelux Team Performance",
+      "objective": "Retrieve opportunity count and TCV for EMEA Benelux team.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea benelux'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea benelux'. Include columns [Opportunity Name] and [Opportunity TCV].",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.2",
+      "title": "Fetch 3.2: EMEA DACH Team Performance",
+      "objective": "Retrieve opportunity count and TCV for EMEA DACH team.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea dach'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea dach'. Include columns [Opportunity Name] and [Opportunity TCV].",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.3",
+      "title": "Fetch 3.3: EMEA UKI Team Performance",
+      "objective": "Retrieve opportunity count and TCV for EMEA UKI team.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] = 'emea uki'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is 'emea uki'. Include columns [Opportunity Name] and [Opportunity TCV].",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.4",
+      "title": "Fetch 3.4: EMEA Commercial Teams Performance",
+      "objective": "Retrieve opportunity count and TCV for all EMEA Commercial sub-teams.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV], [Opportunity Name]. Filters: [Opportunity Owner Team] in ('emea commercial', 'emea commercial 1', 'emea commercial 2').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea commercial', 'emea commercial 1', 'emea commercial 2'). Include columns [Opportunity Owner Team], [Opportunity Name], and [Opportunity TCV].",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.5",
+      "title": "Fetch 3.5: All EMEA Teams TCV Comparison",
+      "objective": "Retrieve TCV data for all primary EMEA teams to enable comparative analysis.",
+      "requiredData": "Columns: [Opportunity Owner Team], [Opportunity TCV]. Filters: [Opportunity Owner Team] in ('emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea uki').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Owner Team] is in ('emea benelux', 'emea commercial', 'emea commercial 1', 'emea commercial 2', 'emea dach', 'emea uki'). Include columns [Opportunity Owner Team] and [Opportunity TCV].",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Fetch 4.1: New Customer S2 to S7 Conversion Rate",
+      "objective": "Retrieve conversion rate data specifically for new customer opportunities.",
+      "requiredData": "Columns: [Opportunity S2 To S7 Conversion], [Opportunity Type], [Opportunity Name]. Filters: [Opportunity Type] = 'new customer'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Type] is 'new customer'. Include columns [Opportunity Name] and [Opportunity S2 To S7 Conversion].",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.2",
+      "title": "Fetch 4.2: All Opportunity Types for Conversion Comparison",
+      "objective": "Retrieve conversion rate data across all opportunity types to enable comparative analysis.",
+      "requiredData": "Columns: [Opportunity Type], [Opportunity S2 To S7 Conversion], [Opportunity Name]. Filters: None (all opportunity types).",
+      "fetchPrompt": "Fetch all opportunities with non-null [Opportunity Type] values. Include columns [Opportunity Type], [Opportunity Name], and [Opportunity S2 To S7 Conversion].",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.3",
+      "title": "Fetch 4.3: Opportunities Currently in S2 Stage",
+      "objective": "Identify opportunities currently in S2 stage to understand the volume entering the conversion funnel.",
+      "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity Owner Team], [Opportunity ACV]. Filters: [Opportunity Stage] = 's2'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2'. Include columns [Opportunity Name], [Opportunity Owner Team], and [Opportunity ACV].",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.4",
+      "title": "Fetch 4.4: Opportunities in S7 Closed Won Stage",
+      "objective": "Retrieve count and value of successfully closed opportunities.",
+      "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV], [Opportunity Type]. Filters: [Opportunity Stage] = 's7 closed won'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name], [Opportunity Type], and [Opportunity Booked ACV].",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "5.1",
+      "title": "Fetch 5.1: Activity Hours by Named EMEA SEs",
+      "objective": "Retrieve total activity hours logged by specific EMEA Sales Engineers.",
+      "requiredData": "Columns: [Opportunity Owner SE Name], [Activity Hours]. Filters: [Opportunity Owner SE Name] in ('Addie McNamara', 'Cameron Nicholls', 'Charlie Birch', 'Daniel Nazeriha', 'Pinelopi Chamalelli', 'Ricky Patel').",
+      "fetchPrompt": "Fetch all activity records where [Opportunity Owner SE Name] is in ('Addie McNamara', 'Cameron Nicholls', 'Charlie Birch', 'Daniel Nazeriha', 'Pinelopi Chamalelli', 'Ricky Patel'). Include columns [Opportunity Owner SE Name] and [Activity Hours].",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.2",
+      "title": "Fetch 5.2: Opportunity Count by Assigned SE",
+      "objective": "Retrieve the number of opportunities assigned to each Sales Engineer.",
+      "requiredData": "Columns: [Opportunity SE Name], [Opportunity Name]. Filters: [Opportunity SE Name] is not null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity SE Name] is not null. Include columns [Opportunity SE Name] and [Opportunity Name].",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.3",
+      "title": "Fetch 5.3: Closed Won Opportunities with SE Assignment",
+      "objective": "Retrieve closed won opportunities that had SE support to measure SE contribution to revenue.",
+      "requiredData": "Columns: [Opportunity SE Name], [Opportunity Name], [Opportunity Booked ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won', [Opportunity SE Name] is not null.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's7 closed won' and [Opportunity SE Name] is not null. Include columns [Opportunity SE Name], [Opportunity Name], and [Opportunity Booked ACV].",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.4",
+      "title": "Fetch 5.4: Field Opportunity ACV for Closed Won Deals",
+      "objective": "Retrieve field operations perspective on closed won ACV to validate revenue metrics.",
+      "requiredData": "Columns: [Field Opportunity ACV], [Opportunity Stage]. Filters: [Opportunity Stage] = 's7 closed won'.",
+      "fetchPrompt": "Fetch all opportunities from the GTM Customer Field Operations table where [Opportunity Stage] is 's7 closed won'. Include columns [Field Opportunity ACV] and [Opportunity Name].",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "6.1",
+      "title": "Fetch 6.1: Completed PoV Deliverables",
+      "objective": "Retrieve count of completed Proof of Value deliverables.",
+      "requiredData": "Columns: [Vivun Deliverables Count], [Vivun Deliverable Status], [Vivun Deliverable Type]. Filters: [Vivun Deliverable Status] = 'finished', [Vivun Deliverable Type] = 'proof of value (pov)'.",
+      "fetchPrompt": "Fetch all Vivun deliverables where [Vivun Deliverable Status] is 'finished' and [Vivun Deliverable Type] is 'proof of value (pov)'. Include columns [Vivun Deliverables Count] and [Opportunity Name].",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.2",
+      "title": "Fetch 6.2: Completed Trial Deliverables",
+      "objective": "Retrieve count of completed trial deliverables.",
+      "requiredData": "Columns: [Vivun Deliverables Count], [Vivun Deliverable Status], [Vivun Deliverable Type]. Filters: [Vivun Deliverable Status] = 'finished', [Vivun Deliverable Type] = 'trial'.",
+      "fetchPrompt": "Fetch all Vivun deliverables where [Vivun Deliverable Status] is 'finished' and [Vivun Deliverable Type] is 'trial'. Include columns [Vivun Deliverables Count] and [Opportunity Name].",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.3",
+      "title": "Fetch 6.3: Opportunities with Completed PoV that Closed Won",
+      "objective": "Identify opportunities that had completed PoVs and resulted in closed won deals to calculate PoV win rate.",
+      "requiredData": "Columns: [Vivun Deliverable Type], [Vivun Deliverable Status], [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV]. Filters: [Vivun Deliverable Type] = 'proof of value (pov)', [Vivun Deliverable Status] = 'finished', [Opportunity Stage] = 's7 closed won'.",
+      "fetchPrompt": "Fetch all opportunities where [Vivun Deliverable Type] is 'proof of value (pov)' and [Vivun Deliverable Status] is 'finished' and [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name] and [Opportunity Booked ACV].",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.4",
+      "title": "Fetch 6.4: Opportunities with Completed Trials that Closed Won",
+      "objective": "Identify opportunities that had completed trials and resulted in closed won deals.",
+      "requiredData": "Columns: [Vivun Deliverable Type], [Vivun Deliverable Status], [Opportunity Stage], [Opportunity Name], [Opportunity Booked ACV]. Filters: [Vivun Deliverable Type] = 'trial', [Vivun Deliverable Status] = 'finished', [Opportunity Stage] = 's7 closed won'.",
+      "fetchPrompt": "Fetch all opportunities where [Vivun Deliverable Type] is 'trial' and [Vivun Deliverable Status] is 'finished' and [Opportunity Stage] is 's7 closed won'. Include columns [Opportunity Name] and [Opportunity Booked ACV].",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "7.1",
+      "title": "Fetch 7.1: MQLs for EMEA Benelux Region",
+      "objective": "Retrieve MQL count for EMEA Benelux region.",
+      "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea benelux'.",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea benelux'. Include columns [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.2",
+      "title": "Fetch 7.2: MQLs for EMEA DACH Region",
+      "objective": "Retrieve MQL count for EMEA DACH region.",
+      "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea dach'.",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea dach'. Include columns [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.3",
+      "title": "Fetch 7.3: MQLs for EMEA Nordic Region",
+      "objective": "Retrieve MQL count for EMEA Nordic region.",
+      "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea nordic'.",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea nordic'. Include columns [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.4",
+      "title": "Fetch 7.4: MQLs for EMEA Western Europe Region",
+      "objective": "Retrieve MQL count for EMEA Western Europe region.",
+      "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea western europe'.",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea western europe'. Include columns [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.5",
+      "title": "Fetch 7.5: MQLs for EMEA Commercial Region",
+      "objective": "Retrieve MQL count for EMEA Commercial region.",
+      "requiredData": "Columns: [Person Mqls Count], [Person Account Region]. Filters: [Person Account Region] = 'emea commercial'.",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is 'emea commercial'. Include columns [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.6",
+      "title": "Fetch 7.6: All EMEA Regional MQLs for Comparison",
+      "objective": "Retrieve MQL data across all EMEA regions for comparative analysis.",
+      "requiredData": "Columns: [Person Account Region], [Person Mqls Count]. Filters: [Person Account Region] in ('emea benelux', 'emea commercial', 'emea dach', 'emea nordic', 'emea western europe').",
+      "fetchPrompt": "Fetch all marketing qualified leads where [Person Account Region] is in ('emea benelux', 'emea commercial', 'emea dach', 'emea nordic', 'emea western europe'). Include columns [Person Account Region] and [Person Mqls Count].",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "8.1",
+      "title": "Fetch 8.1: Opportunity Distribution Across All Stages",
+      "objective": "Retrieve opportunity counts across all pipeline stages to understand stage distribution.",
+      "requiredData": "Columns: [Opportunity Stage], [Opportunity Name]. Filters: None (all stages).",
+      "fetchPrompt": "Fetch all opportunities with non-null [Opportunity Stage] values. Include columns [Opportunity Stage] and [Opportunity Name].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.2",
+      "title": "Fetch 8.2: Open Opportunities with Positive ACV",
+      "objective": "Retrieve all open opportunities with positive ACV to focus on revenue-generating deals.",
+      "requiredData": "Columns: [Opportunity Stage], [Opportunity ACV], [Opportunity Name]. Filters: [Opportunity Stage] not in ('s7 closed won', 's7 closed lost'), [Opportunity ACV] > 0.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is not 's7 closed won' and not 's7 closed lost' and [Opportunity ACV] is greater than 0. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.3",
+      "title": "Fetch 8.3: New Customer Opportunities in Early Stages",
+      "objective": "Identify new customer opportunities in early stages (M0, M1, S1) to assess new logo pipeline health.",
+      "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] = 'new customer', [Opportunity Stage] in ('m0', 'm1', 's1 discovery').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Type] is 'new customer' and [Opportunity Stage] is in ('m0', 'm1', 's1 discovery'). Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.4",
+      "title": "Fetch 8.4: Renewal Opportunities by Stage",
+      "objective": "Analyze renewal opportunity distribution across stages to assess retention pipeline health.",
+      "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] contains 'renewal'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'renewal'. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.5",
+      "title": "Fetch 8.5: Expansion Opportunities by Stage",
+      "objective": "Analyze expansion opportunity distribution to assess upsell/cross-sell pipeline health.",
+      "requiredData": "Columns: [Opportunity Type], [Opportunity Stage], [Opportunity Name], [Opportunity ACV]. Filters: [Opportunity Type] contains 'expansion'.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Type] contains the word 'expansion'. Include columns [Opportunity Stage], [Opportunity Name], and [Opportunity ACV].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.6",
+      "title": "Fetch 8.6: High-Value Opportunities (ACV > $100K) by Stage",
+      "objective": "Identify distribution of high-value opportunities to focus executive attention.",
+      "requiredData": "Columns: [Opportunity Stage], [Opportunity Name], [Opportunity ACV], [Opportunity Owner Team]. Filters: [Opportunity ACV] > 100000, [Opportunity Stage] not in ('s7 closed won', 's7 closed lost').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity ACV] is greater than 100000 and [Opportunity Stage] is not 's7 closed won' and not 's7 closed lost'. Include columns [Opportunity Stage], [Opportunity Name], [Opportunity ACV], and [Opportunity Owner Team].",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "1.1.1",
+      "title": "Analysis 1.1.1: Calculate Total EMEA Opportunity Count",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "What is the total volume of opportunities currently in the EMEA pipeline?",
+      "analysisPrompt": "Using the fetched EMEA opportunity data, calculate the total count of opportunities across all EMEA teams. Provide this as the baseline pipeline volume metric and state: 'Total EMEA pipeline contains [X] opportunities across all regional teams.'",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "1.1.2",
+      "title": "Analysis 1.1.2: Identify Top 3 EMEA Teams by Volume",
+      "groupBy": "[Opportunity Owner Team]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "Which EMEA teams have the highest opportunity volumes?",
+      "analysisPrompt": "Group the fetched data by [Opportunity Owner Team] and count opportunities for each team. Identify and report the top 3 teams with the highest opportunity counts. Format as: 'Top 3 EMEA teams by volume: 1) [Team A] with [X] opportunities, 2) [Team B] with [Y] opportunities, 3) [Team C] with [Z] opportunities. This indicates where pipeline activity is concentrated.'",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "1.2.1",
+      "title": "Analysis 1.2.1: Calculate Total Pipeline ACV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total Annual Contract Value of the EMEA pipeline?",
+      "analysisPrompt": "Using the fetched data, calculate the sum of [Opportunity ACV] across all EMEA opportunities. Report as: 'Total EMEA pipeline ACV is $[X], representing the total annual revenue potential if all opportunities close successfully.'",
+      "fetchStepId": "1.2",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "1.3.1",
+      "title": "Analysis 1.3.1: Calculate Total Booked ACV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity Booked ACV]",
+      "question": "What is the total actual revenue from closed won opportunities?",
+      "analysisPrompt": "Using the fetched closed won opportunity data, calculate the sum of [Opportunity Booked ACV]. Report as: 'Total booked ACV from closed won opportunities is $[X], representing actual revenue generated by the EMEA sales organization.'",
+      "fetchStepId": "1.3",
+      "phaseNumber": 1,
+      "phaseTitle": "Executive Pipeline Health Overview"
+    },
+    {
+      "stepId": "2.1.1",
+      "title": "Analysis 2.1.1: Count Total Unassigned Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities currently lack Sales Engineer assignment?",
+      "analysisPrompt": "Count the total number of opportunities in the fetched data. Report as: '[X] opportunities are currently unassigned to any Sales Engineer, representing a critical resource allocation gap that may impede deal progression.'",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.1.2",
+      "title": "Analysis 2.1.2: Calculate Revenue at Risk from Unassigned Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total ACV value at risk due to missing SE assignments?",
+      "analysisPrompt": "Calculate the sum of [Opportunity ACV] for all unassigned opportunities. Report as: '$[X] in ACV is at risk due to missing SE assignments. This represents [Y%] of total pipeline (calculate percentage if baseline ACV is known from Phase 1). Immediate action required to assign resources.'",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.2.1",
+      "title": "Analysis 2.2.1: Count S1 Opportunities Without SE Assignment",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S1 discovery stage opportunities lack SE assignment?",
+      "analysisPrompt": "Count the opportunities in S1 discovery stage without SE assignment. Report as: '[X] opportunities in S1 discovery stage lack SE assignment. These early-stage opportunities require immediate SE allocation to ensure proper technical discovery and qualification.'",
+      "fetchStepId": "2.2",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.2.2",
+      "title": "Analysis 2.2.2: Identify Teams with Most S1 Unassigned Opportunities",
+      "groupBy": "[Opportunity Owner Team]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "Which EMEA teams have the most S1 discovery opportunities without SE support?",
+      "analysisPrompt": "Group by [Opportunity Owner Team] and count opportunities. Identify the top 3 teams with the most unassigned S1 opportunities. Report as: 'Teams with highest S1 unassigned counts: [Team A] - [X] opportunities, [Team B] - [Y] opportunities, [Team C] - [Z] opportunities. These teams require priority SE resource allocation.'",
+      "fetchStepId": "2.2",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.3.1",
+      "title": "Analysis 2.3.1: Count Unassigned Renewal Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many renewal opportunities lack SE assignment?",
+      "analysisPrompt": "Count the total renewal opportunities without SE assignment. Report as: '[X] renewal opportunities lack SE assignment, representing customer retention risk. Renewals require technical validation and relationship management to prevent churn.'",
+      "fetchStepId": "2.3",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.3.2",
+      "title": "Analysis 2.3.2: Calculate Renewal ACV at Risk",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total renewal ACV at risk due to missing SE assignments?",
+      "analysisPrompt": "Calculate the sum of [Opportunity ACV] for unassigned renewal opportunities. Report as: '$[X] in renewal ACV is at risk due to missing SE assignments. This existing revenue requires immediate attention to prevent customer churn.'",
+      "fetchStepId": "2.3",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.4.1",
+      "title": "Analysis 2.4.1: Count M0 Stage Unassigned Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many M0 stage opportunities lack SE assignment?",
+      "analysisPrompt": "Count M0 stage opportunities without SE assignment. Report as: '[X] opportunities in M0 stage lack SE assignment. While early-stage, these opportunities may need SE triage to assess technical fit and prioritize resource allocation.'",
+      "fetchStepId": "2.4",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.5.1",
+      "title": "Analysis 2.5.1: Count M1 Stage Unassigned Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many M1 stage opportunities lack SE assignment?",
+      "analysisPrompt": "Count M1 stage opportunities without SE assignment. Report as: '[X] opportunities in M1 stage lack SE assignment. These opportunities are progressing and require SE engagement for technical qualification.'",
+      "fetchStepId": "2.5",
+      "phaseNumber": 2,
+      "phaseTitle": "Pipeline Hygiene Assessment - Unassigned Opportunities"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Analysis 3.1.1: Calculate EMEA Benelux Total TCV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "What is the total contract value for the EMEA Benelux team?",
+      "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA Benelux. Report as: 'EMEA Benelux team has $[X] in total contract value, representing their complete pipeline value including multi-year deals.'",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.1.2",
+      "title": "Analysis 3.1.2: Count EMEA Benelux Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities does the EMEA Benelux team have?",
+      "analysisPrompt": "Count the total opportunities for EMEA Benelux. Report as: 'EMEA Benelux team manages [X] opportunities.'",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.2.1",
+      "title": "Analysis 3.2.1: Calculate EMEA DACH Total TCV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "What is the total contract value for the EMEA DACH team?",
+      "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA DACH. Report as: 'EMEA DACH team has $[X] in total contract value.'",
+      "fetchStepId": "3.2",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.2.2",
+      "title": "Analysis 3.2.2: Count EMEA DACH Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities does the EMEA DACH team have?",
+      "analysisPrompt": "Count the total opportunities for EMEA DACH. Report as: 'EMEA DACH team manages [X] opportunities.'",
+      "fetchStepId": "3.2",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.3.1",
+      "title": "Analysis 3.3.1: Calculate EMEA UKI Total TCV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "What is the total contract value for the EMEA UKI team?",
+      "analysisPrompt": "Calculate the sum of [Opportunity TCV] for EMEA UKI. Report as: 'EMEA UKI team has $[X] in total contract value.'",
+      "fetchStepId": "3.3",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.3.2",
+      "title": "Analysis 3.3.2: Count EMEA UKI Opportunities",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities does the EMEA UKI team have?",
+      "analysisPrompt": "Count the total opportunities for EMEA UKI. Report as: 'EMEA UKI team manages [X] opportunities.'",
+      "fetchStepId": "3.3",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.4.1",
+      "title": "Analysis 3.4.1: Calculate Total TCV Across Commercial Teams",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "What is the combined total contract value for all EMEA Commercial teams?",
+      "analysisPrompt": "Calculate the sum of [Opportunity TCV] across all commercial teams. Report as: 'EMEA Commercial teams (combined) have $[X] in total contract value.'",
+      "fetchStepId": "3.4",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.4.2",
+      "title": "Analysis 3.4.2: Compare TCV by Commercial Sub-Team",
+      "groupBy": "[Opportunity Owner Team]",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "How does TCV compare across the different EMEA Commercial sub-teams?",
+      "analysisPrompt": "Group by [Opportunity Owner Team] and sum [Opportunity TCV] for each commercial sub-team. Report as: 'TCV distribution across commercial teams: [Team 1]: $[X], [Team 2]: $[Y], [Team 3]: $[Z]. This shows pipeline concentration within the commercial organization.'",
+      "fetchStepId": "3.4",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "3.5.1",
+      "title": "Analysis 3.5.1: Rank EMEA Teams by Total Contract Value",
+      "groupBy": "[Opportunity Owner Team]",
+      "aggregation": "Sum of [Opportunity TCV]",
+      "question": "Which EMEA teams have the highest and lowest total contract values?",
+      "analysisPrompt": "Group by [Opportunity Owner Team] and sum [Opportunity TCV]. Rank teams from highest to lowest TCV. Report as: 'EMEA team TCV ranking: 1) [Team A] - $[X], 2) [Team B] - $[Y], ... Bottom performer: [Team Z] - $[N]. This identifies which teams are carrying the largest pipeline value and which may need support or have capacity for more opportunities.'",
+      "fetchStepId": "3.5",
+      "phaseNumber": 3,
+      "phaseTitle": "Regional Performance Analysis"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Analysis 4.1.1: Calculate Average New Customer Conversion Rate",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Average of [Opportunity S2 To S7 Conversion]",
+      "question": "What is the average conversion rate from S2 to S7 for new customer opportunities?",
+      "analysisPrompt": "Calculate the average of [Opportunity S2 To S7 Conversion] for new customer opportunities. Report as: 'New customer opportunities convert from S2 to S7 at an average rate of [X]%. This represents sales effectiveness in closing net-new business and is a critical metric for growth.'",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.2.1",
+      "title": "Analysis 4.2.1: Compare Conversion Rates by Opportunity Type",
+      "groupBy": "[Opportunity Type]",
+      "aggregation": "Average of [Opportunity S2 To S7 Conversion]",
+      "question": "How do conversion rates differ across opportunity types (new customer, expansion, renewal)?",
+      "analysisPrompt": "Group by [Opportunity Type] and calculate the average [Opportunity S2 To S7 Conversion] for each type. Report as: 'S2 to S7 conversion rates by opportunity type: New Customer: [X]%, Expansion: [Y]%, Renewal: [Z]%. [Identify highest and lowest]. This reveals which motion (new logo, expansion, renewal) has the strongest sales execution.'",
+      "fetchStepId": "4.2",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.3.1",
+      "title": "Analysis 4.3.1: Count Opportunities in S2 Stage",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities are currently in S2 stage across EMEA?",
+      "analysisPrompt": "Count the total opportunities in S2 stage. Report as: '[X] opportunities are currently in S2 stage, representing the volume entering the mid-pipeline conversion funnel. These opportunities are critical to monitor for progression to S7.'",
+      "fetchStepId": "4.3",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.3.2",
+      "title": "Analysis 4.3.2: Calculate Total ACV in S2 Stage",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total ACV value of opportunities in S2 stage?",
+      "analysisPrompt": "Sum the [Opportunity ACV] for all S2 stage opportunities. Report as: '$[X] in ACV is currently in S2 stage. Based on average conversion rates from Analysis 4.1.1 or 4.2.1, this represents approximately $[Y] in potential closed revenue (calculate as ACV × conversion rate).'",
+      "fetchStepId": "4.3",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "4.4.1",
+      "title": "Analysis 4.4.1: Count Closed Won Opportunities by Type",
+      "groupBy": "[Opportunity Type]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities have been closed won, broken down by opportunity type?",
+      "analysisPrompt": "Group by [Opportunity Type] and count closed won opportunities. Report as: 'Closed won opportunity count by type: New Customer: [X], Expansion: [Y], Renewal: [Z]. This shows the volume of wins across different sales motions.'",
+      "fetchStepId": "4.4",
+      "phaseNumber": 4,
+      "phaseTitle": "Conversion Rate and Pipeline Progression Analysis"
+    },
+    {
+      "stepId": "5.1.1",
+      "title": "Analysis 5.1.1: Calculate Total EMEA SE Activity Hours",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Activity Hours]",
+      "question": "What is the total number of hours logged by EMEA Sales Engineers?",
+      "analysisPrompt": "Calculate the sum of [Activity Hours] across all named EMEA SEs. Report as: 'EMEA Sales Engineers have logged a total of [X] activity hours, representing the overall SE capacity utilization in the region.'",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.1.2",
+      "title": "Analysis 5.1.2: Compare Activity Hours by Individual SE",
+      "groupBy": "[Opportunity Owner SE Name]",
+      "aggregation": "Sum of [Activity Hours]",
+      "question": "How do activity hours compare across individual EMEA Sales Engineers?",
+      "analysisPrompt": "Group by [Opportunity Owner SE Name] and sum [Activity Hours] for each SE. Rank from highest to lowest. Report as: 'SE activity hours distribution: [SE A]: [X] hours, [SE B]: [Y] hours, ... [SE Z]: [N] hours. Identify the highest and lowest: [SE Name] is logging the most hours at [X] (potential overload), while [SE Name] has the lowest at [N] hours (potential capacity or underutilization). This indicates workload balance issues requiring attention.'",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.2.1",
+      "title": "Analysis 5.2.1: Count Opportunities per SE",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities is each Sales Engineer supporting?",
+      "analysisPrompt": "Group by [Opportunity SE Name] and count opportunities. Identify SEs with the highest and lowest opportunity counts. Report as: 'Opportunity distribution across SEs: [SE A] supports [X] opportunities (highest), [SE B] supports [Y] opportunities, ... [SE Z] supports [N] opportunities (lowest). Average is [AVG] opportunities per SE. High variance suggests uneven workload distribution.'",
+      "fetchStepId": "5.2",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.3.1",
+      "title": "Analysis 5.3.1: Calculate Revenue Contribution by SE",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Sum of [Opportunity Booked ACV]",
+      "question": "How much booked ACV has each Sales Engineer contributed to?",
+      "analysisPrompt": "Group by [Opportunity SE Name] and sum [Opportunity Booked ACV]. Rank SEs by revenue contribution. Report as: 'SE revenue contribution (Booked ACV): [SE A] contributed to $[X] in wins, [SE B] contributed to $[Y], ... This measures SE effectiveness in driving deals to close. Top performers should be recognized and their practices shared.'",
+      "fetchStepId": "5.3",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.3.2",
+      "title": "Analysis 5.3.2: Count Closed Won Opportunities by SE",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities has each Sales Engineer helped close?",
+      "analysisPrompt": "Group by [Opportunity SE Name] and count closed won opportunities. Report as: 'SE win count: [SE A] contributed to [X] closed deals, [SE B] to [Y] deals, ... This measures SE involvement in successful outcomes regardless of deal size.'",
+      "fetchStepId": "5.3",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "5.4.1",
+      "title": "Analysis 5.4.1: Calculate Total Field Opportunity ACV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Field Opportunity ACV]",
+      "question": "What is the total Field Opportunity ACV for closed won deals?",
+      "analysisPrompt": "Calculate the sum of [Field Opportunity ACV] for all closed won opportunities. Report as: 'Total Field Opportunity ACV for closed won deals is $[X]. This represents the field operations view of revenue and should align closely with Opportunity Booked ACV from previous analysis (Phase 1, Step 1.3.1) for data validation.'",
+      "fetchStepId": "5.4",
+      "phaseNumber": 5,
+      "phaseTitle": "Sales Engineer Resource Allocation and Performance"
+    },
+    {
+      "stepId": "6.1.1",
+      "title": "Analysis 6.1.1: Count Completed PoV Deliverables",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Vivun Deliverables Count]",
+      "question": "How many Proof of Value engagements have been completed?",
+      "analysisPrompt": "Calculate the sum of [Vivun Deliverables Count] for finished PoV deliverables. Report as: '[X] Proof of Value engagements have been completed. PoVs represent significant pre-sales investment and are critical for validating technical fit and driving deal progression.'",
+      "fetchStepId": "6.1",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.2.1",
+      "title": "Analysis 6.2.1: Count Completed Trial Deliverables",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Vivun Deliverables Count]",
+      "question": "How many trial engagements have been completed?",
+      "analysisPrompt": "Calculate the sum of [Vivun Deliverables Count] for finished trial deliverables. Report as: '[X] trial engagements have been completed. Trials provide hands-on product experience and are an important pre-sales tool.'",
+      "fetchStepId": "6.2",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.3.1",
+      "title": "Analysis 6.3.1: Count PoV Opportunities that Closed Won",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities with completed PoVs resulted in closed won deals?",
+      "analysisPrompt": "Count opportunities that had finished PoVs and closed won. Report as: '[X] opportunities with completed PoVs resulted in closed won deals. To calculate PoV win rate, divide this by the total completed PoVs from Analysis 6.1.1: Win rate = [X won] / [Y total PoVs] = [Z]%. This measures the effectiveness of PoV engagements in driving deal success.'",
+      "fetchStepId": "6.3",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.3.2",
+      "title": "Analysis 6.3.2: Calculate Revenue from PoV-Supported Wins",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity Booked ACV]",
+      "question": "What is the total booked ACV from opportunities that completed PoVs and closed won?",
+      "analysisPrompt": "Sum [Opportunity Booked ACV] for PoV-supported closed won opportunities. Report as: '$[X] in booked ACV came from opportunities that completed PoV engagements. This represents the revenue impact of technical pre-sales investment and justifies PoV resource allocation.'",
+      "fetchStepId": "6.3",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.4.1",
+      "title": "Analysis 6.4.1: Count Trial Opportunities that Closed Won",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many opportunities with completed trials resulted in closed won deals?",
+      "analysisPrompt": "Count opportunities that had finished trials and closed won. Report as: '[X] opportunities with completed trials resulted in closed won deals. Trial conversion rate = [X won] / [Y total trials from Analysis 6.2.1] = [Z]%. This measures trial effectiveness in converting prospects to customers.'",
+      "fetchStepId": "6.4",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "6.4.2",
+      "title": "Analysis 6.4.2: Calculate Revenue from Trial-Supported Wins",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity Booked ACV]",
+      "question": "What is the total booked ACV from opportunities that completed trials and closed won?",
+      "analysisPrompt": "Sum [Opportunity Booked ACV] for trial-supported closed won opportunities. Report as: '$[X] in booked ACV came from opportunities that completed trial engagements. Compare this to PoV-supported revenue (Analysis 6.3.2) to understand which pre-sales motion generates more revenue.'",
+      "fetchStepId": "6.4",
+      "phaseNumber": 6,
+      "phaseTitle": "Pre-Sales Effectiveness - PoV and Trial Analysis"
+    },
+    {
+      "stepId": "7.1.1",
+      "title": "Analysis 7.1.1: Calculate Total MQLs for EMEA Benelux",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "How many Marketing Qualified Leads have been generated in the EMEA Benelux region?",
+      "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Benelux. Report as: 'EMEA Benelux has generated [X] Marketing Qualified Leads, representing top-of-funnel marketing performance in this region.'",
+      "fetchStepId": "7.1",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.2.1",
+      "title": "Analysis 7.2.1: Calculate Total MQLs for EMEA DACH",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "How many Marketing Qualified Leads have been generated in the EMEA DACH region?",
+      "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA DACH. Report as: 'EMEA DACH has generated [X] Marketing Qualified Leads.'",
+      "fetchStepId": "7.2",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.3.1",
+      "title": "Analysis 7.3.1: Calculate Total MQLs for EMEA Nordic",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "How many Marketing Qualified Leads have been generated in the EMEA Nordic region?",
+      "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Nordic. Report as: 'EMEA Nordic has generated [X] Marketing Qualified Leads.'",
+      "fetchStepId": "7.3",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.4.1",
+      "title": "Analysis 7.4.1: Calculate Total MQLs for EMEA Western Europe",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "How many Marketing Qualified Leads have been generated in the EMEA Western Europe region?",
+      "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Western Europe. Report as: 'EMEA Western Europe has generated [X] Marketing Qualified Leads.'",
+      "fetchStepId": "7.4",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.5.1",
+      "title": "Analysis 7.5.1: Calculate Total MQLs for EMEA Commercial",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "How many Marketing Qualified Leads have been generated in the EMEA Commercial region?",
+      "analysisPrompt": "Calculate the sum of [Person Mqls Count] for EMEA Commercial. Report as: 'EMEA Commercial has generated [X] Marketing Qualified Leads.'",
+      "fetchStepId": "7.5",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "7.6.1",
+      "title": "Analysis 7.6.1: Compare MQL Generation Across EMEA Regions",
+      "groupBy": "[Person Account Region]",
+      "aggregation": "Sum of [Person Mqls Count]",
+      "question": "Which EMEA regions are generating the most and least Marketing Qualified Leads?",
+      "analysisPrompt": "Group by [Person Account Region] and sum [Person Mqls Count]. Rank regions from highest to lowest MQL generation. Report as: 'MQL generation by EMEA region: 1) [Region A]: [X] MQLs, 2) [Region B]: [Y] MQLs, ... Lowest: [Region Z]: [N] MQLs. Regions with low MQL counts may indicate marketing investment gaps or market maturity differences. Strong MQL generation should correlate with healthy pipeline volume (cross-reference with Phase 1 and Phase 3 findings).'",
+      "fetchStepId": "7.6",
+      "phaseNumber": 7,
+      "phaseTitle": "Lead Generation and Marketing Performance"
+    },
+    {
+      "stepId": "8.1.1",
+      "title": "Analysis 8.1.1: Count Opportunities by Pipeline Stage",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How are opportunities distributed across pipeline stages?",
+      "analysisPrompt": "Group by [Opportunity Stage] and count opportunities in each stage. Report as: 'Opportunity distribution by stage: M0: [X], M1: [Y], S1: [Z], S2: [A], S3: [B], S4: [C], S5: [D], S6: [E], S7 Closed Won: [F], S7 Closed Lost: [G]. Identify stages with unusual concentrations (bottlenecks) or unexpectedly low counts (leakage points). Healthy pipelines show progressive narrowing from early to late stages.'",
+      "fetchStepId": "8.1",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.2.1",
+      "title": "Analysis 8.2.1: Count Open Opportunities with Positive ACV",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many open opportunities have positive ACV values?",
+      "analysisPrompt": "Count all open opportunities with positive ACV. Report as: '[X] open opportunities have positive ACV values, representing active revenue-generating deals in the pipeline that require ongoing management.'",
+      "fetchStepId": "8.2",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.2.2",
+      "title": "Analysis 8.2.2: Calculate Total ACV of Open Pipeline",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total ACV value of the open pipeline?",
+      "analysisPrompt": "Sum [Opportunity ACV] for all open opportunities. Report as: 'Total open pipeline ACV is $[X], representing the active revenue potential requiring sales team focus. Compare this to closed won ACV (from Phase 1, Step 1.3.1) to understand pipeline-to-revenue ratio.'",
+      "fetchStepId": "8.2",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.3.1",
+      "title": "Analysis 8.3.1: Count Early-Stage New Customer Opportunities",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many new customer opportunities are in early pipeline stages?",
+      "analysisPrompt": "Group by [Opportunity Stage] and count new customer opportunities in M0, M1, and S1. Report as: 'Early-stage new customer pipeline: M0: [X] opportunities, M1: [Y] opportunities, S1 Discovery: [Z] opportunities. Total: [SUM] early-stage new customer opportunities. This indicates the health of new logo acquisition pipeline.'",
+      "fetchStepId": "8.3",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.4.1",
+      "title": "Analysis 8.4.1: Count Renewal Opportunities by Stage",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How are renewal opportunities distributed across pipeline stages?",
+      "analysisPrompt": "Group by [Opportunity Stage] and count renewal opportunities. Report as: 'Renewal opportunity distribution: [Stage A]: [X], [Stage B]: [Y], ... S7 Closed Won: [Z]. Renewal opportunities should progress quickly through stages. Any renewals stuck in early stages (M0, M1, S1) indicate customer health issues requiring immediate attention.'",
+      "fetchStepId": "8.4",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.4.2",
+      "title": "Analysis 8.4.2: Calculate Total Renewal ACV in Pipeline",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total ACV value of renewal opportunities in the pipeline?",
+      "analysisPrompt": "Sum [Opportunity ACV] for all renewal opportunities. Report as: '$[X] in renewal ACV is in the pipeline, representing revenue at risk if renewals do not close successfully. This is existing customer revenue that must be protected.'",
+      "fetchStepId": "8.4",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.5.1",
+      "title": "Analysis 8.5.1: Count Expansion Opportunities by Stage",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How are expansion opportunities distributed across pipeline stages?",
+      "analysisPrompt": "Group by [Opportunity Stage] and count expansion opportunities. Report as: 'Expansion opportunity distribution: [Stage A]: [X], [Stage B]: [Y], ... S7 Closed Won: [Z]. Healthy expansion pipelines indicate strong customer success and land-and-expand strategy execution.'",
+      "fetchStepId": "8.5",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.5.2",
+      "title": "Analysis 8.5.2: Calculate Total Expansion ACV in Pipeline",
+      "groupBy": "None (total aggregate)",
+      "aggregation": "Sum of [Opportunity ACV]",
+      "question": "What is the total ACV value of expansion opportunities?",
+      "analysisPrompt": "Sum [Opportunity ACV] for all expansion opportunities. Report as: '$[X] in expansion ACV is in the pipeline, representing growth potential from existing customers. Compare to new customer and renewal ACV to understand pipeline composition.'",
+      "fetchStepId": "8.5",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.6.1",
+      "title": "Analysis 8.6.1: Count High-Value Opportunities by Stage",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How are high-value opportunities (>$100K ACV) distributed across stages?",
+      "analysisPrompt": "Group by [Opportunity Stage] and count opportunities with ACV > $100K. Report as: 'High-value opportunity (>$100K ACV) distribution: [Stage A]: [X] deals, [Stage B]: [Y] deals, ... Total: [Z] high-value opportunities in active pipeline. These deals require executive sponsorship and close monitoring.'",
+      "fetchStepId": "8.6",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    },
+    {
+      "stepId": "8.6.2",
+      "title": "Analysis 8.6.2: Identify Teams with Most High-Value Opportunities",
+      "groupBy": "[Opportunity Owner Team]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "Which teams have the most high-value opportunities?",
+      "analysisPrompt": "Group by [Opportunity Owner Team] and count high-value opportunities. Report as: 'Teams with most high-value opportunities: [Team A]: [X] deals, [Team B]: [Y] deals, [Team C]: [Z] deals. These teams are managing the most strategic deals and may require additional executive support or resources.'",
+      "fetchStepId": "8.6",
+      "phaseNumber": 8,
+      "phaseTitle": "Pipeline Health and Deal Velocity Indicators"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [
+      "1.1.1",
+      "1.1.2"
+    ],
+    "1.2": [
+      "1.2.1"
+    ],
+    "1.3": [
+      "1.3.1"
+    ],
+    "2.1": [
+      "2.1.1",
+      "2.1.2"
+    ],
+    "2.2": [
+      "2.2.1",
+      "2.2.2"
+    ],
+    "2.3": [
+      "2.3.1",
+      "2.3.2"
+    ],
+    "2.4": [
+      "2.4.1"
+    ],
+    "2.5": [
+      "2.5.1"
+    ],
+    "3.1": [
+      "3.1.1",
+      "3.1.2"
+    ],
+    "3.2": [
+      "3.2.1",
+      "3.2.2"
+    ],
+    "3.3": [
+      "3.3.1",
+      "3.3.2"
+    ],
+    "3.4": [
+      "3.4.1",
+      "3.4.2"
+    ],
+    "3.5": [
+      "3.5.1"
+    ],
+    "4.1": [
+      "4.1.1"
+    ],
+    "4.2": [
+      "4.2.1"
+    ],
+    "4.3": [
+      "4.3.1",
+      "4.3.2"
+    ],
+    "4.4": [
+      "4.4.1"
+    ],
+    "5.1": [
+      "5.1.1",
+      "5.1.2"
+    ],
+    "5.2": [
+      "5.2.1"
+    ],
+    "5.3": [
+      "5.3.1",
+      "5.3.2"
+    ],
+    "5.4": [
+      "5.4.1"
+    ],
+    "6.1": [
+      "6.1.1"
+    ],
+    "6.2": [
+      "6.2.1"
+    ],
+    "6.3": [
+      "6.3.1",
+      "6.3.2"
+    ],
+    "6.4": [
+      "6.4.1",
+      "6.4.2"
+    ],
+    "7.1": [
+      "7.1.1"
+    ],
+    "7.2": [
+      "7.2.1"
+    ],
+    "7.3": [
+      "7.3.1"
+    ],
+    "7.4": [
+      "7.4.1"
+    ],
+    "7.5": [
+      "7.5.1"
+    ],
+    "7.6": [
+      "7.6.1"
+    ],
+    "8.1": [
+      "8.1.1"
+    ],
+    "8.2": [
+      "8.2.1",
+      "8.2.2"
+    ],
+    "8.3": [
+      "8.3.1"
+    ],
+    "8.4": [
+      "8.4.1",
+      "8.4.2"
+    ],
+    "8.5": [
+      "8.5.1",
+      "8.5.2"
+    ],
+    "8.6": [
+      "8.6.1",
+      "8.6.2"
+    ]
+  }
+}

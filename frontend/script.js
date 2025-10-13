@@ -233,11 +233,32 @@ function saveConfiguration() {
         return;
     }
     
+    // Validate required fields
+    const worksheetId = document.getElementById('worksheet_id').value.trim();
+    
+    if (!worksheetId || worksheetId === 'NA') {
+        showMessage('❌ Worksheet ID is required. Please enter a valid Worksheet ID before saving the configuration.', 'error');
+        document.getElementById('worksheet_id').focus();
+        
+        // Highlight the worksheet ID field
+        const worksheetField = document.getElementById('worksheet_id');
+        worksheetField.style.borderColor = '#ff4444';
+        worksheetField.style.boxShadow = '0 0 5px rgba(255, 68, 68, 0.5)';
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+            worksheetField.style.borderColor = '';
+            worksheetField.style.boxShadow = '';
+        }, 3000);
+        
+        return;
+    }
+    
     // Collect form data
     const formData = {
         tml_filename: 'NA', // Always set to NA as per requirement
         liveboard_id: document.getElementById('liveboard_id').value || 'NA',
-        worksheet_id: document.getElementById('worksheet_id').value || 'NA',
+        worksheet_id: worksheetId,
         kpi: document.getElementById('kpi').value || 'NA',
         attributes: document.getElementById('attributes').value || 'NA',
         aggregations: document.getElementById('aggregations').value || 'NA',
@@ -378,6 +399,9 @@ function addToAutoFillLog(message) {
 function startAutoFillProgressStreaming(sessionId, scenarioName) {
     console.log(`🔄 Starting auto-fill progress stream for session: ${sessionId}`);
     
+    // Reset heartbeat counter for new session
+    window.heartbeatCounter = 0;
+    
     const eventSource = new EventSource(`http://localhost:5000/api/create-scenario-progress/${sessionId}`);
     
     eventSource.onmessage = function(event) {
@@ -414,7 +438,12 @@ function startAutoFillProgressStreaming(sessionId, scenarioName) {
                 
             } else if (data.heartbeat) {
                 console.log('💓 Heartbeat received');
+                // Show processing message only every 5 heartbeats to reduce noise
+                if (!window.heartbeatCounter) window.heartbeatCounter = 0;
+                window.heartbeatCounter++;
+                if (window.heartbeatCounter % 5 === 0) {
                 addToAutoFillLog('⏳ Processing... (system is working)');
+                }
             }
             
         } catch (parseError) {
@@ -560,6 +589,27 @@ function exportConfiguration() {
         return;
     }
     
+    // Validate worksheet ID before exporting
+    const worksheetId = document.getElementById('worksheet_id').value.trim();
+    
+    if (!worksheetId || worksheetId === 'NA') {
+        showMessage('❌ Worksheet ID is required. Please enter a valid Worksheet ID before exporting the configuration.', 'error');
+        document.getElementById('worksheet_id').focus();
+        
+        // Highlight the worksheet ID field
+        const worksheetField = document.getElementById('worksheet_id');
+        worksheetField.style.borderColor = '#ff4444';
+        worksheetField.style.boxShadow = '0 0 5px rgba(255, 68, 68, 0.5)';
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+            worksheetField.style.borderColor = '';
+            worksheetField.style.boxShadow = '';
+        }, 3000);
+        
+        return;
+    }
+    
     // Save current form data first
     saveConfiguration();
     
@@ -620,6 +670,20 @@ function handleFileImport(event) {
 // Load scenarios from API
 async function loadScenariosFromAPI() {
     try {
+        // First try the dedicated scenarios endpoint
+        const scenariosResponse = await fetch('http://localhost:5000/api/scenarios');
+        const scenariosResult = await scenariosResponse.json();
+        
+        if (scenariosResult.success && scenariosResult.scenarios) {
+            // Store the available scenarios
+            window.availableScenarios = scenariosResult.scenarios;
+            console.log('✅ Loaded available scenarios from API:', window.availableScenarios);
+        } else {
+            console.warn('⚠️ Scenarios API failed, falling back to inputs data');
+            window.availableScenarios = ['pg', 'support', 'ta', 'cmo', 'test']; // fallback
+        }
+        
+        // Load the full inputs data for configuration
         const response = await fetch('http://localhost:5000/api/inputs');
         const result = await response.json();
         
@@ -636,6 +700,8 @@ async function loadScenariosFromAPI() {
         }
     } catch (error) {
         console.warn('⚠️ Could not load from API, using local sample data:', error.message);
+        // Fallback to hardcoded scenarios
+        window.availableScenarios = ['pg', 'support', 'ta', 'cmo', 'test'];
         return false;
     }
 }
@@ -677,17 +743,28 @@ function updateScenarioSelector() {
     // Clear existing options except the first one
     scenarioSelect.innerHTML = '<option value="">Select a scenario...</option>';
     
-    // Add scenarios from data (now loaded from API or local fallback)
+    // Get available scenarios from window.availableScenarios or fallback to data keys
+    const availableScenarios = window.availableScenarios || Object.keys(sampleData);
+    
+    // Create friendly names for scenarios
     const scenarioNames = {
         'pg': 'Product Growth (PG)',
         'support': 'Support',
         'ta': 'Talent Acquisition (TA)',
         'cmo': 'CMO',
-        'test': 'Test'
+        'test': 'Test',
+        'cmo_week_on_week': 'CMO Week on Week',
+        'tempa': 'Temp A',
+        'a': 'Scenario A',
+        'b': 'Scenario B', 
+        'd': 'Scenario D',
+        'e': 'Scenario E',
+        's': 'Scenario S',
+        'stg': 'Staging'
     };
     
-    Object.keys(sampleData).forEach(scenario => {
-        if (scenario !== 'stg') { // Skip staging data
+    availableScenarios.forEach(scenario => {
+        if (scenario !== 'stg' && (sampleData[scenario] || window.scenarioInputs?.[scenario])) { // Skip staging data
             const option = document.createElement('option');
             option.value = scenario;
             option.textContent = scenarioNames[scenario] || scenario.charAt(0).toUpperCase() + scenario.slice(1);
@@ -818,17 +895,28 @@ function updateAnalysisScenarioSelector() {
     // Clear existing options except the first one
     scenarioSelect.innerHTML = '<option value="">Choose a scenario to analyze...</option>';
     
-    // Add scenarios from data (loaded from API or local fallback)
+    // Get available scenarios from window.availableScenarios or fallback to data keys
+    const availableScenarios = window.availableScenarios || Object.keys(sampleData);
+    
+    // Create friendly names for scenarios
     const scenarioNames = {
         'pg': 'Product Growth (PG)',
         'support': 'Support',
         'ta': 'Talent Acquisition (TA)',
         'cmo': 'CMO',
-        'test': 'Test'
+        'test': 'Test',
+        'cmo_week_on_week': 'CMO Week on Week',
+        'tempa': 'Temp A',
+        'a': 'Scenario A',
+        'b': 'Scenario B', 
+        'd': 'Scenario D',
+        'e': 'Scenario E',
+        's': 'Scenario S',
+        'stg': 'Staging'
     };
     
-    Object.keys(sampleData).forEach(scenario => {
-        if (scenario !== 'stg') { // Skip staging data
+    availableScenarios.forEach(scenario => {
+        if (scenario !== 'stg' && (sampleData[scenario] || window.scenarioInputs?.[scenario])) { // Skip staging data
             const option = document.createElement('option');
             option.value = scenario;
             option.textContent = scenarioNames[scenario] || scenario.charAt(0).toUpperCase() + scenario.slice(1);
@@ -1016,6 +1104,9 @@ async function runAnalysis() {
         runButton.style.display = 'none';
         stopButton.style.display = 'inline-flex';
         
+        // Clear previous report data
+        window.latestAnalysisReport = null;
+        
         // Clear previous progress
         progressLog.innerHTML = '';
         
@@ -1140,8 +1231,15 @@ function startProgressStreaming(sessionId) {
                             <span style="color: #10b981; font-weight: 600;">${data.message}</span>
                         </div>
                     `;
+                    
+                    // Store the latest report content if available
+                    if (data.report_content) {
+                        window.latestAnalysisReport = data.report_content;
+                        window.latestAnalysisScenario = document.getElementById('analysis-scenario').value;
+                    }
+                    
                     resetAnalysisUI();
-                    showMessage('✅ Analysis completed successfully!', 'success');
+                    showMessage('✅ Analysis completed successfully! Click "View Analysis" to see the report.', 'success');
                     break;
                     
                 case 'error':
@@ -1242,18 +1340,414 @@ function resetAnalysisUI() {
 }
 
 // View results function
-function viewResults() {
+function viewAnalysis() {
     const selectedScenario = document.getElementById('analysis-scenario').value;
     
     if (!selectedScenario) {
-        showMessage('Please select a scenario first', 'error');
+        showMessage('Please select a scenario first to view analysis reports', 'warning');
         return;
     }
     
-    showMessage(`📊 Opening results for ${selectedScenario.toUpperCase()} scenario`, 'success');
+    console.log('🔍 ViewAnalysis clicked for scenario:', selectedScenario);
     
-    // TODO: Implement results viewing - could open a new tab or modal with results
-    console.log('View results for:', selectedScenario);
+    // Always show version selector modal (this handles both fresh and historical reports)
+    showVersionSelectorModal(selectedScenario);
+}
+
+function showNoReportsMessage(scenario) {
+    console.log('📝 No reports found, showing info message');
+    
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.className = 'modal-backdrop';
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    
+    modal.innerHTML = `
+        <div class="modal-header">
+            <h2>📊 No Analysis Reports Found</h2>
+            <button class="modal-close" onclick="document.body.removeChild(this.closest('.modal-backdrop'))">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="no-reports-message">
+                <p>No analysis reports were found for <strong>${scenario.toUpperCase()}</strong>.</p>
+                <p>Run an analysis first to generate reports that you can view here.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="secondary-btn" onclick="document.body.removeChild(this.closest('.modal-backdrop'))">Close</button>
+        </div>
+    `;
+    
+    modalBackdrop.appendChild(modal);
+    document.body.appendChild(modalBackdrop);
+    
+    // Close on backdrop click
+    modalBackdrop.onclick = (e) => {
+        if (e.target === modalBackdrop) {
+            document.body.removeChild(modalBackdrop);
+        }
+    };
+}
+
+async function showVersionSelectorModal(scenario) {
+    console.log('📋 Opening version selector for scenario:', scenario);
+    
+    try {
+        // Fetch available versions for this scenario
+        console.log('🌐 Fetching versions from API...');
+        const response = await fetch(`http://localhost:5000/api/versions/${scenario}`);
+        const result = await response.json();
+        
+        console.log('📊 API Response:', result);
+        
+        // Check if we have a fresh report from current session
+        const hasLatestReport = window.latestAnalysisReport && window.latestAnalysisScenario === scenario;
+        
+        // If no saved versions AND no fresh report, show helpful message
+        if ((!result.success || !result.versions || !result.versions.reports || result.versions.reports.length === 0) && !hasLatestReport) {
+            showNoReportsMessage(scenario);
+            return;
+        }
+        
+        const versions = result.versions && result.versions.reports ? result.versions.reports.sort((a, b) => b - a) : [];
+        console.log('📋 Available versions:', versions);
+        
+        // Create version selector modal
+        const modalBackdrop = document.createElement('div');
+        modalBackdrop.className = 'modal-backdrop';
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'modal-header';
+        modalHeader.innerHTML = `
+            <h2>Select Analysis Version - ${scenario.toUpperCase()}</h2>
+            <button class="modal-close" onclick="document.body.removeChild(this.closest('.modal-backdrop'))">&times;</button>
+        `;
+        
+        const modalBody = document.createElement('div');
+        modalBody.className = 'modal-body';
+        
+        const description = document.createElement('p');
+        description.textContent = 'Choose which analysis report you want to view:';
+        description.style.textAlign = 'center';
+        description.style.marginBottom = '20px';
+        
+        const versionList = document.createElement('div');
+        versionList.style.maxHeight = '300px';
+        versionList.style.overflowY = 'auto';
+        versionList.style.marginBottom = '20px';
+        
+        let optionIndex = 0;
+        
+        // Add "Latest" option if available
+        if (hasLatestReport) {
+            console.log('⚡ Adding latest report option');
+            const latestOption = document.createElement('div');
+            latestOption.className = 'version-option latest';
+            
+            latestOption.innerHTML = `
+                <div class="version-title latest">⚡ Latest (Current Session)</div>
+                <div class="version-description">Fresh analysis report from current session</div>
+            `;
+            
+            latestOption.addEventListener('click', () => {
+                document.body.removeChild(modalBackdrop);
+                showAnalysisReport(window.latestAnalysisReport, scenario, 'Latest');
+            });
+            
+            versionList.appendChild(latestOption);
+            optionIndex++;
+        }
+        
+        // Create version options for historical reports
+        versions.forEach((version, index) => {
+            const versionOption = document.createElement('div');
+            versionOption.className = 'version-option';
+            
+            versionOption.innerHTML = `
+                <div class="version-title">📊 Version ${version}</div>
+                <div class="version-description">Historical analysis report v${version.toString().padStart(3, '0')}</div>
+            `;
+            
+            // Add hover effects
+            versionOption.addEventListener('mouseenter', () => {
+                if (versionOption.style.borderColor !== 'rgb(0, 123, 255)') {
+                    versionOption.style.backgroundColor = '#f8f9fa';
+                    versionOption.style.borderColor = '#007bff';
+                }
+            });
+            
+            versionOption.addEventListener('mouseleave', () => {
+                if (versionOption.style.borderColor !== 'rgb(0, 123, 255)') {
+                    versionOption.style.backgroundColor = 'white';
+                    versionOption.style.borderColor = '#e9ecef';
+                }
+            });
+            
+            // Add click handler
+            versionOption.addEventListener('click', () => {
+                document.body.removeChild(modalBackdrop);
+                loadAndShowReport(scenario, version);
+            });
+            
+            versionList.appendChild(versionOption);
+        });
+        
+        // Create footer with buttons
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'modal-footer';
+        
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.className = 'secondary-btn';
+        cancelButton.onclick = () => document.body.removeChild(modalBackdrop);
+        
+        modalFooter.appendChild(cancelButton);
+        
+        // Assemble modal
+        modalBody.appendChild(description);
+        modalBody.appendChild(versionList);
+        
+        modal.appendChild(modalHeader);
+        modal.appendChild(modalBody);
+        modal.appendChild(modalFooter);
+        modalBackdrop.appendChild(modal);
+        
+        // Add to page
+        document.body.appendChild(modalBackdrop);
+        
+        // Close on backdrop click
+        modalBackdrop.onclick = (e) => {
+            if (e.target === modalBackdrop) {
+                document.body.removeChild(modalBackdrop);
+            }
+        };
+        
+    } catch (error) {
+        console.error('Error fetching versions:', error);
+        showMessage('Error loading analysis versions. Please try again.', 'error');
+    }
+}
+
+async function loadAndShowReport(scenario, version) {
+    try {
+        showMessage(`🔄 Loading analysis report v${version}...`, 'info');
+        
+        // Fetch the specific report content
+        const response = await fetch(`http://localhost:5000/api/report/${scenario}/${version}`);
+        const result = await response.json();
+        
+        if (result.success && result.report_content) {
+            showAnalysisReport(result.report_content, scenario, version);
+        } else {
+            // Fallback to show file location if API fails
+            showReportLocationDialog(scenario, version);
+        }
+    } catch (error) {
+        console.error('Error loading report:', error);
+        showMessage('Error loading report content. Showing file location instead.', 'warning');
+        showReportLocationDialog(scenario, version);
+    }
+}
+
+async function fetchLatestReport(scenario) {
+    try {
+        showMessage('🔄 Loading latest analysis report...', 'info');
+        
+        // Try to get the latest report from the scenario versions API
+        const response = await fetch(`http://localhost:5000/api/versions/${scenario}`);
+        const result = await response.json();
+        
+        if (result.success && result.versions && result.versions.reports && result.versions.reports.length > 0) {
+            // Get the latest report version
+            const latestVersion = Math.max(...result.versions.reports);
+            
+            // Try to read the report file (this would need a new API endpoint)
+            // For now, show message that report needs to be accessed from filesystem
+            showMessage(`📊 Latest analysis version: ${latestVersion}. Report files are located in backend/${scenario}/${scenario}_v${latestVersion.toString().padStart(3, '0')}/`, 'success');
+            
+            // Show a simple dialog with file location info
+            showReportLocationDialog(scenario, latestVersion);
+        } else {
+            showMessage('No analysis reports found. Please run an analysis first.', 'error');
+        }
+    } catch (error) {
+        console.error('Error fetching latest report:', error);
+        showMessage('Error loading report. Please try running a new analysis.', 'error');
+    }
+}
+
+function showReportLocationDialog(scenario, version) {
+    const versionStr = version.toString().padStart(3, '0');
+    const reportPath = `backend/${scenario}/${scenario}_v${versionStr}/${scenario}_report_*.txt`;
+    
+    // Create a simple info modal
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    `;
+    
+    modalContent.innerHTML = `
+        <h2 style="margin-top: 0; color: #333;">📊 Analysis Report Location</h2>
+        <p style="font-size: 16px; line-height: 1.6; color: #666;">
+            The latest analysis report for <strong>${scenario.toUpperCase()}</strong> (version ${version}) 
+            can be found at:
+        </p>
+        <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 15px; margin: 20px 0; font-family: monospace; word-break: break-all;">
+            ${reportPath}
+        </div>
+        <p style="font-size: 14px; color: #888;">
+            Click the file path in your file explorer to view the complete analysis report.
+        </p>
+        <button onclick="document.body.removeChild(this.closest('.modal-backdrop'))" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+            Close
+        </button>
+    `;
+    
+    modalBackdrop.className = 'modal-backdrop';
+    modalBackdrop.appendChild(modalContent);
+    document.body.appendChild(modalBackdrop);
+    
+    // Close on backdrop click
+    modalBackdrop.onclick = (e) => {
+        if (e.target === modalBackdrop) {
+            document.body.removeChild(modalBackdrop);
+        }
+    };
+}
+
+function showAnalysisReport(reportContent, scenario, version = null) {
+    // Create modal backdrop
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.className = 'modal-backdrop';
+    modalBackdrop.id = 'analysis-modal-backdrop';
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.width = '90%';
+    modal.style.maxWidth = '1000px';
+    modal.style.height = '80vh';
+    
+    // Create header
+    const header = document.createElement('div');
+    header.className = 'modal-header';
+    
+    const versionText = version ? ` - Version ${version}` : '';
+    header.innerHTML = `
+        <h2>Analysis Report - ${scenario.toUpperCase()}${versionText}</h2>
+        <button class="modal-close" onclick="document.body.removeChild(document.getElementById('analysis-modal-backdrop'))">&times;</button>
+    `;
+    
+    // Create body with report content
+    const body = document.createElement('div');
+    body.className = 'modal-body';
+    
+    const reportDiv = document.createElement('div');
+    reportDiv.className = 'report-content';
+    
+    // Process the report content to format it nicely
+    if (reportContent) {
+        // Convert plain text to HTML with basic formatting
+        let formattedContent = reportContent
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        
+        // Add paragraph tags if not already present
+        if (!formattedContent.includes('<p>')) {
+            formattedContent = `<p>${formattedContent}</p>`;
+        }
+        
+        reportDiv.innerHTML = formattedContent;
+    } else {
+        reportDiv.innerHTML = '<p>No report content available.</p>';
+    }
+    
+    body.appendChild(reportDiv);
+    
+    // Create footer with download button
+    const footer = document.createElement('div');
+    footer.className = 'modal-footer';
+    
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'primary-btn';
+    downloadBtn.textContent = '💾 Download Report';
+    downloadBtn.onclick = () => downloadReport(reportContent, scenario, version);
+    
+    const closeMainBtn = document.createElement('button');
+    closeMainBtn.className = 'secondary-btn';
+    closeMainBtn.textContent = 'Close';
+    closeMainBtn.onclick = () => document.body.removeChild(modalBackdrop);
+    
+    footer.appendChild(downloadBtn);
+    footer.appendChild(closeMainBtn);
+    
+    // Assemble modal
+    modal.appendChild(header);
+    modal.appendChild(body);
+    modal.appendChild(footer);
+    modalBackdrop.appendChild(modal);
+    
+    // Add to page
+    document.body.appendChild(modalBackdrop);
+    
+    // Close on backdrop click
+    modalBackdrop.onclick = (e) => {
+        if (e.target === modalBackdrop) {
+            document.body.removeChild(modalBackdrop);
+        }
+    };
+}
+
+function formatReportContent(content) {
+    // Convert plain text report to formatted HTML
+    return content
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/#{3}\s*(.*?)(?=\n|$)/g, '<h3>$1</h3>')
+        .replace(/#{2}\s*(.*?)(?=\n|$)/g, '<h2>$1</h2>')
+        .replace(/#{1}\s*(.*?)(?=\n|$)/g, '<h1>$1</h1>');
+}
+
+function downloadReport(content, scenario, version = null) {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    
+    const versionText = version ? `_v${version}` : '';
+    a.download = `${scenario}_analysis_report${versionText}_${new Date().toISOString().slice(0, 10)}.txt`;
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // Edit configuration function
@@ -1314,7 +1808,10 @@ document.addEventListener('input', function(e) {
         clearTimeout(autoSaveTimer);
         autoSaveTimer = setTimeout(() => {
             const scenarioSelect = document.getElementById('scenario');
-            if (scenarioSelect.value) {
+            const worksheetId = document.getElementById('worksheet_id').value.trim();
+            
+            // Only auto-save if scenario is selected and worksheet ID is provided
+            if (scenarioSelect.value && worksheetId && worksheetId !== 'NA') {
                 saveConfiguration();
             }
         }, 2000); // Auto-save after 2 seconds of no input

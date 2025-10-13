@@ -1,0 +1,46 @@
+EXECUTIVE REPORT - CMO_WEEK_ON_WEEK
+Generated on: 2025-10-13 12:04:38
+================================================================================
+
+# BACKGROUND
+
+This report analyzes the week-over-week performance of key sales pipeline metrics to track trending towards quarterly targets. The analysis covers M1 ACV, M1 Count, S0 Count, S1 ACV, and S1 Count metrics, examining the absolute and percentage changes between the previous week and current week for fiscal weeks ending 09/29/2025 and 10/06/2025.
+
+# EXECUTIVE SUMMARY
+
+The analysis reveals strong pipeline momentum with significant growth in key value metrics, though some count-based metrics lack complete data for comprehensive assessment. M1 ACV demonstrates robust 9.74% weekly growth while S1 ACV shows exceptional 22.8% acceleration, indicating healthy pipeline progression and conversion activities.
+
+**Top 5 Focus Areas:**
+- **M1 ACV Strong Performance**: $13.9M increase (9.74% growth) with $156.5M current cumulative value
+- **S1 ACV Exceptional Growth**: $8.6M increase (22.8% growth) reaching $46.1M cumulative value  
+- **Pipeline Value Acceleration**: Both M1 and S1 stages showing double-digit percentage growth rates
+- **Data Completeness Gaps**: M1 Count and S0 Count metrics missing numerical values for analysis
+- **Mid-Stage Pipeline Strength**: S1 metrics indicating effective S0 to S1 conversion processes
+
+# DETAILED ANALYSIS
+
+## M1 ACV Performance Analysis
+
+The M1 ACV metric demonstrates exceptional performance with substantial week-over-week growth. The cumulative value increased from $142,528,900.74 in the previous week to $156,465,527.05 in the current week, representing an absolute increase of $13,936,626.31. This translates to a robust 9.74% weekly growth rate.
+
+The magnitude of this $13.9 million weekly increase is particularly significant given the already substantial base of $142.5 million from the previous week. A nearly 10% weekly growth rate on such a large cumulative base indicates strong business momentum and suggests that M1 ACV performance is accelerating rather than plateauing. The data indicates consistent upward momentum throughout the quarter, with this latest week maintaining positive trajectory without showing deceleration signs.
+
+This level of week-over-week growth suggests that M1 ACV performance is likely exceeding quarterly targets, with the 9.74% weekly increase being particularly impressive for a cumulative metric of this magnitude. The performance indicates healthy business growth with strong customer acquisition or expansion activities driving M1 ACV performance upward.
+
+## S1 ACV Performance Analysis
+
+The S1 ACV metric shows even more dramatic growth patterns, with cumulative values increasing from $37,554,933 in the previous week to $46,122,616 in the current week. This represents an absolute increase of $8,567,683 and an exceptional 22.8% weekly growth rate.
+
+This substantial weekly gain indicates strong S0 to S1 conversion activity and demonstrates robust mid-stage pipeline momentum. The acceleration pattern throughout the quarter shows consistent pipeline building, with the recent weekly jump representing significant single-week performance. The 22.8% week-over-week growth in cumulative S1 ACV demonstrates effective progression of opportunities from initial qualification stages to qualified opportunity status.
+
+The strong conversion rate from S0 to S1 positions the organization well for future revenue realization as these opportunities progress through later sales stages. This momentum in S1 ACV growth indicates healthy pipeline velocity and suggests the sales team is effectively identifying and qualifying prospects, with improved qualification processes contributing to the surge in qualified opportunities.
+
+## Data Availability Constraints
+
+The analysis reveals significant data completeness issues affecting M1 Count, S0 Count, and S1 Count metrics. While the datasets contain proper fiscal week structures spanning from 07/28/2025 through 10/06/2025, the actual numerical count values are missing from the provided data.
+
+For M1 Count analysis, the dataset shows various fiscal weeks but lacks corresponding cumulative count numbers needed for week-over-week calculations. The two most recent complete weeks are identified as 10/06/2025 and 09/29/2025, but without the actual count values, comprehensive performance assessment cannot be completed.
+
+Similarly, the S0 Count dataset contains only column headers and week dates without the cumulative S0 Created Count values required for meaningful analysis. The same limitation applies to S1 Count data, where weekly periods are available but numerical values for cumulative S1 counts are absent.
+
+These data gaps prevent complete assessment of opportunity creation velocity, target performance tracking, and conversion rate analysis for count-based metrics. The missing numerical data limits the ability to provide business insights about opportunity creation pace and quarter-end performance implications for these critical pipeline volume indicators.

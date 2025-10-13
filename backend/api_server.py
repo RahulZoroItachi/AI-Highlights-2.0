@@ -42,6 +42,23 @@ def get_inputs():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
 
+@app.route('/api/scenarios')
+def get_scenarios():
+    """Get all available scenarios from inputs.json"""
+    try:
+        from inputs import get_available_scenarios
+        scenarios = get_available_scenarios()
+        
+        return jsonify({
+            "success": True,
+            "scenarios": scenarios
+        })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": f"Failed to get scenarios: {str(e)}"
+        })
+
 @app.route('/api/inputs', methods=['POST'])
 def update_inputs():
     """Update inputs.json with new data"""
@@ -237,7 +254,52 @@ def start_analysis():
                 
                 # Signal completion
                 if return_code == 0:
-                    output_queue.put("__ANALYSIS_COMPLETE__")
+                    # Try to read the latest report file for this scenario
+                    report_content = None
+                    try:
+                        import glob
+                        import os
+                        # Look for the most recent report file for this scenario
+                        analysis_scenario = None
+                        
+                        # Extract scenario from environment or process args if available
+                        for env_var in os.environ:
+                            if 'SCENARIO' in env_var or 'ANALYSIS_SCENARIO' in env_var:
+                                analysis_scenario = os.environ[env_var]
+                                break
+                        
+                        # If no scenario found in environment, try to extract from command line args
+                        if not analysis_scenario:
+                            output_queue.put(f"🔧 Debug: No scenario found in environment variables")
+                        
+                        if analysis_scenario:
+                            # Look for report files in scenario-specific directory
+                            report_pattern = f"{analysis_scenario}/{analysis_scenario}_v*/report_*.txt"
+                            report_files = glob.glob(report_pattern)
+                            
+                            if not report_files:
+                                # Try alternative pattern
+                                report_pattern = f"{analysis_scenario}/{analysis_scenario}_v*/{analysis_scenario}_report_*.txt"
+                                report_files = glob.glob(report_pattern)
+                            
+                            if report_files:
+                                # Get the most recent report file
+                                latest_report = max(report_files, key=os.path.getctime)
+                                with open(latest_report, 'r', encoding='utf-8') as f:
+                                    report_content = f.read()
+                                output_queue.put(f"🔧 Debug: Found report file: {latest_report}")
+                            else:
+                                output_queue.put(f"🔧 Debug: No report files found for scenario: {analysis_scenario}")
+                        else:
+                            output_queue.put(f"🔧 Debug: Could not determine scenario for report lookup")
+                    except Exception as report_error:
+                        output_queue.put(f"🔧 Debug: Error reading report: {report_error}")
+                    
+                    # Send completion with report content if available
+                    if report_content:
+                        output_queue.put(f"__ANALYSIS_COMPLETE__:{report_content}")
+                    else:
+                        output_queue.put("__ANALYSIS_COMPLETE__")
                 else:
                     output_queue.put(f"__ANALYSIS_ERROR__: Process exited with code {return_code}")
                     
@@ -284,7 +346,14 @@ def get_analysis_progress(session_id):
                 line = output_queue.get(timeout=1)
                 
                 if line.startswith("__ANALYSIS_COMPLETE__"):
-                    yield f"data: {json.dumps({'type': 'complete', 'message': 'Analysis completed successfully!'})}\n\n"
+                    # Check if there's report content included
+                    completion_data = {'type': 'complete', 'message': 'Analysis completed successfully!'}
+                    
+                    if ":" in line:
+                        report_content = line.split(":", 1)[1]
+                        completion_data['report_content'] = report_content
+                    
+                    yield f"data: {json.dumps(completion_data)}\n\n"
                     break
                 elif line.startswith("__ANALYSIS_ERROR__"):
                     error_msg = line.replace("__ANALYSIS_ERROR__: ", "")
@@ -351,6 +420,63 @@ def stop_analysis(session_id):
         print(f"❌ Error stopping analysis: {e}")
         return jsonify({"success": False, "error": str(e)})
 
+@app.route('/api/report/<scenario>/<int:version>', methods=['GET'])
+def get_report_content(scenario, version):
+    """Get the report content for a specific scenario and version"""
+    try:
+        import glob
+        from pathlib import Path
+        
+        # Look for report files in the scenario version directory
+        version_str = str(version).zfill(3)  # Convert to 3-digit format (e.g., 001, 002)
+        scenario_dir = Path(__file__).parent / scenario
+        
+        if not scenario_dir.exists():
+            return jsonify({
+                "success": False, 
+                "error": f"Scenario directory '{scenario}' not found"
+            })
+        
+        # Try different report file patterns
+        report_patterns = [
+            f"{scenario}_v{version_str}/{scenario}_report_*.txt",
+            f"{scenario}_v{version_str}/report_*.txt",
+            f"{scenario}_report_v{version_str}_*.txt"
+        ]
+        
+        report_file = None
+        for pattern in report_patterns:
+            report_files = list(scenario_dir.glob(pattern))
+            if report_files:
+                # Get the most recent report file if multiple exist
+                report_file = max(report_files, key=lambda f: f.stat().st_mtime)
+                break
+        
+        if not report_file or not report_file.exists():
+            return jsonify({
+                "success": False,
+                "error": f"Report file not found for {scenario} version {version}"
+            })
+        
+        # Read the report content
+        with open(report_file, 'r', encoding='utf-8') as f:
+            report_content = f.read()
+        
+        return jsonify({
+            "success": True,
+            "scenario": scenario,
+            "version": version,
+            "report_content": report_content,
+            "file_path": str(report_file.relative_to(Path(__file__).parent))
+        })
+        
+    except Exception as e:
+        print(f"❌ Error getting report content: {e}")
+        return jsonify({
+            "success": False,
+            "error": f"Error reading report: {str(e)}"
+        })
+
 @app.route('/api/versions/<scenario>', methods=['GET'])
 def get_scenario_versions(scenario):
     """Get available versions for a scenario"""
@@ -362,7 +488,8 @@ def get_scenario_versions(scenario):
         versions = {
             "plans": [],
             "data": [],
-            "analysis": []
+            "analysis": [],
+            "reports": []
         }
         
         # Find version directories (e.g., pg_v001, pg_v002)
@@ -383,6 +510,7 @@ def get_scenario_versions(scenario):
             has_plan = False
             has_data = False
             has_analysis = False
+            has_report = False
             
             for file in version_dir.iterdir():
                 if file.is_file():
@@ -393,6 +521,8 @@ def get_scenario_versions(scenario):
                         has_data = True
                     elif 'analysis' in filename and filename.endswith('.json'):
                         has_analysis = True
+                    elif 'report' in filename and filename.endswith('.txt'):
+                        has_report = True
             
             if has_plan:
                 versions["plans"].append(version_num)
@@ -400,6 +530,8 @@ def get_scenario_versions(scenario):
                 versions["data"].append(version_num)
             if has_analysis:
                 versions["analysis"].append(version_num)
+            if has_report:
+                versions["reports"].append(version_num)
         
         # Also check root scenario directory for older format files
         for file in scenario_dir.iterdir():
@@ -430,11 +562,20 @@ def get_scenario_versions(scenario):
                             versions["analysis"].append(version_num)
                     except (IndexError, ValueError):
                         continue
+                elif 'report_v' in filename and filename.endswith('.txt'):
+                    try:
+                        version_part = filename.split('report_v')[1].split('_')[0]
+                        version_num = int(version_part)
+                        if version_num not in versions["reports"]:
+                            versions["reports"].append(version_num)
+                    except (IndexError, ValueError):
+                        continue
         
         # Sort all version lists
         versions["plans"].sort(reverse=True)  # Latest first
         versions["data"].sort(reverse=True)   # Latest first
         versions["analysis"].sort(reverse=True)  # Latest first
+        versions["reports"].sort(reverse=True)  # Latest first
         
         return jsonify({
             "success": True, 
@@ -514,6 +655,11 @@ def populate_inputs():
 import sys
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+print("🔧 Loading environment variables...")
+load_dotenv(Path(__file__).parent / ".env")
 
 # Add the backend directory to Python path
 backend_dir = Path(__file__).parent
@@ -522,6 +668,19 @@ sys.path.insert(0, str(backend_dir))
 # Add the input_populator directory to Python path  
 input_populator_dir = backend_dir / "input_populator"
 sys.path.insert(0, str(input_populator_dir))
+
+# Verify critical environment variables are loaded
+required_vars = ['THOUGHTSPOT_BASE_URL', 'THOUGHTSPOT_AUTH_TOKEN', 'CLAUDE_API_KEY']
+missing_vars = []
+for var in required_vars:
+    if not os.getenv(var):
+        missing_vars.append(var)
+
+if missing_vars:
+    print(f"❌ Missing environment variables: {{missing_vars}}")
+    sys.exit(1)
+else:
+    print(f"✅ All required environment variables are loaded")
 
 try:
     from input_invoke_api import export_and_extract_liveboard
@@ -765,6 +924,11 @@ import sys
 import os
 import json
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+print("🔧 Loading environment variables...")
+load_dotenv(Path(__file__).parent / ".env")
 
 # Add the backend directory to Python path
 backend_dir = Path(__file__).parent
@@ -773,6 +937,19 @@ sys.path.insert(0, str(backend_dir))
 # Add the input_populator directory to Python path  
 input_populator_dir = backend_dir / "input_populator"
 sys.path.insert(0, str(input_populator_dir))
+
+# Verify critical environment variables are loaded
+required_vars = ['THOUGHTSPOT_BASE_URL', 'THOUGHTSPOT_AUTH_TOKEN', 'CLAUDE_API_KEY']
+missing_vars = []
+for var in required_vars:
+    if not os.getenv(var):
+        missing_vars.append(var)
+
+if missing_vars:
+    print(f"❌ Missing environment variables: {{missing_vars}}")
+    sys.exit(1)
+else:
+    print(f"✅ All required environment variables are loaded")
 
 try:
     from input_invoke_api import export_and_extract_liveboard

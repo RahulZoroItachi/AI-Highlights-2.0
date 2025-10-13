@@ -1,0 +1,55 @@
+{
+  "1.1.1": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "1.1.1",
+    "title": "Analysis 1: Calculate M1 ACV Week-over-Week Change",
+    "question": "What is the absolute and percentage change in cumulative M1 ACV from the previous week to the current week?",
+    "fetchStepId": "1.1"
+  },
+  "1.1.2": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "1.1.2",
+    "title": "Analysis 2: Assess M1 ACV Cumulative Trend Across All Weeks",
+    "question": "What is the overall trend of cumulative M1 ACV across all weeks in the current quarter?",
+    "fetchStepId": "1.1"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 3: Calculate M1 Count Week-over-Week Change",
+    "question": "What is the absolute and percentage change in cumulative M1 Count from the previous week to the current week?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that the CSV data you provided contains only the week dates but is missing the actual cumulative M1 opportunity count values. The data shows:\n\n- Column header: \"Weekly Opportunity M1 Date - Fiscal\"\n- Week dates ranging from 07/28/2025 to 10/06/2025\n- But no corresponding M1 count values\n\nTo perform the analysis you requested, I would need the cumulative M1 opportunity count values for each week. The data should look something like this:\n\n| Week | Cumulative M1 Count |\n|------|-------------------|\n| 07/28/2025 Week | [value] |\n| 08/04/2025 Week | [value] |\n| ... | ... |\n\nCould you please provide the complete dataset that includes both the week dates and their corresponding cumulative M1 opportunity count values? Once I have the complete data, I'll be able to:\n\n1. Identify the two most recent weeks\n2. Calculate the absolute and percentage changes\n3. Present the results in the requested summary table format\n4. Provide insights on the trending direction",
+    "status": "completed"
+  },
+  "2.1.2": {
+    "stepId": "2.1.2",
+    "title": "Analysis 4: Assess M1 Count Cumulative Trend Across All Weeks",
+    "question": "What is the overall trend of cumulative M1 Count across all weeks in the current quarter?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice there's an issue with the provided dataset. While you've listed the weekly dates for analysis, the actual M1 opportunity count values are missing from the CSV data. \n\nThe data shows:\n- Header indicating \"Opportunity Deployment != mode\"\n- Weekly dates ranging from 07/28/2025 to 10/06/2025\n- **Missing: The actual cumulative M1 opportunity count values for each week**\n\nTo perform the requested analysis, I would need:\n\n1. **Cumulative M1 Count values** corresponding to each week\n2. **Proper chronological ordering** of the data (currently the weeks appear to be listed out of sequence)\n\n**What I can provide once the data is complete:**\n\n- Week-over-week growth rate calculations\n- Trend analysis (increasing, plateauing, or volatile)\n- Average weekly growth in opportunity count\n- Summary insights about the trajectory\n\n**Could you please provide:**\n- The cumulative M1 opportunity count for each week listed\n- Confirmation of the correct chronological sequence\n\nOnce I have the complete dataset with actual count values, I'll be able to deliver a comprehensive analysis of the M1 opportunity progression throughout the quarter.",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Analysis 5: Calculate S0 ACV Week-over-Week Change",
+    "question": "What is the absolute and percentage change in cumulative S0 ACV from the previous week to the current week?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "Looking at the time-series data, I can identify the two most recent weeks and calculate the required metrics.\n\n**Two Most Recent Weeks:**\n- Previous Week (N-1): 09/29/2025 Week\n- Current Week (N): 10/06/2025 Week\n\n**Calculations:**\n- Previous Week ACV: $84,450,596.19\n- Current Week ACV: $91,967,222.50\n- Absolute Change: $91,967,222.50 - $84,450,596.19 = $7,516,626.31\n- Percentage Change: (($91,967,222.50 - $84,450,596.19) / $84,450,596.19) × 100 = 8.90%\n\n## Summary Table\n\n| Previous Week ACV | Current Week ACV | Absolute Change | Percentage Change |\n|-------------------|------------------|-----------------|-------------------|\n| $84,450,596.19    | $91,967,222.50   | $7,516,626.31   | 8.90%            |\n\n**Insight:** S0 ACV is trending positively with a strong 8.90% increase from the previous week, indicating healthy growth momentum in the current quarter.",
+    "status": "completed"
+  },
+  "3.1.2": {
+    "stepId": "3.1.2",
+    "title": "Analysis 6: Assess S0 ACV Cumulative Trend Across All Weeks",
+    "question": "What is the overall trend of cumulative S0 ACV across all weeks in the current quarter?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "# S0 ACV Weekly Progression Analysis\n\n## Data Overview\nThe dataset shows 11 weeks of cumulative S0 ACV data from July 28, 2025, through October 6, 2025.\n\n## Week-over-Week Growth Analysis\n\n| Week Ending | Cumulative ACV | WoW Growth Rate |\n|-------------|----------------|-----------------|\n| 07/28/2025  | $1.23M         | -               |\n| 08/04/2025  | $9.70M         | 686.0%          |\n| 08/11/2025  | $10.90M        | 12.4%           |\n| 08/18/2025  | $20.90M        | 91.8%           |\n| 08/25/2025  | $29.59M        | 41.6%           |\n| 09/01/2025  | $41.30M        | 39.6%           |\n| 09/08/2025  | $49.18M        | 19.1%           |\n| 09/15/2025  | $58.82M        | 19.6%           |\n| 09/22/2025  | $65.82M        | 11.9%           |\n| 09/29/2025  | $84.45M        | 28.3%           |\n| 10/06/2025  | $91.97M        | 8.9%            |\n\n## Key Findings\n\n**Average Week-over-Week Growth Rate: 95.9%**\n\n### Trend Analysis:\n1. **Explosive Early Growth**: The most dramatic increase occurred in week 2 (686% growth), likely representing a significant deal closure or data collection improvement.\n\n2. **Volatile but Positive Trajectory**: Growth rates show high volatility, ranging from 8.9% to 686%, indicating irregular deal flow patterns.\n\n3. **Recent Deceleration**: The last two weeks show a concerning deceleration (28.3% → 8.9%), suggesting potential pipeline challenges.\n\n## Summary Insight\n\n**S0 ACV has grown dramatically from $1.2M to $92M over 11 weeks, representing a 74x increase. However, the growth pattern shows high volatility with an exceptionally strong start (686% in week 2) followed by more moderate but inconsistent growth. The average weekly growth rate of 95.9% is heavily skewed by early outliers. More concerning is the recent deceleration, with growth dropping to just 8.9% in the final week, suggesting potential pipeline constraints that may require attention to maintain momentum in the coming quarter.**\n\nThe overall trajectory demonstrates strong performance but with increasing irregularity that warrants closer pipeline monitoring.",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "4.1.1",
+    "title": "Analysis 7: Cross-KPI Performance Summary",
+    "question": "How do the three KPIs (M1 ACV, M1 Count, S0 ACV) compare in their current quarter-to-date performance as of the latest week?",
+    "fetchStepId": "4.1"
+  }
+}

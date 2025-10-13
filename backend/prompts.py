@@ -16,20 +16,16 @@ def metadata_table_system_prompt(scenario: str) -> str:
     Returns:
         Formatted system prompt with scenario-specific inputs
     """
-    # Map scenario names to functions
-    scenario_functions = {
-        'pg': scenario_pg,
-        'support': scenario_support,
-        'ta': scenario_ta,
-        'cmo': scenario_cmo,
-        'test': scenario_test,
-    }
+    # Import here to avoid circular imports
+    from inputs import get_available_scenarios, get_scenario_inputs
     
-    if scenario not in scenario_functions:
-        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {list(scenario_functions.keys())}")
+    # Get available scenarios dynamically
+    available_scenarios = get_available_scenarios()
+    if scenario not in available_scenarios:
+        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {available_scenarios}")
     
     # Get scenario-specific inputs
-    inputs = scenario_functions[scenario]()
+    inputs = get_scenario_inputs(scenario)
     
     # Build the prompt with dynamic inputs
     prompt = f"""Persona: You are a Senior Business Analyst specializing in sales operations and GTM strategy.
@@ -457,20 +453,16 @@ def get_plan_prompt_with_format(scenario: str, metadata_output: str = None) -> t
     Returns:
         Tuple of (plan_prompt, output_format_prompt)
     """
-    # Map scenario names to functions
-    scenario_functions = {
-        'pg': scenario_pg,
-        'support': scenario_support,
-        'ta': scenario_ta,
-        'cmo': scenario_cmo,
-        'test': scenario_test,
-    }
+    # Import here to avoid circular imports
+    from inputs import get_available_scenarios, get_scenario_inputs
     
-    if scenario not in scenario_functions:
-        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {list(scenario_functions.keys())}")
+    # Get available scenarios dynamically
+    available_scenarios = get_available_scenarios()
+    if scenario not in available_scenarios:
+        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {available_scenarios}")
     
     # Get scenario-specific inputs
-    inputs = scenario_functions[scenario]()
+    inputs = get_scenario_inputs(scenario)
     
     # Build the plan prompt with dynamic inputs
     plan_prompt = f"""Persona: You are a Senior Business Analyst specializing in sales operations and GTM strategy.
@@ -530,25 +522,22 @@ def final_prompt(scenario: str, metadata_output: Dict[str, Any]) -> str:
     Generate the final comprehensive analysis plan prompt.
     
     Args:
-        scenario: The business scenario (pg, support, ta, cmo)
+        scenario: Any scenario available in inputs.json
         metadata_output: The parsed metadata from the LLM
         
     Returns:
         The final prompt string
     """
+    # Import here to avoid circular imports
+    from inputs import get_available_scenarios, get_scenario_inputs
+    
+    # Get available scenarios dynamically
+    available_scenarios = get_available_scenarios()
+    if scenario not in available_scenarios:
+        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {available_scenarios}")
+    
     # Get scenario-specific inputs
-    scenario_functions = {
-        'pg': scenario_pg,
-        'support': scenario_support,
-        'ta': scenario_ta,
-        'cmo': scenario_cmo,
-        'test': scenario_test,
-    }
-    
-    if scenario not in scenario_functions:
-        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {list(scenario_functions.keys())}")
-    
-    inputs = scenario_functions[scenario]()
+    inputs = get_scenario_inputs(scenario)
     
     # Extract metadata information
     metadata_info = ""

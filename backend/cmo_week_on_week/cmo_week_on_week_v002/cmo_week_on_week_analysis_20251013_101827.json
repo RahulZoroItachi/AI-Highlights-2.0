@@ -1,0 +1,290 @@
+{
+  "1.1.1": {
+    "stepId": "1.1.1",
+    "title": "Analysis 1.1.1: Calculate M1 ACV This Week Value and Target",
+    "question": "What is the total M1 ACV achieved this week and what is the target?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "Based on the CSV data provided, here are the M1 ACV metrics for this week:\n\n**M1 ACV This Week: $0.0**\n\n**M1 ACV Target This Week: $0.0**\n\nThe data shows that both the achieved M1 ACV and the target are currently at zero for this week. This baseline indicates no M1 creation activity has been recorded yet for either existing customer expansion or new customer opportunities.",
+    "status": "completed"
+  },
+  "1.2.1": {
+    "stepId": "1.2.1",
+    "title": "Analysis 1.2.1: Calculate M1 ACV Last Week Value and Target",
+    "question": "What was the total M1 ACV achieved last week and what was the target?",
+    "fetchStepId": "1.2",
+    "analysisResponse": "Based on the CSV data provided, here are the M1 ACV figures for last week:\n\n**M1 ACV Last Week: $0.0**\n\n**M1 ACV Target Last Week: $0.0**\n\nThe data shows that for M1 creation targets focused on existing customer expansion, both the achieved ACV and the target ACV were zero for the reporting period.",
+    "status": "completed"
+  },
+  "1.3.1": {
+    "stepId": "1.3.1",
+    "title": "Analysis 1.3.1: Calculate M1 ACV Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in M1 ACV from last week to this week?",
+    "fetchStepId": "1.3",
+    "analysisResponse": "I notice that you've provided the CSV headers and some filter criteria, but the actual data rows are missing from your message. The CSV structure shows:\n\n**Headers:**\n- Monthly Creation Month - Fiscal\n- Total Creation ACV Achieved  \n- Total Creation ACV Target\n\n**Filters mentioned:**\n- Opportunity Deployment != mode\n- Creation Target Creation Metric = m1\n- Creation Target Opportunity Type = existing customer expansion\n\nTo calculate the requested metrics, I would need the actual data rows showing:\n1. **M1 ACV This Week** (Total Creation ACV Achieved for current week)\n2. **M1 ACV Last Week** (Total Creation ACV Achieved for previous week)  \n3. **M1 ACV Target This Week** (Total Creation ACV Target for current week)\n\nCould you please provide the complete CSV data with the actual values? Once I have the data rows, I'll calculate:\n\n- **M1 ACV Absolute Change**: M1 ACV This Week - M1 ACV Last Week\n- **M1 ACV Percentage Change**: ((M1 ACV This Week - M1 ACV Last Week) / M1 ACV Last Week) × 100\n- **M1 ACV Percentage of Target**: (M1 ACV This Week / M1 ACV Target This Week) × 100\n\nPlease share the complete dataset so I can perform these calculations for you.",
+    "status": "completed"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 2.1.1: M1 ACV This Week by Region",
+    "question": "What is the M1 ACV achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I see you've provided the column headers and filter criteria, but the actual data rows are missing from your CSV. Based on the structure you've shown, here's the table format you requested:\n\n| Region | M1 ACV This Week | M1 ACV Target This Week |\n|--------|------------------|-------------------------|\n| *No data provided* | *No data provided* | *No data provided* |\n\nTo complete this analysis, I would need the actual data rows that contain:\n- The specific region segment names\n- The corresponding \"Total Creation ACV Achieved\" values\n- The corresponding \"Total Creation ACV Target\" values\n\nCould you please provide the complete CSV data with the actual regional performance numbers?",
+    "status": "completed"
+  },
+  "2.2.1": {
+    "stepId": "2.2.1",
+    "title": "Analysis 2.2.1: M1 ACV Last Week by Region",
+    "question": "What was the M1 ACV achieved last week for each regional segment?",
+    "fetchStepId": "2.2",
+    "analysisResponse": "I can see the column headers you've provided, but the actual data rows from the CSV are missing. To create the requested table showing M1 ACV performance by region, I would need the data rows that contain:\n\n- The specific region segments\n- The actual achievement values\n- The target values\n\nCould you please provide the complete CSV data including the data rows? The format should look something like:\n\n```\n\"Creation Target Region Segment\",\"Total Creation ACV Achieved\",\"Total Creation ACV Target\"\n\"North America\",\"150000\",\"200000\"\n\"Europe\",\"120000\",\"180000\"\n\"Asia Pacific\",\"80000\",\"100000\"\n```\n\nOnce you provide the complete data, I'll create a table with columns:\n- Region\n- M1 ACV Last Week  \n- M1 ACV Target Last Week",
+    "status": "completed"
+  },
+  "2.3.1": {
+    "stepId": "2.3.1",
+    "title": "Analysis 2.3.1: Calculate M1 ACV Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for M1 ACV from last week to this week for each regional segment?",
+    "fetchStepId": "2.3",
+    "analysisResponse": "I notice that you've provided the column headers and filter criteria, but the actual CSV data rows are missing. To perform the analysis you've requested, I need the data rows that contain:\n\n- Monthly Creation Month - Fiscal\n- Creation Target Region Segment  \n- Total Creation ACV Achieved\n- Total Creation ACV Target\n\n**What I need to complete your analysis:**\n\nThe CSV should include data rows like:\n```\n\"2024-01\",\"North America\",150000,200000\n\"2024-01\",\"Europe\",120000,180000\n\"2024-02\",\"North America\",160000,200000\n...\n```\n\n**Once you provide the complete data, I will:**\n\n1. Group by Region and Creation Month\n2. Calculate for each region:\n   - **Absolute Change** = M1 ACV This Week - M1 ACV Last Week\n   - **Percentage Change** = ((This Week - Last Week) / Last Week) × 100\n   - **Percentage of Target** = (This Week / Target This Week) × 100\n\n3. Present results in the requested table format:\n   | Region | M1 ACV This Week | M1 ACV Last Week | Absolute Change | Percentage Change | Percentage of Target |\n   |--------|------------------|------------------|-----------------|-------------------|---------------------|\n\n4. Identify highest growth regions and lagging performers\n\nCould you please share the complete CSV data with the actual data rows?",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Analysis 3.1.1: Calculate M1 Count This Week Value and Target",
+    "question": "What is the total M1 Count achieved this week and what is the target?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "Based on the provided CSV data, here are the M1 Count results for this week:\n\n**M1 Count This Week: 0**\n\n**M1 Count Target This Week: 0**\n\nThe data shows that both the actual achievement and target for M1 Count are currently at zero, indicating either no activity has been recorded yet this week or the targets have not been set for the current period.",
+    "status": "completed"
+  },
+  "3.2.1": {
+    "stepId": "3.2.1",
+    "title": "Analysis 3.2.1: Calculate M1 Count Last Week Value and Target",
+    "question": "What was the total M1 Count achieved last week and what was the target?",
+    "fetchStepId": "3.2",
+    "analysisResponse": "Based on the provided CSV data, here are the M1 Count results for last week:\n\n**M1 Count Last Week: 0**\n**M1 Count Target Last Week: 0.0**\n\nThe data shows that both the actual achievement and target for M1 Count were zero for the previous week.",
+    "status": "completed"
+  },
+  "3.3.1": {
+    "stepId": "3.3.1",
+    "title": "Analysis 3.3.1: Calculate M1 Count Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in M1 Count from last week to this week?",
+    "fetchStepId": "3.3",
+    "analysisResponse": "I understand you want me to calculate week-over-week changes and target performance for M1 Count data grouped by Creation Month. However, I notice that the CSV data you've provided appears to be incomplete or contains only header/filter information.\n\nThe data shows:\n- Filter conditions for the report\n- Column headers: \"Monthly Creation Month - Fiscal\", \"Total Creation Achieved\", \"Total Creation Target\"\n- But no actual numerical data rows\n\nTo perform the calculations you've requested, I would need:\n\n1. **Actual data rows** with:\n   - Creation months\n   - M1 counts for \"this week\" and \"last week\"\n   - Target values for \"this week\"\n\n2. **Time period clarification**: The headers mention \"Monthly\" data, but you're asking for week-over-week calculations\n\nCould you please provide:\n- The complete CSV data with actual numerical values\n- Clarification on whether this is weekly or monthly data\n- Which specific time periods represent \"this week\" and \"last week\"\n\nOnce I have the complete data, I'll calculate:\n- M1 Count Absolute Change: [value]\n- M1 Count Percentage Change: [value]%  \n- M1 Count Percentage of Target: [value]%",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "stepId": "4.1.1",
+    "title": "Analysis 4.1.1: M1 Count This Week by Region",
+    "question": "What is the M1 Count achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "4.1",
+    "analysisResponse": "I can see the CSV headers you've provided, but the actual data rows for each region segment are missing from your input. The CSV structure shows:\n\n- Column 1: Creation Target Region Segment\n- Column 2: Total Creation Achieved  \n- Column 3: Total Creation Target\n\nTo create the requested table, I would need the actual data rows that contain the regional segments and their corresponding values.\n\nCould you please provide the complete CSV data including the data rows? The table format you're looking for would be:\n\n| Region | M1 Count This Week | M1 Count Target This Week |\n|--------|-------------------|---------------------------|\n| [Region Name] | [Achieved Value] | [Target Value] |\n\nOnce you share the complete data, I'll be able to generate the full regional performance table for you.",
+    "status": "completed"
+  },
+  "4.2.1": {
+    "stepId": "4.2.1",
+    "title": "Analysis 4.2.1: M1 Count Last Week by Region",
+    "question": "What was the M1 Count achieved last week for each regional segment?",
+    "fetchStepId": "4.2",
+    "analysisResponse": "I can see the CSV header structure you've provided, but the actual data rows for each Creation Target Region Segment are not included in your message. \n\nBased on the headers shown:\n- \"Creation Target Region Segment\"\n- \"Total Creation Achieved\" \n- \"Total Creation Target\"\n\nI would need the actual data rows to create the requested table. The table format you're looking for would be:\n\n| Region | M1 Count Last Week | M1 Count Target Last Week |\n|--------|-------------------|---------------------------|\n| [Region 1] | [Achieved Value] | [Target Value] |\n| [Region 2] | [Achieved Value] | [Target Value] |\n| [Region 3] | [Achieved Value] | [Target Value] |\n\nCould you please provide the complete CSV data including all the regional data rows? This will allow me to create the accurate regional comparison baseline table you requested.",
+    "status": "completed"
+  },
+  "4.3.1": {
+    "stepId": "4.3.1",
+    "title": "Analysis 4.3.1: Calculate M1 Count Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for M1 Count from last week to this week for each regional segment?",
+    "fetchStepId": "4.3",
+    "analysisResponse": "I notice that you've provided the CSV header structure and filtering criteria, but the actual data rows are missing from your input. To perform the calculations you've requested, I need the actual data values.\n\nHowever, I can show you exactly what the analysis would look like once you provide the data. Here's the framework:\n\n## Required Data Structure\nBased on your headers, I need data with these columns:\n- Monthly Creation Month - Fiscal\n- Creation Target Region Segment  \n- Total Creation Achieved\n- Total Creation Target\n\n## Analysis Framework\n\nOnce data is provided, I'll calculate:\n\n| Region | M1 Count This Week | M1 Count Last Week | Absolute Change | Percentage Change | Percentage of Target |\n|--------|-------------------|-------------------|-----------------|------------------|---------------------|\n| [Region A] | [Current Period] | [Previous Period] | [Current - Previous] | [((Current - Previous) / Previous) × 100] | [(Current / Target) × 100] |\n| [Region B] | ... | ... | ... | ... | ... |\n\n## What I'll Identify:\n- **Highest Growth Regions**: Regions with highest percentage change\n- **Lagging Regions**: Regions with negative growth or lowest percentage of target achievement\n\n## Next Steps:\nPlease provide the actual CSV data rows (the numerical data for each region and time period) so I can perform the specific calculations you've requested.\n\nWould you like to share the complete dataset?",
+    "status": "completed"
+  },
+  "5.1.1": {
+    "stepId": "5.1.1",
+    "title": "Analysis 5.1.1: Calculate S0 ACV This Week Value and Target",
+    "question": "What is the total S0 ACV achieved this week and what is the target?",
+    "fetchStepId": "5.1",
+    "analysisResponse": "Based on the CSV data provided, here are the S0 ACV results for this week:\n\n**S0 ACV This Week: $0.0**\n\n**S0 ACV Target This Week: $0.0**\n\nThe data shows that both the achieved and target values for S0 ACV creation are currently at zero for this week. This baseline indicates no S0 ACV has been generated yet against existing customer expansion and new customer opportunities.",
+    "status": "completed"
+  },
+  "5.2.1": {
+    "stepId": "5.2.1",
+    "title": "Analysis 5.2.1: Calculate S0 ACV Last Week Value and Target",
+    "question": "What was the total S0 ACV achieved last week and what was the target?",
+    "fetchStepId": "5.2",
+    "analysisResponse": "Based on the CSV data provided, here are the S0 ACV results for last week:\n\n**S0 ACV Last Week: $0.0**\n\n**S0 ACV Target Last Week: $0.0**\n\nThe data shows that both the actual S0 ACV achieved and the target were zero for last week, indicating no S0 creation activity occurred during this period for either existing customer expansion or new customer opportunities.",
+    "status": "completed"
+  },
+  "5.3.1": {
+    "stepId": "5.3.1",
+    "title": "Analysis 5.3.1: Calculate S0 ACV Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in S0 ACV from last week to this week?",
+    "fetchStepId": "5.3",
+    "analysisResponse": "I see you've provided the column headers and filter criteria for the analysis, but the actual CSV data rows are missing. To calculate the requested metrics, I need the data rows that show:\n\n- Monthly Creation Month - Fiscal\n- Total Creation ACV Achieved \n- Total Creation ACV Target\n\nCould you please provide the actual data rows? The CSV should look something like:\n\n```\n\"Monthly Creation Month - Fiscal\",\"Total Creation ACV Achieved\",\"Total Creation ACV Target\"\n\"2024-01\",\"100000\",\"120000\"\n\"2024-02\",\"110000\",\"125000\"\n...\n```\n\nOnce you provide the complete data, I'll calculate:\n\n1. **S0 ACV Absolute Change**: This Week - Last Week\n2. **S0 ACV Percentage Change**: ((This Week - Last Week) / Last Week) * 100\n3. **S0 ACV Percentage of Target**: (This Week / Target This Week) * 100\n\nAnd report them in the requested format.",
+    "status": "completed"
+  },
+  "6.1.1": {
+    "stepId": "6.1.1",
+    "title": "Analysis 6.1.1: S0 ACV This Week by Region",
+    "question": "What is the S0 ACV achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "6.1",
+    "analysisResponse": "I can see the column headers in your CSV data, but the actual data rows appear to be missing. The CSV shows:\n\n- Column headers: \"Creation Target Region Segment\", \"Total Creation ACV Achieved\", \"Total Creation ACV Target\"\n- Filter conditions indicating this is for metric \"m1\" and opportunity types \"existing customer expansion\" and \"new customer\"\n\nHowever, there are no data rows with the actual regional performance numbers.\n\nTo create the requested table showing **S0 ACV This Week** and **S0 ACV Target This Week** by region, I would need the complete CSV data that includes:\n\n```\nCreation Target Region Segment,Total Creation ACV Achieved,Total Creation ACV Target\n[Region 1],[Achieved Value],[Target Value]\n[Region 2],[Achieved Value],[Target Value]\n[Region 3],[Achieved Value],[Target Value]\n...\n```\n\nCould you please provide the complete CSV data with the actual regional performance numbers? Once I have that data, I'll create the table in the exact format you requested:\n\n| Region | S0 ACV This Week | S0 ACV Target This Week |\n|--------|------------------|-------------------------|\n| ...    | ...              | ...                     |",
+    "status": "completed"
+  },
+  "6.2.1": {
+    "stepId": "6.2.1",
+    "title": "Analysis 6.2.1: S0 ACV Last Week by Region",
+    "question": "What was the S0 ACV achieved last week for each regional segment?",
+    "fetchStepId": "6.2",
+    "analysisResponse": "I can see the CSV headers you've provided, but the actual data rows for each Creation Target Region Segment are not included in your message. \n\nTo create the requested table with columns:\n- Region\n- S0 ACV Last Week  \n- S0 ACV Target Last Week\n\nI would need the data rows that show:\n- The specific region segments\n- Their corresponding \"Total Creation ACV Achieved\" values (which would map to \"S0 ACV Last Week\")\n- Their corresponding \"Total Creation ACV Target\" values (which would map to \"S0 ACV Target Last Week\")\n\nCould you please provide the complete CSV data including the data rows for each region segment?",
+    "status": "completed"
+  },
+  "6.3.1": {
+    "stepId": "6.3.1",
+    "title": "Analysis 6.3.1: Calculate S0 ACV Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for S0 ACV from last week to this week for each regional segment?",
+    "fetchStepId": "6.3",
+    "analysisResponse": "I notice that you've provided the CSV headers and some filter criteria, but the actual data rows are missing from your input. To perform the calculations you've requested, I would need the actual data values.\n\nHowever, I can provide you with the structure and formulas for the analysis you want:\n\n## Required Table Structure:\n\n| Region | S0 ACV This Week | S0 ACV Last Week | Absolute Change | Percentage Change | Percentage of Target |\n|--------|------------------|------------------|-----------------|-------------------|---------------------|\n| [Region Name] | [Value] | [Value] | [Formula: This Week - Last Week] | [Formula: ((This Week - Last Week) / Last Week) * 100] | [Formula: (This Week / Target This Week) * 100] |\n\n## Formulas:\n1. **Absolute Change** = S0 ACV This Week - S0 ACV Last Week\n2. **Percentage Change** = ((S0 ACV This Week - S0 ACV Last Week) / S0 ACV Last Week) × 100\n3. **Percentage of Target** = (S0 ACV This Week / S0 ACV Target This Week) × 100\n\n## To Complete This Analysis:\nPlease provide the actual CSV data rows that include:\n- Creation Target Region Segment values\n- Total Creation ACV Achieved values (for current and previous weeks)\n- Total Creation ACV Target values\n- Time period identifiers to distinguish \"This Week\" vs \"Last Week\"\n\nOnce you provide the complete data, I can:\n- Group by region and month as requested\n- Calculate all the metrics\n- Identify regions with highest growth (highest percentage change)\n- Identify lagging regions (lowest percentage change or lowest percentage of target)\n- Present the results in the requested table format\n\nCould you please share the complete CSV data with the actual values?",
+    "status": "completed"
+  },
+  "7.1.1": {
+    "stepId": "7.1.1",
+    "title": "Analysis 7.1.1: Calculate S0 Count This Week Value and Target",
+    "question": "What is the total S0 Count achieved this week and what is the target?",
+    "fetchStepId": "7.1",
+    "analysisResponse": "Based on the provided CSV data, I cannot find specific S0 Count metrics in the dataset. The data shows Creation Target metrics for existing customer expansion, but does not contain S0 Count information.\n\nFrom the available data:\n- Total Creation Achieved: 0\n- Total Creation Target: 0.0\n- Creation Metric: m1\n- Opportunity Type: existing customer expansion\n\n**S0 Count This Week: Data not available in provided dataset**\n**S0 Count Target This Week: Data not available in provided dataset**\n\nTo provide accurate S0 Count reporting, I would need CSV data that specifically includes S0 Count metrics and targets for the current week.",
+    "status": "completed"
+  },
+  "7.2.1": {
+    "stepId": "7.2.1",
+    "title": "Analysis 7.2.1: Calculate S0 Count Last Week Value and Target",
+    "question": "What was the total S0 Count achieved last week and what was the target?",
+    "fetchStepId": "7.2",
+    "analysisResponse": "Based on the provided CSV data, I can see creation metrics but no S0 Count data. The CSV contains:\n\n- Creation Target metrics with filters for opportunity types (existing customer expansion, new customer)\n- Total Creation Achieved: 0\n- Total Creation Target: 0.0\n\nHowever, there is no S0 Count data in the provided CSV. To report the requested information, I would need CSV data that includes S0 Count metrics for last week.\n\n**Current Status:**\n- S0 Count Last Week: [Data not available in provided CSV]\n- S0 Count Target Last Week: [Data not available in provided CSV]\n\nPlease provide CSV data that includes S0 Count metrics to generate the requested report.",
+    "status": "completed"
+  },
+  "7.3.1": {
+    "stepId": "7.3.1",
+    "title": "Analysis 7.3.1: Calculate S0 Count Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in S0 Count from last week to this week?",
+    "fetchStepId": "7.3",
+    "analysisResponse": "I see that you've provided the CSV headers and filter criteria, but the actual data rows are missing from your input. To calculate the requested metrics, I need the data rows that contain the actual values for:\n\n- Monthly Creation Month - Fiscal\n- Total Creation Achieved (S0 Count)\n- Total Creation Target\n\nThe data should look something like:\n```\n\"2024-01\",\"150\",\"200\"\n\"2024-02\",\"175\",\"200\"\netc.\n```\n\nOnce you provide the complete CSV data with the actual values, I can calculate:\n\n1. **S0 Count Absolute Change**: S0 Count This Week - S0 Count Last Week\n2. **S0 Count Percentage Change**: ((S0 Count This Week - S0 Count Last Week) / S0 Count Last Week) * 100\n3. **S0 Count Percentage of Target**: (S0 Count This Week / S0 Count Target This Week) * 100\n\nPlease share the complete CSV data including the data rows so I can perform these calculations for you.",
+    "status": "completed"
+  },
+  "8.1.1": {
+    "stepId": "8.1.1",
+    "title": "Analysis 8.1.1: S0 Count This Week by Region",
+    "question": "What is the S0 Count achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "8.1",
+    "analysisResponse": "I can see the CSV headers you've provided, but the actual data rows containing the regional performance information are missing. \n\nThe headers indicate the data structure:\n- \"Creation Target Region Segment\" (the regions)\n- \"Total Creation Achieved\" (S0 count achieved this week)\n- \"Total Creation Target\" (S0 count target this week)\n\nTo create the requested table with columns \"Region\", \"S0 Count This Week\", and \"S0 Count Target This Week\", I would need the actual data rows that follow these headers.\n\nCould you please provide the complete CSV data including the data rows for each region segment?",
+    "status": "completed"
+  },
+  "8.2.1": {
+    "stepId": "8.2.1",
+    "title": "Analysis 8.2.1: S0 Count Last Week by Region",
+    "question": "What was the S0 Count achieved last week for each regional segment?",
+    "fetchStepId": "8.2",
+    "analysisResponse": "I can see the CSV structure you've provided, but the actual data rows for the regional segments appear to be missing from your input. \n\nBased on the headers shown:\n- \"Creation Target Region Segment\"\n- \"Total Creation Achieved\" \n- \"Total Creation Target\"\n\nI would need the complete CSV data with the actual regional segment rows to create the requested table. The table format you're looking for would be:\n\n| Region | S0 Count Last Week | S0 Count Target Last Week |\n|--------|-------------------|---------------------------|\n| [Region 1] | [Achieved Count] | [Target Count] |\n| [Region 2] | [Achieved Count] | [Target Count] |\n| ... | ... | ... |\n\nCould you please provide the complete CSV data including all the regional segment rows? This would typically include rows with specific region names and their corresponding achievement and target values.",
+    "status": "completed"
+  },
+  "8.3.1": {
+    "stepId": "8.3.1",
+    "title": "Analysis 8.3.1: Calculate S0 Count Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for S0 Count from last week to this week for each regional segment?",
+    "fetchStepId": "8.3",
+    "analysisResponse": "I notice that you've provided the CSV headers and some filter criteria, but the actual data rows are missing from your message. To perform the calculations you've requested, I need the actual data values.\n\nHowever, I can show you exactly what the analysis would look like with the structure you've defined. Here's the framework:\n\n## Analysis Framework\n\n**Required Calculations:**\n1. **Absolute Change** = S0 Count This Week - S0 Count Last Week\n2. **Percentage Change** = ((S0 Count This Week - S0 Count Last Week) / S0 Count Last Week) × 100\n3. **Percentage of Target** = (S0 Count This Week / S0 Count Target This Week) × 100\n\n**Expected Output Table:**\n| Region | S0 Count This Week | S0 Count Last Week | Absolute Change | Percentage Change | Percentage of Target |\n|--------|-------------------|-------------------|-----------------|-------------------|---------------------|\n| Region A | [value] | [value] | [calculated] | [calculated]% | [calculated]% |\n| Region B | [value] | [value] | [calculated] | [calculated]% | [calculated]% |\n| ... | ... | ... | ... | ... | ... |\n\n## To Complete This Analysis:\n\nPlease provide the actual CSV data rows that contain:\n- Monthly Creation Month - Fiscal\n- Creation Target Region Segment  \n- Total Creation Achieved\n- Total Creation Target\n\nOnce you share the complete data, I can:\n1. Calculate all the metrics for each region\n2. Identify regions with highest growth\n3. Highlight regions that are lagging\n4. Provide insights on performance vs. targets\n\nCould you please paste the complete CSV data including the actual values?",
+    "status": "completed"
+  },
+  "9.1.1": {
+    "stepId": "9.1.1",
+    "title": "Analysis 9.1.1: Calculate S1 ACV This Week Value and Target",
+    "question": "What is the total S1 ACV achieved this week and what is the target?",
+    "fetchStepId": "9.1",
+    "analysisResponse": "Based on the CSV data provided, here are the S1 ACV results for this week:\n\n**S1 ACV This Week: $0.0**\n\n**S1 ACV Target This Week: $0.0**\n\nThe data shows that both the achieved S1 ACV and the target for this week are zero, indicating no S1 ACV activity was recorded or targeted for the current week period. This establishes a baseline of no current S1 ACV performance against no set target.",
+    "status": "completed"
+  },
+  "9.2.1": {
+    "stepId": "9.2.1",
+    "title": "Analysis 9.2.1: Calculate S1 ACV Last Week Value and Target",
+    "question": "What was the total S1 ACV achieved last week and what was the target?",
+    "fetchStepId": "9.2",
+    "analysisResponse": "Based on the provided CSV data, here are the S1 ACV figures for last week:\n\n**S1 ACV Last Week: $0.0**\n\n**S1 ACV Target Last Week: $0.0**\n\nThe data shows that both the achieved S1 ACV and the target were zero for last week, indicating either no S1 activity during this period or that this particular dataset may not contain the relevant transactions for the timeframe in question.",
+    "status": "completed"
+  },
+  "9.3.1": {
+    "stepId": "9.3.1",
+    "title": "Analysis 9.3.1: Calculate S1 ACV Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in S1 ACV from last week to this week?",
+    "fetchStepId": "9.3",
+    "analysisResponse": "I see that you've provided the CSV headers and filter criteria, but the actual data rows are missing from your request. The headers show:\n\n- Monthly Creation Month - Fiscal\n- Total Creation ACV Achieved  \n- Total Creation ACV Target\n\nTo calculate the requested metrics, I would need the actual data rows that contain:\n1. The creation months\n2. The corresponding ACV achieved values (for \"This Week\" and \"Last Week\")\n3. The ACV target values (for \"This Week\")\n\nCould you please provide the actual CSV data rows? The data should look something like:\n\n```\n\"Monthly Creation Month - Fiscal\",\"Total Creation ACV Achieved\",\"Total Creation ACV Target\"\n\"2024-01\",\"150000\",\"200000\"\n\"2024-02\",\"175000\",\"220000\"\n...\n```\n\nOnce you provide the complete data, I'll be able to calculate:\n- S1 ACV Absolute Change: [This Week - Last Week]\n- S1 ACV Percentage Change: [((This Week - Last Week) / Last Week) * 100]%\n- S1 ACV Percentage of Target: [(This Week / Target This Week) * 100]%",
+    "status": "completed"
+  },
+  "10.1.1": {
+    "stepId": "10.1.1",
+    "title": "Analysis 10.1.1: S1 ACV This Week by Region",
+    "question": "What is the S1 ACV achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "10.1",
+    "analysisResponse": "I can see the column headers you've provided, but the actual data rows appear to be missing from your CSV. Based on the structure you've shown, I can create the table format you requested, but I'll need the actual data to populate it.\n\nHere's the table structure ready for your data:\n\n| Region | S1 ACV This Week | S1 ACV Target This Week |\n|--------|------------------|-------------------------|\n| [No data provided] | [No data provided] | [No data provided] |\n\nTo complete this analysis, I would need the CSV data rows that contain:\n- The specific Region Segment names\n- The corresponding \"Total Creation ACV Achieved\" values\n- The corresponding \"Total Creation ACV Target\" values\n\nCould you please provide the complete CSV data including the data rows below the headers?",
+    "status": "completed"
+  },
+  "10.2.1": {
+    "stepId": "10.2.1",
+    "title": "Analysis 10.2.1: S1 ACV Last Week by Region",
+    "question": "What was the S1 ACV achieved last week for each regional segment?",
+    "fetchStepId": "10.2",
+    "analysisResponse": "I see you've provided the column headers and filter criteria for the data, but the actual data rows appear to be missing from your CSV. \n\nBased on the structure you've shown, I would create a table like this:\n\n| Region | S1 ACV Last Week | S1 ACV Target Last Week |\n|--------|------------------|-------------------------|\n| [No data provided] | [No data provided] | [No data provided] |\n\nTo generate the requested regional comparison baseline table, I would need the actual CSV data rows that contain:\n- The specific region segments (e.g., \"North America\", \"EMEA\", \"APAC\", etc.)\n- The corresponding \"Total Creation ACV Achieved\" values\n- The corresponding \"Total Creation ACV Target\" values\n\nCould you please provide the complete CSV data with the actual regional data rows? Once you share that, I'll be able to create the proper table showing each region's S1 ACV performance against target for last week.",
+    "status": "completed"
+  },
+  "10.3.1": {
+    "stepId": "10.3.1",
+    "title": "Analysis 10.3.1: Calculate S1 ACV Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for S1 ACV from last week to this week for each regional segment?",
+    "fetchStepId": "10.3",
+    "analysisResponse": "I notice that you've provided the column headers and filter criteria, but the actual CSV data rows are missing. To perform the calculations you've requested, I need the actual data values.\n\nBased on your headers, I can see the structure should be:\n- Monthly Creation Month - Fiscal\n- Creation Target Region Segment  \n- Total Creation ACV Achieved\n- Total Creation ACV Target\n\nHowever, to calculate the metrics you want, I would need:\n1. **Current week data** (S1 ACV This Week)\n2. **Previous week data** (S1 ACV Last Week) \n3. **Target data** (S1 ACV Target This Week)\n\n**Could you please provide:**\n1. The actual CSV data rows with values\n2. Clarification on how to identify \"This Week\" vs \"Last Week\" from the monthly data\n3. Whether the data contains weekly breakdowns or if I need to derive weekly figures from monthly data\n\n**Once I have the complete data, I'll create a table showing:**\n\n| Region | S1 ACV This Week | S1 ACV Last Week | Absolute Change | Percentage Change | Percentage of Target |\n|--------|------------------|------------------|-----------------|-------------------|---------------------|\n| [Region] | [Value] | [Value] | [Value] | [%] | [%] |\n\n**And provide analysis on:**\n- 🚀 Regions with highest growth\n- ⚠️ Regions that are lagging\n- 📊 Performance vs targets\n\nPlease share the complete CSV data so I can perform the requested analysis.",
+    "status": "completed"
+  },
+  "11.1.1": {
+    "stepId": "11.1.1",
+    "title": "Analysis 11.1.1: Calculate S1 Count This Week Value and Target",
+    "question": "What is the total S1 Count achieved this week and what is the target?",
+    "fetchStepId": "11.1",
+    "analysisResponse": "Based on the CSV data provided, I cannot find any S1 Count metrics in the dataset. The data only contains information about \"Creation Target Creation Metric\" with values of 0 for both achieved and target amounts.\n\nThe available data shows:\n- Creation Target Creation Metric = m1\n- Creation Target Opportunity Type = existing customer expansion\n- Total Creation Achieved: 0\n- Total Creation Target: 0.0\n\n**Result:**\nS1 Count This Week: Data not available\nS1 Count Target This Week: Data not available\n\nTo provide the requested S1 Count information, I would need CSV data that specifically includes S1 Count metrics and targets.",
+    "status": "completed"
+  },
+  "11.2.1": {
+    "stepId": "11.2.1",
+    "title": "Analysis 11.2.1: Calculate S1 Count Last Week Value and Target",
+    "question": "What was the total S1 Count achieved last week and what was the target?",
+    "fetchStepId": "11.2",
+    "analysisResponse": "Based on the CSV data provided, here are the S1 Count metrics for last week:\n\n**S1 Count Last Week: 0**\n**S1 Count Target Last Week: 0.0**\n\nThe data shows that both the actual achievement and target for S1 Count were zero for the specified period, indicating no activity was recorded for existing customer expansion or new customer opportunities with the S1 creation metric last week.",
+    "status": "completed"
+  },
+  "11.3.1": {
+    "stepId": "11.3.1",
+    "title": "Analysis 11.3.1: Calculate S1 Count Absolute and Percentage Change",
+    "question": "What is the absolute change and percentage change in S1 Count from last week to this week?",
+    "fetchStepId": "11.3",
+    "analysisResponse": "I notice that you've provided the CSV headers and filter criteria, but the actual data rows are missing from your message. The CSV structure shows:\n\n**Headers:**\n- Monthly Creation Month - Fiscal\n- Total Creation Achieved  \n- Total Creation Target\n\n**Filters Applied:**\n- Opportunity Deployment != mode\n- Creation Target Creation Metric = s1\n- Creation Target Opportunity Type IN [existing customer expansion, new customer]\n\nTo calculate the requested metrics, I need the actual data rows showing:\n1. The Creation Month values\n2. The corresponding Total Creation Achieved values (S1 Count)\n3. The Total Creation Target values\n\nOnce you provide the complete CSV data with the actual rows, I can calculate:\n\n- **S1 Count Absolute Change**: This Week - Last Week\n- **S1 Count Percentage Change**: ((This Week - Last Week) / Last Week) * 100\n- **S1 Count Percentage of Target**: (This Week / Target This Week) * 100\n\nCould you please share the complete CSV data including the data rows?",
+    "status": "completed"
+  },
+  "12.1.1": {
+    "stepId": "12.1.1",
+    "title": "Analysis 12.1.1: S1 Count This Week by Region",
+    "question": "What is the S1 Count achieved this week for each regional segment and how does it compare to the regional target?",
+    "fetchStepId": "12.1",
+    "analysisResponse": "I can see the column headers for the data you want me to analyze, but the actual data rows are missing from your CSV. The CSV shows:\n\n- Column headers: \"Creation Target Region Segment\", \"Total Creation Achieved\", \"Total Creation Target\"\n- Filter criteria indicating this is for S1 metrics and specific opportunity types\n\nTo create the table you requested with columns:\n- Region\n- S1 Count This Week  \n- S1 Count Target This Week\n\nI would need the actual data rows that should appear below those headers. Could you please provide the complete CSV data including the regional data rows?\n\nThe table format will be:\n\n| Region | S1 Count This Week | S1 Count Target This Week |\n|--------|-------------------|---------------------------|\n| [Region data needed] | [Achievement data needed] | [Target data needed] |",
+    "status": "completed"
+  },
+  "12.2.1": {
+    "stepId": "12.2.1",
+    "title": "Analysis 12.2.1: S1 Count Last Week by Region",
+    "question": "What was the S1 Count achieved last week for each regional segment?",
+    "fetchStepId": "12.2",
+    "analysisResponse": "I see that you've provided the column headers and filter criteria for the CSV data, but the actual data rows are missing. Based on the structure you've shown, I would need the data rows that contain:\n\n- Creation Target Region Segment (the region names)\n- Total Creation Achieved (S1 Count Last Week)\n- Total Creation Target (S1 Count Target Last Week)\n\nOnce you provide the complete CSV data with the actual regional data rows, I can create the requested table in this format:\n\n| Region | S1 Count Last Week | S1 Count Target Last Week |\n|--------|-------------------|---------------------------|\n| [Region 1] | [Achieved Value] | [Target Value] |\n| [Region 2] | [Achieved Value] | [Target Value] |\n| [Region N] | [Achieved Value] | [Target Value] |\n\nCould you please share the complete CSV data including the data rows for each region?",
+    "status": "completed"
+  },
+  "12.3.1": {
+    "stepId": "12.3.1",
+    "title": "Analysis 12.3.1: Calculate S1 Count Regional Absolute and Percentage Change",
+    "question": "What is the absolute change, percentage change, and percentage of target for S1 Count from last week to this week for each regional segment?",
+    "fetchStepId": "12.3",
+    "analysisResponse": "I notice that you've provided the column headers and filter criteria, but the actual CSV data rows are missing. To perform the comprehensive week-over-week KPI tracking analysis you've requested, I would need the actual data values.\n\nBased on your specifications, here's the table structure I would create once the data is provided:\n\n## Week-over-Week S1 Count Analysis by Region\n\n| Region | S1 Count This Week | S1 Count Last Week | Absolute Change | Percentage Change | Percentage of Target |\n|--------|-------------------|-------------------|-----------------|-------------------|---------------------|\n| [Region 1] | [Value] | [Value] | [Value] | [Value]% | [Value]% |\n| [Region 2] | [Value] | [Value] | [Value] | [Value]% | [Value]% |\n| ... | ... | ... | ... | ... | ... |\n\n## Analysis Framework Ready:\n\n**Calculations I'll perform:**\n1. **Absolute Change** = S1 Count This Week - S1 Count Last Week\n2. **Percentage Change** = ((S1 Count This Week - S1 Count Last Week) / S1 Count Last Week) × 100\n3. **Percentage of Target** = (S1 Count This Week / S1 Count Target This Week) × 100\n\n**Insights I'll provide:**\n- 🚀 **Highest Growth Regions**: Regions with largest positive percentage changes\n- ⚠️ **Lagging Regions**: Regions with negative growth or below-target performance\n- 📊 **Performance vs. Target**: Regions exceeding/meeting/missing targets\n\n**Could you please provide the actual CSV data rows?** The data should include:\n- Creation Month (This Week vs Last Week)\n- Creation Target Region Segment\n- Total Creation Achieved (S1 counts)\n- Total Creation Target\n\nOnce you share the complete dataset, I'll immediately generate the comprehensive analysis table with regional performance insights.",
+    "status": "completed"
+  }
+}

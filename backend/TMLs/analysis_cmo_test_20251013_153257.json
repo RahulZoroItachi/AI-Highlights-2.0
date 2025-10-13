@@ -1,0 +1,159 @@
+{
+  "success": true,
+  "liveboard_name": "Marketing - CMO",
+  "visualization_count": 126,
+  "kpis": {
+    "KPI_1": {
+      "name": "New Customer and Expansion Opportunity ACV",
+      "measure": "[Opportunity ACV]",
+      "formula": "sum([Opportunity ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Stage] = 's7 closed won'",
+        "[Opportunity ACV] > 0.0"
+      ],
+      "description": "Total Annual Contract Value for closed won new customer and expansion opportunities with positive ACV values.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_2": {
+      "name": "S1+ Pipeline Coverage",
+      "measure": "[Pipeline ACV]",
+      "formula": "sum([Pipeline ACV])",
+      "filters": [
+        "[Booking Target Deployment Type] != 'mode'"
+      ],
+      "description": "Total pipeline ACV for S1+ stage opportunities excluding mode deployment type, used for coverage analysis.",
+      "chart_type": "TABLE",
+      "table_name": "Sales Creation/Booking - Target/Achieved",
+      "table_id": "Sales Creation/Booking - Target/Achieved",
+      "score": 0
+    },
+    "KPI_3": {
+      "name": "Booking ACV vs Target Performance",
+      "measure": "[Booking ACV Target]",
+      "formula": "sum([Booking ACV Target])",
+      "filters": [
+        "[Booking Target Geo (by BT RegSeg)] != 'global'",
+        "[Booking Target Opportunity Type] = 'existing customer expansion'",
+        "[Booking Target Opportunity Type] = 'new customer'"
+      ],
+      "description": "Target booking ACV for new customer and expansion opportunities by geographic region, excluding global segment.",
+      "chart_type": "PIVOT_TABLE",
+      "table_name": "Sales Creation/Booking - Target/Achieved",
+      "table_id": "Sales Creation/Booking - Target/Achieved",
+      "score": 0
+    },
+    "KPI_4": {
+      "name": "S1 Pipeline Creation for New Customers and Expansions",
+      "measure": "[Opportunity S1 Starting ACV]",
+      "formula": "sum([Opportunity S1 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity S1 Starting ACV] > 0.0"
+      ],
+      "description": "Total S1 starting ACV for new customer and expansion opportunities with positive values.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_5": {
+      "name": "Pipeline Creation vs Target Achievement",
+      "measure": "[Creation ACV Achieved]",
+      "formula": "sum([Creation ACV Achieved])",
+      "filters": [
+        "[Creation Target Opportunity Type] = 'existing customer expansion'",
+        "[Creation Target Opportunity Type] = 'new customer'",
+        "[Creation Target Deployment Type] != 'mode'"
+      ],
+      "description": "Actual ACV created for new customer and expansion opportunities, excluding mode deployment type.",
+      "chart_type": "PIVOT_TABLE",
+      "table_name": "Sales Creation/Booking - Target/Achieved",
+      "table_id": "Sales Creation/Booking - Target/Achieved",
+      "score": 0
+    },
+    "KPI_6": {
+      "name": "S0 Pipeline Creation for New Customers and Expansions",
+      "measure": "[Opportunity S0 Starting ACV]",
+      "formula": "sum([Opportunity S0 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity S0 Starting ACV] > 0.0"
+      ],
+      "description": "Total S0 starting ACV for new customer and expansion opportunities with positive values.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_7": {
+      "name": "M1 Pipeline Creation for New Customers and Expansions",
+      "measure": "[Opportunity M1 Starting ACV]",
+      "formula": "sum([Opportunity M1 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total M1 starting ACV for new customer and expansion opportunities.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_8": {
+      "name": "S3 Pipeline Creation for New Customers and Expansions",
+      "measure": "[Opportunity S3 Starting ACV]",
+      "formula": "sum([Opportunity S3 Starting ACV])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity S3 Starting ACV] > 0.0"
+      ],
+      "description": "Total S3 starting ACV for new customer and expansion opportunities with positive values.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_9": {
+      "name": "MQL Generation Excluding Mode Sources",
+      "measure": "[Person Mqls Count]",
+      "formula": "sum([Person Mqls Count])",
+      "filters": [
+        "[Person Source] != 'mode'",
+        "[Person Source] != 'mode app'",
+        "[Person Source] != 'mode migration'",
+        "[Person Source] != 'mode migration 2024'"
+      ],
+      "description": "Total Marketing Qualified Leads count excluding mode-related sources.",
+      "chart_type": "KPI",
+      "table_name": "GTM Campaigns",
+      "table_id": "GTM Campaigns",
+      "score": 0
+    },
+    "KPI_10": {
+      "name": "S1 Opportunity Creation Count for New Customers and Expansions",
+      "measure": "[f Opportunity S1 Created Count]",
+      "formula": "sum([f Opportunity S1 Created Count])",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Count of S1 stage opportunities created for new customer and expansion business.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    }
+  },
+  "attributes": "Opportunity Type, Booking Target Geo (by BT RegSeg), Opportunity Stage, Opportunity Source MQL Classification, Creation Target Geo",
+  "date_column": "Opportunity S1 Date",
+  "goal": "Monitor and optimize the sales pipeline performance to drive revenue growth and achieve quarterly booking targets.",
+  "user_context": "CMO-level executives and senior marketing leaders use this dashboard during quarterly business reviews and monthly pipeline assessments to comprehensively analyze the entire marketing and sales funnel from lead generation through revenue booking, starting with MQL creation and website traffic analysis, then drilling into opportunity stage progression and conversion rates across the full sales cycle (M1→S0→S1→S3→S7), examining pipeline coverage against targets for current and future quarters, analyzing lead source effectiveness and campaign performance, monitoring trial-to-conversion metrics for product-led growth, and ultimately assessing booking performance against targets - requiring them to navigate between high-level KPI summaries and detailed breakdowns by geography, segment, opportunity type, and time periods to identify bottlenecks, optimize resource allocation, and make strategic decisions about marketing spend and sales process improvements."
+}

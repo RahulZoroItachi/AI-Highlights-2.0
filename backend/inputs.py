@@ -7,7 +7,7 @@ Reads scenario-specific parameters from inputs.json file.
 import json
 import os
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 
 def _read_tml_file(filename: str) -> str:
@@ -474,16 +474,74 @@ def scenario_test() -> Dict[str, Any]:
     }
 
 
-def get_scenario_inputs(scenario: str) -> Dict[str, Any]:
+def get_available_scenarios() -> List[str]:
     """
-    Get scenario-specific inputs based on the scenario name.
+    Get all available scenarios from the inputs.json file.
+    
+    Returns:
+        List of available scenario names
+    """
+    try:
+        inputs_data = _load_inputs_json()
+        return list(inputs_data.keys())
+    except Exception as e:
+        print(f"Warning: Failed to load available scenarios: {e}")
+        # Fallback to hardcoded scenarios if inputs.json is not available
+        return ['pg', 'support', 'ta', 'cmo', 'test']
+
+
+def create_dynamic_scenario_function(scenario: str) -> Dict[str, Any]:
+    """
+    Create a dynamic scenario function for any scenario in inputs.json
     
     Args:
-        scenario: One of 'pg', 'support', 'ta', 'cmo', 'test'
+        scenario: The scenario name
         
     Returns:
         Dictionary containing scenario-specific inputs
     """
+    inputs_data = _load_inputs_json()
+    
+    if scenario not in inputs_data:
+        available_scenarios = get_available_scenarios()
+        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {available_scenarios}")
+    
+    scenario_config = inputs_data[scenario].copy()  # Make a copy to avoid modifying original
+    
+    # Ensure metadata is complete if we have a TML filename
+    if scenario_config.get('tml_filename') and scenario_config.get('tml_filename') != 'NA':
+        scenario_config = _ensure_metadata_complete(scenario, scenario_config)
+        Liveboard_TML = _read_tml_file(scenario_config['tml_filename'])
+    else:
+        Liveboard_TML = "No TML file available"
+    
+    # Return standardized format
+    return {
+        "Liveboard_TML": Liveboard_TML,
+        "Worksheet_ID": scenario_config.get('worksheet_id', 'NA'),
+        "Liveboard_ID": scenario_config.get('liveboard_id', 'NA'),
+        "KPI": scenario_config.get('kpi', 'Key performance indicators'),
+        "Attributes": scenario_config.get('attributes', 'Key dimensions for analysis'),
+        "Aggregations": scenario_config.get('aggregations', 'Standard aggregations'),
+        "Date_Column": scenario_config.get('date_column', 'Date column'),
+        "Goal": scenario_config.get('goal', 'Business analysis goals'),
+        "User_Context": scenario_config.get('user_context', 'Analysis context'),
+        "Report_Format": scenario_config.get('report_format', 'Standard report format'),
+    }
+
+
+def get_scenario_inputs(scenario: str) -> Dict[str, Any]:
+    """
+    Get scenario-specific inputs based on the scenario name.
+    Dynamically handles any scenario available in inputs.json.
+    
+    Args:
+        scenario: Any scenario name available in inputs.json
+        
+    Returns:
+        Dictionary containing scenario-specific inputs
+    """
+    # First check if it's one of the hardcoded scenarios with specific functions
     scenario_functions = {
         'pg': scenario_pg,
         'support': scenario_support,
@@ -492,7 +550,8 @@ def get_scenario_inputs(scenario: str) -> Dict[str, Any]:
         'test': scenario_test,
     }
     
-    if scenario not in scenario_functions:
-        raise ValueError(f"Unknown scenario: {scenario}. Must be one of: {list(scenario_functions.keys())}")
-    
-    return scenario_functions[scenario]()
+    if scenario in scenario_functions:
+        return scenario_functions[scenario]()
+    else:
+        # Use dynamic scenario function for any other scenario in inputs.json
+        return create_dynamic_scenario_function(scenario)
