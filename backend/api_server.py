@@ -1187,7 +1187,7 @@ def get_create_scenario_progress(session_id):
 @app.route('/config.js', methods=['GET'])
 def serve_config_js():
     """Serve config.js file with backend configuration"""
-    backend_port = os.getenv('PORT', '5000')
+    backend_port = os.getenv('PORT', '5005')
     
     config_js_content = f"""// Auto-generated backend configuration
 window.BACKEND_CONFIG = {{
@@ -1226,7 +1226,7 @@ def serve_static(path):
 @app.route('/api/config', methods=['GET'])
 def get_config():
     """Get backend configuration from .env file for frontend"""
-    backend_port = os.getenv('PORT', '5000')
+    backend_port = os.getenv('PORT', '5005')
     return jsonify({
         "backend_port": backend_port,
         "backend_url": f"http://localhost:{backend_port}"
@@ -1255,7 +1255,7 @@ def manage_env_settings():
             ts_url = os.getenv('THOUGHTSPOT_BASE_URL', '')
             ts_token = os.getenv('THOUGHTSPOT_AUTH_TOKEN', '')
             claude_key = os.getenv('CLAUDE_API_KEY', '')
-            backend_port = os.getenv('PORT', '5000')
+            backend_port = os.getenv('PORT', '5005')
             frontend_port = os.getenv('FRONTEND_PORT', '3000')
             
             current_settings['thoughtspot_base_url'] = ts_url if ts_url else ''
@@ -1437,7 +1437,7 @@ if __name__ == '__main__':
     print(f"📁 Inputs file: {INPUTS_FILE}")
     
     # Get port from environment or use default
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', 5005))
     
     print(f"🌐 Server running on: http://localhost:{port}")
     print(f"🎨 Frontend UI: http://localhost:{port}")

@@ -21,8 +21,8 @@ elif [ -f ".env" ]; then
     export $(grep -v '^#' .env | grep 'PORT=' | xargs)
 fi
 
-# Use PORT from .env or default to 5000
-PORT=${PORT:-5000}
+# Use PORT from .env or default to 5005
+PORT=${PORT:-5005}
 
 # Check if Flask dependencies are installed
 if ! python3 -c "import flask, flask_cors" 2>/dev/null; then

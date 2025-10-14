@@ -48,7 +48,7 @@ A powerful AI-driven analysis platform that integrates with ThoughtSpot and Clau
    THOUGHTSPOT_BASE_URL=https://your-instance.thoughtspotstaging.cloud
    THOUGHTSPOT_AUTH_TOKEN=your_base64_encoded_token
    CLAUDE_API_KEY=sk-ant-api03-your_claude_api_key
-   PORT=5000
+   PORT=5005
    ```
 
 6. **Start the application**
@@ -56,7 +56,7 @@ A powerful AI-driven analysis platform that integrates with ThoughtSpot and Clau
    ./start_servers.sh
    ```
 
-7. **Open your browser** and go to: `http://localhost:5000`
+7. **Open your browser** and go to: `http://localhost:5005`
 
 ## 📁 Project Structure
 
@@ -107,7 +107,7 @@ AI-Highlights-2.0/
 | `THOUGHTSPOT_BASE_URL` | Your ThoughtSpot instance URL | ✅ Yes |
 | `THOUGHTSPOT_AUTH_TOKEN` | Base64 encoded auth token | ✅ Yes |
 | `CLAUDE_API_KEY` | Anthropic Claude API key | ✅ Yes |
-| `PORT` | Server port (default: 5000) | ⚪ Optional |
+| `PORT` | Server port (default: 5005) | ⚪ Optional |
 
 ### Getting API Keys
 
@@ -129,7 +129,7 @@ AI-Highlights-2.0/
 **Server won't start:**
 - Check if virtual environment is activated
 - Verify all dependencies are installed: `pip install -r requirements.txt`
-- Check port availability: `lsof -i :5000`
+- Check port availability: `lsof -i :5005`
 
 **API connection failures:**
 - Verify API keys in Settings tab

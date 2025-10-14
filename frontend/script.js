@@ -1,5 +1,5 @@
 // Backend configuration - loaded from config.js
-let BACKEND_URL = 'BACKEND_URL'; // Default fallback
+let BACKEND_URL = 'http://localhost:5005'; // Default fallback
 
 /**
  * Initialize backend configuration from loaded config.js
@@ -10,8 +10,8 @@ function initializeBackendConfig() {
         console.log(`✅ Backend config initialized: ${BACKEND_URL}`);
         return true;
     } else {
-        console.warn('⚠️ No BACKEND_CONFIG found, using default port 5000');
-        BACKEND_URL = 'BACKEND_URL';
+        console.warn('⚠️ No BACKEND_CONFIG found, using default port 5005');
+        BACKEND_URL = 'http://localhost:5005';
         return false;
     }
 }
@@ -1820,7 +1820,7 @@ async function loadCurrentSettings() {
             document.getElementById('current-ts-url').textContent = result.settings.thoughtspot_base_url || 'Not configured';
             document.getElementById('current-ts-token').textContent = result.settings.thoughtspot_auth_token;
             document.getElementById('current-claude-key').textContent = result.settings.claude_api_key;
-            document.getElementById('current-server-port').textContent = result.settings.port || '5000';
+            document.getElementById('current-server-port').textContent = result.settings.port || '5005';
             
             // Fill form fields with current values (not masked ones)
             if (result.settings.thoughtspot_base_url) {
@@ -1876,7 +1876,7 @@ async function saveSettings() {
         
         if (result.success) {
             let restartMessage = '';
-            if (serverPort && serverPort !== '5000') {
+            if (serverPort && serverPort !== '5005') {
                 restartMessage = '\n⚠️ Note: Server port changed - restart the server to take effect.';
             }
             
@@ -1947,7 +1947,7 @@ async function testConnection() {
             message += `• Claude API: ${claudeTest.status === 'success' ? '✅' : '❌'} ${claudeTest.message}`;
             
             // Add port configuration note
-            if (serverPort && serverPort !== '5000') {
+            if (serverPort && serverPort !== '5005') {
                 message += `\n• Server Port: ⚠️ Port ${serverPort} configured (restart server to apply)`;
             }
             
