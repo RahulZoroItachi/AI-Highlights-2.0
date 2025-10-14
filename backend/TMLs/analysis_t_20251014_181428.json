@@ -1,0 +1,168 @@
+{
+  "success": true,
+  "liveboard_name": "PG Reporting - What Happened Last Week",
+  "visualization_count": 41,
+  "kpis": {
+    "KPI_1": {
+      "name": "M1 Opportunities Created Count for New & Expansion Customers",
+      "measure": "f Opportunity M1 Created Count",
+      "formula": "f Opportunity M1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total count of M1 stage opportunities created for new customers and existing customer expansions, excluding closed won deals with positive ACV.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_2": {
+      "name": "M1 Starting ACV for New & Expansion Customers",
+      "measure": "Total Opportunity M1 Starting ACV",
+      "formula": "Total Opportunity M1 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total M1 starting ACV value for new customers and existing customer expansion opportunities, excluding closed won deals.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_3": {
+      "name": "S0 Opportunities Created Count for New & Expansion Customers",
+      "measure": "f Opportunity S0 Created Count",
+      "formula": "f Opportunity S0 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total count of S0 stage opportunities created for new customers and existing customer expansions, excluding closed won deals with positive ACV.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_4": {
+      "name": "S0 Starting ACV for New & Expansion Customers",
+      "measure": "Total Opportunity S0 Starting ACV",
+      "formula": "Total Opportunity S0 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total S0 starting ACV value for new customers and existing customer expansion opportunities, excluding closed won deals.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_5": {
+      "name": "S1 Opportunities Created Count for New & Expansion Customers",
+      "measure": "f Opportunity S1 Created Count",
+      "formula": "f Opportunity S1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total count of S1 stage opportunities created for new customers and existing customer expansions, excluding closed won deals with positive ACV.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_6": {
+      "name": "S1 Starting ACV for New & Expansion Customers",
+      "measure": "Total Opportunity S1 Starting ACV",
+      "formula": "Total Opportunity S1 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total S1 starting ACV value for new customers and existing customer expansion opportunities, excluding closed won deals.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_7": {
+      "name": "S1 Opportunities Created Count with Team Filter",
+      "measure": "f Opportunity S1 Created Count",
+      "formula": "f Opportunity S1 Created Count",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of S1 opportunities created for new and expansion customers by teams, excluding closed won deals and null team assignments.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_8": {
+      "name": "S0 Opportunities Created Count with Team Filter",
+      "measure": "f Opportunity S0 Created Count",
+      "formula": "f Opportunity S0 Created Count",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of S0 opportunities created for new and expansion customers by teams, excluding closed won deals and null team assignments.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_9": {
+      "name": "M1 Opportunities Created Count with Team Filter",
+      "measure": "f Opportunity M1 Created Count",
+      "formula": "f Opportunity M1 Created Count",
+      "filters": [
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of M1 opportunities created for new and expansion customers by teams, excluding closed won deals and null team assignments.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_10": {
+      "name": "Total Opportunity ACV for New & Expansion Customers",
+      "measure": "Total Opportunity ACV",
+      "formula": "Total Opportunity ACV",
+      "filters": [
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total ACV value for all opportunities targeting new customers and existing customer expansions, excluding closed won deals with positive ACV.",
+      "chart_type": "TABLE",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    }
+  },
+  "attributes": "Opportunity Type, Opportunity Stage, Opportunity Creator Profile, Opportunity Source Detailed, Opportunity Owner Name",
+  "date_column": "Opportunity M1 Date",
+  "goal": "Track sales pipeline health by monitoring opportunity creation and progression across different stages (M1, S0, S1) to optimize revenue generation performance.",
+  "user_context": "Sales managers and revenue operations teams use this dashboard during weekly pipeline reviews to track opportunity creation velocity across different funnel stages (M1, S0, S1), analyzing both count and ACV metrics by individual contributors, teams, and lead sources to identify performance trends, compare team effectiveness, assess pipeline health progression from early-stage to qualified opportunities, and make data-driven decisions about resource allocation and coaching needs while focusing on non-closed-won deals from new customers and existing customer expansions."
+}

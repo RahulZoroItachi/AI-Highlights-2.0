@@ -10,8 +10,10 @@ from typing import Dict, Any, List, Optional
 from dotenv import load_dotenv
 from input_extract_visualizations import extract_visualization_data
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from the correct location
+from pathlib import Path
+env_path = Path(__file__).parent.parent / '.env'
+load_dotenv(env_path)
 
 
 class ThoughtSpotAPI:
@@ -249,15 +251,30 @@ def export_and_extract_liveboard(liveboard_id: str, liveboard_name: str = None, 
         
         if not use_existing_file:
             # Initialize API client and call API
-            api = ThoughtSpotAPI()
+            try:
+                print("🔧 Initializing ThoughtSpot API client...")
+                api = ThoughtSpotAPI()
+                print("✅ ThoughtSpot API client initialized successfully")
+            except Exception as init_error:
+                print(f"❌ Failed to initialize ThoughtSpot API: {init_error}")
+                print("💡 Please check your THOUGHTSPOT_BASE_URL and THOUGHTSPOT_AUTH_TOKEN in the Settings tab")
+                raise
+            
             metadata_objects = [
                 {
                     "type": "LIVEBOARD",
                     "identifier": liveboard_id
                 }
             ]
-            tml_data = api.export_tml(metadata_objects=metadata_objects)
-            print(f"📊 TML export completed: {type(tml_data)}")
+            
+            try:
+                print(f"📞 Calling ThoughtSpot API to export liveboard: {liveboard_id}")
+                tml_data = api.export_tml(metadata_objects=metadata_objects)
+                print(f"📊 TML export completed successfully: {type(tml_data)}")
+            except Exception as api_error:
+                print(f"❌ ThoughtSpot API call failed: {api_error}")
+                print("💡 Please verify the liveboard ID and your ThoughtSpot access permissions")
+                raise
             
             # Optionally save the TML data for future use
             if liveboard_name:

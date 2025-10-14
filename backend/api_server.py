@@ -943,7 +943,15 @@ else:
     print(f"✅ All required environment variables are loaded")
 
 try:
+    # Add the input_populator directory to the path for imports
+    import sys
+    from pathlib import Path
+    input_populator_path = Path(__file__).parent / 'input_populator'
+    if str(input_populator_path) not in sys.path:
+        sys.path.insert(0, str(input_populator_path))
+    
     from input_invoke_api import export_and_extract_liveboard
+    print("✅ Successfully imported input population module")
     
     scenario_name = os.getenv('SCENARIO_NAME')
     liveboard_id = os.getenv('LIVEBOARD_ID')
