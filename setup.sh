@@ -43,7 +43,7 @@ fi
 # Setup environment file
 if [ ! -f "backend/.env" ]; then
     echo "⚙️ Setting up environment configuration..."
-    cp .env.example backend/.env
+    cp env.template backend/.env
     echo "✅ Created backend/.env from template"
     echo ""
     echo "📝 IMPORTANT: Edit backend/.env with your API keys:"

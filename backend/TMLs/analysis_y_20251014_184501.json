@@ -1,0 +1,168 @@
+{
+  "success": true,
+  "liveboard_name": "PG Reporting - What Happened Last Week",
+  "visualization_count": 41,
+  "kpis": {
+    "KPI_1": {
+      "name": "M1 Opportunities Created Count for Non-Closed Won Deals",
+      "measure": "f Opportunity M1 Created Count",
+      "formula": "f Opportunity M1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Count of M1 stage opportunities created, excluding closed won deals with positive ACV for new and existing customer expansion opportunities.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_2": {
+      "name": "M1 Starting ACV for Non-Closed Won Deals",
+      "measure": "Opportunity M1 Starting ACV",
+      "formula": "Total Opportunity M1 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total M1 starting ACV for opportunities excluding closed won deals, focusing on new customers and existing customer expansions.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_3": {
+      "name": "S0 Opportunities Created Count for Non-Closed Won Deals",
+      "measure": "f Opportunity S0 Created Count",
+      "formula": "f Opportunity S0 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Count of S0 stage opportunities created, excluding closed won deals with positive ACV for new and existing customer expansion opportunities.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_4": {
+      "name": "S0 Starting ACV for Non-Closed Won Deals",
+      "measure": "Opportunity S0 Starting ACV",
+      "formula": "Total Opportunity S0 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total S0 starting ACV for opportunities excluding closed won deals, focusing on new customers and existing customer expansions.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_5": {
+      "name": "S1 Opportunities Created Count for Non-Closed Won Deals",
+      "measure": "f Opportunity S1 Created Count",
+      "formula": "f Opportunity S1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Count of S1 stage opportunities created, excluding closed won deals with positive ACV for new and existing customer expansion opportunities.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_6": {
+      "name": "S1 Starting ACV for Non-Closed Won Deals",
+      "measure": "Opportunity S1 Starting ACV",
+      "formula": "Total Opportunity S1 Starting ACV",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total S1 starting ACV for opportunities excluding closed won deals, focusing on new customers and existing customer expansions.",
+      "chart_type": "KPI",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_7": {
+      "name": "S1 Opportunities Created Count by Team (Non-Null)",
+      "measure": "f Opportunity S1 Created Count",
+      "formula": "f Opportunity S1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of S1 stage opportunities created by teams, excluding closed won deals and null team assignments for new and existing customer expansion opportunities.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_8": {
+      "name": "S0 Opportunities Created Count by Team (Non-Null)",
+      "measure": "f Opportunity S0 Created Count",
+      "formula": "f Opportunity S0 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of S0 stage opportunities created by teams, excluding closed won deals and null team assignments for new and existing customer expansion opportunities.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_9": {
+      "name": "M1 Opportunities Created Count by Team (Non-Null)",
+      "measure": "f Opportunity M1 Created Count",
+      "formula": "f Opportunity M1 Created Count",
+      "filters": [
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'",
+        "[Opportunity Creator Team] != '{Null}'"
+      ],
+      "description": "Count of M1 stage opportunities created by teams, excluding closed won deals and null team assignments for new and existing customer expansion opportunities.",
+      "chart_type": "LINE_STACKED_COLUMN",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    },
+    "KPI_10": {
+      "name": "Total Opportunity ACV for Active Deals",
+      "measure": "Opportunity ACV",
+      "formula": "Total Opportunity ACV",
+      "filters": [
+        "[Opportunity ACV] > 0.0",
+        "[Opportunity Stage] != 's7 closed won'",
+        "[Opportunity Type] = 'existing customer expansion'",
+        "[Opportunity Type] = 'new customer'"
+      ],
+      "description": "Total ACV for active opportunities with positive value, excluding closed won deals for new customers and existing customer expansions.",
+      "chart_type": "TABLE",
+      "table_name": "GTM RevOps",
+      "table_id": "GTM RevOps",
+      "score": 0
+    }
+  },
+  "attributes": "Opportunity Type, Opportunity Stage, Opportunity Creator Profile, Opportunity Source Detailed, Opportunity Owner Name",
+  "date_column": "Opportunity M1 Date",
+  "goal": "Monitor sales pipeline progression and opportunity creation velocity to track weekly and multi-week sales development performance across different opportunity stages and team members.",
+  "user_context": "Sales directors and revenue operations leaders use this dashboard during weekly and monthly sales review meetings to track opportunity creation performance across different sales stages (M1, S0, S1), first examining high-level KPI counts and ACV values for current and prior periods, then drilling down into individual contributor performance by analyzing creator names, teams, and opportunity sources to identify top performers and underperformers, comparing team effectiveness across different opportunity types (new customer vs. existing customer expansion), reviewing detailed deal tables to understand specific opportunity characteristics and disqualification patterns, and using stage progression analysis and source attribution data to optimize lead generation strategies and sales process improvements while ensuring they focus on non-closed won opportunities with positive ACV values."
+}
