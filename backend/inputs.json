@@ -173,7 +173,7 @@
     "aggregations": "NA",
     "date_column": "Opportunity M0 Date, Opportunity M1 Date",
     "goal": "To identify the Campaigns that are not doing good ",
-    "user_context": "For this month, identify the top 3 worst performing Opportunity Source MQL Category. \n\n1. Identify the Opportunity Source MQL Category that has seen the highest drop from M0 to M1 for this month. Identify the top 3 \n2. For each of these [Opportunity Source MQL Category], identify the [Opportunity MQL Touch Last Campaign Name] that had the highest drop from M0 to M1\n\n\nFetch all the required data at the begining as we will not know the top 3 and then fetch the Opportunity MQL Touch Last Campaign Name as we fetch data only once. Get all the data and then we can analyse\n\n\nIMPORTANT: Fetch M0 and M1 data separately using the relevant data columns and then run the comparison. Do NOT fetch them together",
+    "user_context": "1. Fetch the M0 and M1 Opportunity Created Count for this month by [Opportunity Source MQL Category]\n2. Fetch the M0 and M1 Opportunity Created Count for this month by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name]\n3. Identify the top [Opportunity Source MQL Category] drop from M0 to M1\n3, For these top [Opportunity Source MQL Category], identify the top drop in [Opportunity MQL Touch Last Campaign Name] from M0 to M1\n\n\n\nFetch all the required data at the begining as we will not know the top 3 and then fetch the [Opportunity MQL Touch Last Campaign Name] as we fetch data only once. Get all the data and then we can analyse\n\n\nIMPORTANT: Fetch M0 and M1 data separately using the relevant data columns and then run the comparison. Do NOT fetch them together",
     "report_format": "NA"
   }
 }

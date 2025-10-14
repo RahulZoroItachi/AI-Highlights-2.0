@@ -116,7 +116,6 @@ def call_claude_sonnet(system_prompt: str, output_format_prompt: str, user_messa
     
     try:
         print("🤖 Calling Claude Sonnet 4...")
-        print(f"🔧 Debug: Prompt length: {len(full_prompt)}")
         print("⏳ Waiting for Claude response... (this may take 1-3 minutes)")
         
         response = client.messages.create(
@@ -144,14 +143,8 @@ def call_claude_sonnet(system_prompt: str, output_format_prompt: str, user_messa
             if chunk.type == "content_block_delta":
                 full_response += chunk.delta.text
                 chunk_count += 1
-                
-                # Progress indicator every 500 chunks or every 10 seconds
-                current_time = time.time()
-                if chunk_count % 500 == 0 or (current_time - last_progress_time) > 10:
-                    print(f"⏳ Processing Claude response... ({chunk_count} chunks, {len(full_response)} chars)")
-                    last_progress_time = current_time
         
-        print(f"✅ Claude response completed. Total chunks: {chunk_count}, final length: {len(full_response)}")
+        print(f"✅ Claude response completed. Total length: {len(full_response)}")
         return full_response
     except Exception as e:
         print(f"❌ Error calling Claude: {e}")
@@ -182,10 +175,11 @@ def call_llm(system_prompt: str, output_format_prompt: str = "", user_message: s
 
 def main():
     """Main workflow execution."""
-    print("🚀 Starting n8n workflow replication...")
+    print("🚀 Starting AI Analysis...")
+    print("   Analyzing your ThoughtSpot data with AI insights")
     
     # Validate critical environment variables early
-    print("🔧 Validating environment...")
+    print("🔧 Checking configuration...")
     required_base_vars = ['THOUGHTSPOT_BASE_URL', 'THOUGHTSPOT_AUTH_TOKEN']
     missing_vars = []
     
@@ -194,11 +188,11 @@ def main():
             missing_vars.append(var)
     
     if missing_vars:
-        print(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
-        print("💡 Make sure your .env file is properly configured")
+        print(f"❌ Configuration incomplete: Missing {', '.join(missing_vars)}")
+        print("💡 Please check your API keys and ThoughtSpot settings in the Settings tab")
         return
     
-    print("✅ Base environment variables validated")
+    print("✅ Configuration validated")
     
     # Configuration - can be overridden by environment variables
     scenario = os.getenv('ANALYSIS_SCENARIO', "support")  # Change this to 'pg', 'ta', 'cmo' as needed
@@ -228,29 +222,14 @@ def main():
     
     # Initialize run logger for this scenario (will be overridden for partial executions)
     logger = get_scenario_logger(scenario)
-    print(f"📁 Using scenario directory: {logger.scenario_dir}")
     
-    # Show available versions for easy selection
+    # Show available versions for easy selection (concise view)
     previous_runs = logger.list_previous_runs()
-    print(f"\n📋 Available plans: {len(previous_runs['plans'])}")
-    for i, plan in enumerate(previous_runs['plans'][-5:], 1):  # Show last 5 plans
-        print(f"  {i}. {plan.split('/')[-1]}")
     
-    print(f"📊 Available data files: {len(previous_runs['data'])}")
-    for i, data in enumerate(previous_runs['data'][-5:], 1):  # Show last 5 data files
-        print(f"  {i}. {data.split('/')[-1]}")
-    
-    print(f"🔍 Available analysis files: {len(previous_runs['analysis'])}")
-    for i, analysis in enumerate(previous_runs['analysis'][-5:], 1):  # Show last 5 analysis files
-        print(f"  {i}. {analysis.split('/')[-1]}")
-    
-    # Uncomment and modify these lines to load specific versions:
-    # load_previous_plan = 1  # Load plan version 1
-    # load_previous_data = 1  # Load data version 1
-    # report_analysis_version = 1  # Use analysis version 1 for report generation
-    
-    if not previous_runs['plans']:
+    if not previous_runs['plans'] and not previous_runs['data'] and not previous_runs['analysis']:
         print("🆕 This is the first run for this scenario")
+    else:
+        print(f"📊 Previous runs available: {len(previous_runs['plans'])} plans, {len(previous_runs['data'])} data files, {len(previous_runs['analysis'])} analyses")
     
     # Display current configuration
     print(f"\n⚙️ Current Configuration:")
@@ -269,9 +248,9 @@ def main():
         # Determine workflow mode based on flags
         if report_analysis_version is not None:
             # SCENARIO: Analysis version provided - only run reporting
-            print(f"\n📊 ANALYSIS-ONLY MODE: Using analysis version {report_analysis_version} for reporting only...")
-            print("🔄 Skipping plan generation, data fetching, and analysis execution")
-            print("📋 Proceeding directly to report generation...")
+            print("\n📊 REPORT-ONLY MODE: Creating report from previous analysis...")
+            print("   Using existing analysis results to generate a new report")
+            print("📋 Preparing report...")
             
             # Use append mode to add files to the existing version
             logger = get_scenario_logger_with_append(scenario, report_analysis_version)
@@ -282,9 +261,9 @@ def main():
             
         elif load_previous_data is not None:
             # SCENARIO: Data version provided - run analysis and reporting
-            print(f"\n📊 DATA-LOADED MODE: Loading previous data version {load_previous_data}...")
-            print("🔄 Skipping plan generation and data fetching")
-            print("📋 Proceeding to analysis and reporting...")
+            print("\n📊 QUICK-RUN MODE: Using previous data...")
+            print("   Loading existing data and running fresh analysis")
+            print("📋 Preparing analysis...")
             
             # Use append mode to add files to the existing version
             logger = get_scenario_logger_with_append(scenario, load_previous_data)
@@ -346,19 +325,6 @@ def main():
                     analysis_steps.append(analysis_step)
             
             print(f"📊 Found {len(analysis_steps)} analysis steps in loaded plan")
-            
-            # Debug: Print analysis step details
-            if len(analysis_steps) == 0:
-                print("⚠️ No analysis steps found. Debugging plan structure...")
-                for i, phase in enumerate(phases):
-                    print(f"  Phase {i+1}: {phase.get('phaseTitle', 'Unknown')}")
-                    print(f"    - Fetch steps: {len(phase.get('fetchSteps', []))}")
-                    print(f"    - Analysis steps: {len(phase.get('analysisSteps', []))}")
-            else:
-                print("📋 Analysis steps found:")
-                for step in analysis_steps[:3]:  # Show first 3 steps
-                    print(f"  - {step.get('stepId', 'Unknown')}: {step.get('title', 'Unknown')}")
-                    print(f"    -> Maps to fetch step: {step.get('fetchStepId', 'None')}")
             
             analysis_results = {}
             
@@ -479,32 +445,31 @@ def main():
         
         if load_previous_plan is None and load_previous_data is None and report_analysis_version is None:
             # SCENARIO 1: Full execution - generate plan, fetch data, run analysis
-            print("\n🆕 SCENARIO 1: Full execution - generating new plan...")
+            print("\n🆕 FULL ANALYSIS MODE: Creating complete new analysis...")
+            print("   This will generate a new plan, fetch data, and run analysis")
             
             # Step 1: Generate the metadata table prompt
-            print("\n📋 Step 1: Generating metadata table prompt...")
+            print("\n📋 Step 1: Understanding your data structure...")
             metadata_prompt, table_system_prompt = get_metadata_prompt_with_format(scenario)
-            print(f"✅ Generated metadata prompt for scenario: {scenario}")
+            print(f"✅ Analyzed data structure for scenario: {scenario}")
             
             # Step 2: Send to LLM with output format prompt
-            print(f"\n🤖 Step 2: Sending to {llm_provider.upper()} with output format...")
-            print(f"🔧 Debug: About to call LLM with provider: {llm_provider}")
-            print(f"🔧 Debug: Metadata prompt length: {len(metadata_prompt) if metadata_prompt else 0} characters")
+            print(f"\n🤖 Step 2: Getting AI insights on your data...")
+            print("   AI is analyzing your data to understand patterns")
             
             try:
                 llm_response_1 = call_llm(metadata_prompt, user_message=table_system_prompt, llm_provider=llm_provider)
-                print("✅ LLM response received")
-                print(f"🔧 Debug: Response length: {len(llm_response_1) if llm_response_1 else 0} characters")
+                print("✅ AI insights received successfully")
             except Exception as e:
-                print(f"❌ Error calling LLM in Step 2: {e}")
-                print(f"🔧 Debug: LLM call failed with exception: {type(e).__name__}")
+                print(f"❌ Failed to get AI insights: {e}")
+                print("💡 This might be a temporary issue. Please try again or check your API connection.")
                 raise
             
             # Step 3: Parse and validate metadata output
-            print("\n🔍 Step 3: Parsing metadata output...")
+            print("\n🔍 Step 3: Processing AI insights...")
             try:
                 parsed_metadata = llm_response_1
-                print("✅ Metadata output parsed successfully")
+                print("✅ AI insights processed successfully")
             except Exception as e:
                 print(f"❌ Error parsing metadata output: {e}")
                 return
@@ -524,10 +489,6 @@ def main():
             # Parse the JSON string response
             print("\n🔍 Step 5.5: Parsing JSON response...")
             print(f"📊 Raw response length: {len(llm_response_2_raw)}")
-            
-            # Debug: Show first and last parts of the response
-            print(f"🔧 Debug: First 200 chars: {repr(llm_response_2_raw[:200])}")
-            print(f"🔧 Debug: Last 200 chars: {repr(llm_response_2_raw[-200:])}")
             
             import json
             try:
@@ -728,18 +689,11 @@ def main():
                     previous_runs = logger.list_previous_runs()
                     
                     if previous_runs['analysis']:
-                        # Debug: Print all available analysis files
-                        print(f"🔍 Debug: All available analysis files:")
-                        for i, analysis_file in enumerate(previous_runs['analysis'], 1):
-                            print(f"  {i}. {analysis_file}")
-                        
                         # Determine which analysis file to load
                         if report_analysis_version is not None:
                             # Load specific analysis version - look for analysis files in the specific version directory
                             version_dir_pattern = f"{scenario}_v{report_analysis_version:03d}"
                             matching_analysis = [f for f in previous_runs['analysis'] if version_dir_pattern in f]
-                            print(f"🎯 Debug: Looking for version directory pattern: '{version_dir_pattern}'")
-                            print(f"🔍 Debug: Matching files: {matching_analysis}")
                             
                             if matching_analysis:
                                 analysis_file = sorted(matching_analysis)[-1]  # Get latest if multiple matches

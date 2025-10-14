@@ -1,0 +1,58 @@
+Data Analysis Results - cmo_week_on_week
+Generated on: 20251014
+==================================================
+
+--- 1.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+
+--- 2.1: Unknown ---
+Row count: 14
+Data:
+Row 1: {'Opportunity Deployment != mode': ''}
+Row 2: {'Opportunity Deployment != mode': 'Weekly Opportunity M1 Date - Fiscal'}
+Row 3: {'Opportunity Deployment != mode': '09/29/2025 Week'}
+Row 4: {'Opportunity Deployment != mode': '07/28/2025 Week'}
+Row 5: {'Opportunity Deployment != mode': '08/04/2025 Week'}
+Row 6: {'Opportunity Deployment != mode': '08/18/2025 Week'}
+Row 7: {'Opportunity Deployment != mode': '08/11/2025 Week'}
+Row 8: {'Opportunity Deployment != mode': '08/25/2025 Week'}
+Row 9: {'Opportunity Deployment != mode': '09/01/2025 Week'}
+Row 10: {'Opportunity Deployment != mode': '09/15/2025 Week'}
+... and 4 more rows
+
+------------------------------
+
+--- 3.1: Unknown ---
+Row count: 14
+Data:
+Row 1: {'Opportunity Deployment != mode': ''}
+Row 2: {'Opportunity Deployment != mode': 'Weekly Opportunity S0 Date - Fiscal', None: ['cumulative s0 acv by quarter']}
+Row 3: {'Opportunity Deployment != mode': '07/28/2025 Week', None: ['1233606.5600437121']}
+Row 4: {'Opportunity Deployment != mode': '08/04/2025 Week', None: ['9697255.009923503']}
+Row 5: {'Opportunity Deployment != mode': '08/11/2025 Week', None: ['1.0902255077956304E7']}
+Row 6: {'Opportunity Deployment != mode': '08/18/2025 Week', None: ['2.09010039544741E7']}
+Row 7: {'Opportunity Deployment != mode': '08/25/2025 Week', None: ['2.959199624343168E7']}
+Row 8: {'Opportunity Deployment != mode': '09/01/2025 Week', None: ['4.130379952345353E7']}
+Row 9: {'Opportunity Deployment != mode': '09/08/2025 Week', None: ['4.917724216373766E7']}
+Row 10: {'Opportunity Deployment != mode': '09/15/2025 Week', None: ['5.882289168016064E7']}
+... and 4 more rows
+
+------------------------------
+
+--- 4.1: Unknown ---
+Row count: 179
+Data:
+Row 1: {'Opportunity Deployment != mode': ''}
+Row 2: {'Opportunity Deployment != mode': 'Weekly Opportunity M1 Date - Fiscal', None: ['cumulative m1 acv', 'cumulative s0 acv']}
+Row 3: {'Opportunity Deployment != mode': '09/29/2025 Week', None: ['0.0', '0.0']}
+Row 4: {'Opportunity Deployment != mode': '09/22/2025 Week', None: ['0.0', '0.0']}
+Row 5: {'Opportunity Deployment != mode': '09/15/2025 Week', None: ['0.0', '0.0']}
+Row 6: {'Opportunity Deployment != mode': '07/28/2025 Week', None: ['238606.560043712', '108606.560043712']}
+Row 7: {'Opportunity Deployment != mode': '08/04/2025 Week', None: ['900000.0', '900000.0']}
+Row 8: {'Opportunity Deployment != mode': '08/04/2025 Week', None: ['150000.0', '1050000.0']}
+Row 9: {'Opportunity Deployment != mode': '08/04/2025 Week', None: ['1055000.0', '2105000.0']}
+Row 10: {'Opportunity Deployment != mode': '08/04/2025 Week', None: ['1092759.109127625', '3197759.109127625']}
+... and 169 more rows
+
+------------------------------
+

@@ -1,0 +1,51 @@
+EXECUTIVE REPORT - MARKETING_FUNNEL_A
+Generated on: 2025-10-14 12:33:04
+================================================================================
+
+# BACKGROUND
+
+This report analyzes campaign performance to identify campaigns that are underperforming based on the available data. The analysis focuses on examining opportunity data across different categories and campaigns to highlight areas of concern for campaign effectiveness.
+
+# DETAILED ANALYSIS
+
+## Data Limitations and Current State
+
+The analysis reveals significant constraints in the available dataset that impact the ability to provide comprehensive campaign performance insights. The provided data contains only two distinct values:
+
+- "Opportunity Pain"  
+- "unknown"
+
+## Incomplete Analysis Framework
+
+The intended analysis was designed to identify campaigns with the highest drop in opportunity count from M0 to M1 periods, specifically focusing on the top 3 worst performing MQL (Marketing Qualified Lead) categories. However, this comprehensive analysis cannot be completed due to missing critical data components.
+
+## Missing Data Requirements
+
+The analysis requires several key data tables that are not present in the current dataset:
+
+**M0 Period Data**: Complete opportunity counts with MQL categories, campaign names, and corresponding count values for the initial measurement period.
+
+**M1 Period Data**: Complete opportunity counts with MQL categories, campaign names, and corresponding count values for the comparison measurement period.
+
+**Performance Rankings**: Identification of the top 3 worst performing MQL categories based on period-over-period comparison metrics.
+
+**Campaign Attribution Data**: Complete mapping between opportunities, their source MQL categories, and the last touch campaign names that influenced those opportunities.
+
+## Current Data Interpretation
+
+The available data points suggest the presence of:
+
+- An "Opportunity Pain" category or field value
+- "Unknown" classifications, which may indicate data quality issues or incomplete attribution
+
+These limited data points prevent the calculation of drop rates, performance comparisons, or the identification of specific underperforming campaigns as intended by the analysis framework.
+
+# EXECUTIVE SUMMARY
+
+The campaign performance analysis is constrained by incomplete data availability, preventing the identification of underperforming campaigns. The dataset contains only basic categorical information without the necessary metrics for performance evaluation. Key focus areas requiring attention include:
+
+- **Data Completeness**: Only two data values available versus comprehensive tables needed
+- **Missing Metrics**: Absence of M0 and M1 opportunity count data for comparison analysis  
+- **Campaign Attribution Gaps**: No mapping between campaigns and opportunity performance available
+- **Performance Ranking Unavailable**: Cannot identify worst performing MQL categories without complete data
+- **Unknown Classifications Present**: Data quality concerns indicated by "unknown" values in dataset

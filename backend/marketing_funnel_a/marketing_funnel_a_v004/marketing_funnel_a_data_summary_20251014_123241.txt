@@ -1,0 +1,23 @@
+Data Analysis Results - marketing_funnel_a
+Generated on: 20251014
+==================================================
+
+--- 1.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+
+--- 2.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+
+--- 3.1: Unknown ---
+Error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+
+--- 4.1: Unknown ---
+Row count: 1
+Data:
+Row 1: {'Opportunity Pain': 'unknown'}
+
+------------------------------
+
+--- 5.1: Unknown ---
+Error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+

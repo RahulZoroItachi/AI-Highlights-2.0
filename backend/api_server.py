@@ -176,16 +176,11 @@ def start_analysis():
             print(f"❌ {error_msg}")  # Also print to server console
             return jsonify({"success": False, "error": error_msg})
         
-        print(f"🔧 Debug: Environment variables configured for {llm_provider}: {', '.join([f'{var}=***' for var in required_env_vars])}")
+        print(f"🔧 Environment variables configured for {llm_provider}")
         
         # Start analysis process
         def run_analysis():
             try:
-                # Add debugging
-                output_queue.put(f"🔧 Debug: Starting subprocess with scenario={scenario}")
-                output_queue.put(f"🔧 Debug: Working directory: {Path(__file__).parent}")
-                output_queue.put(f"🔧 Debug: Python executable: {sys.executable}")
-                
                 # Use the same Python executable that's running the API server
                 python_executable = sys.executable
                 
@@ -202,7 +197,6 @@ def start_analysis():
                 )
                 
                 analysis_processes[session_id] = process
-                output_queue.put(f"🔧 Debug: Process started with PID {process.pid}")
                 
                 # Read output line by line and put in queue with timeout monitoring
                 try:
@@ -248,11 +242,10 @@ def start_analysis():
                                 return
                                 
                 except Exception as read_error:
-                    output_queue.put(f"🔧 Debug: Error reading output: {read_error}")
+                    pass  # Suppress debug error output
                 
                 # Wait for process to complete
                 return_code = process.wait()
-                output_queue.put(f"🔧 Debug: Process completed with return code {return_code}")
                 
                 # Signal completion
                 if return_code == 0:
@@ -289,13 +282,10 @@ def start_analysis():
                                 latest_report = max(report_files, key=os.path.getctime)
                                 with open(latest_report, 'r', encoding='utf-8') as f:
                                     report_content = f.read()
-                                output_queue.put(f"🔧 Debug: Found report file: {latest_report}")
                             else:
-                                output_queue.put(f"🔧 Debug: No report files found for scenario: {analysis_scenario}")
-                        else:
-                            output_queue.put(f"🔧 Debug: Could not determine scenario for report lookup")
+                                pass  # No report files found
                     except Exception as report_error:
-                        output_queue.put(f"🔧 Debug: Error reading report: {report_error}")
+                        pass  # Suppress report error debug output
                     
                     # Send completion with report content if available
                     if report_content:
@@ -307,12 +297,11 @@ def start_analysis():
                     
             except Exception as e:
                 output_queue.put(f"__ANALYSIS_ERROR__: {str(e)}")
-                output_queue.put(f"🔧 Debug: Exception in run_analysis: {e}")
             finally:
                 # Clean up
                 if session_id in analysis_processes:
                     del analysis_processes[session_id]
-                output_queue.put(f"🔧 Debug: Cleanup completed for session {session_id}")
+                output_queue.put("Session cleanup completed")
         
         # Start analysis in background thread with better error handling
         thread = threading.Thread(target=run_analysis, name=f"analysis-{session_id}")
@@ -796,7 +785,7 @@ except Exception as e:
                 # Clean up
                 if session_id in analysis_processes:
                     del analysis_processes[session_id]
-                output_queue.put(f"🔧 Debug: Cleanup completed for session {session_id}")
+                output_queue.put("Session cleanup completed")
         
         # Start input population in background thread
         thread = threading.Thread(target=run_input_population, name=f"populate-{session_id}")
@@ -1118,7 +1107,7 @@ except Exception as e:
                 # Clean up
                 if session_id in analysis_processes:
                     del analysis_processes[session_id]
-                output_queue.put(f"🔧 Debug: Cleanup completed for session {session_id}")
+                output_queue.put("Session cleanup completed")
         
         # Start scenario creation in background thread
         thread = threading.Thread(target=run_scenario_creation, name=f"create-scenario-{session_id}")

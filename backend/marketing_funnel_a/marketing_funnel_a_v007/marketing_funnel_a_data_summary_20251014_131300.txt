@@ -1,0 +1,65 @@
+Data Analysis Results - marketing_funnel_a
+Generated on: 20251014
+==================================================
+
+--- 1.1: Unknown ---
+Row count: 32
+Data:
+Row 1: {'Opportunity Deployment != mode': 'Opportunity Source = marketing'}
+Row 2: {'Opportunity Deployment != mode': ''}
+Row 3: {'Opportunity Deployment != mode': 'Opportunity MQL Touch Last Campaign Name', None: ['Opportunity Source MQL Category', 'f Opportunity M0 Created Count']}
+Row 4: {'Opportunity Deployment != mode': 'EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements', None: ['In-Person Event', '14']}
+Row 5: {'Opportunity Deployment != mode': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['Paid Social', '3']}
+Row 6: {'Opportunity Deployment != mode': 'PPC 2025.09.17 Data Leader - Free Trial 2025 (Search Ads)', None: ['Search Ads', '1']}
+Row 7: {'Opportunity Deployment != mode': 'EV 2025.10.01 SDWT Berlin', None: ['In-Person Event', '8']}
+Row 8: {'Opportunity Deployment != mode': 'EV 2025.09.10 CDAO Melbourne -  All attendees and asset download', None: ['In-Person Event', '1']}
+Row 9: {'Opportunity Deployment != mode': 'EV 2025.10.01 Post SDWT Ancillary Event - Berlin', None: ['In-Person Event', '2']}
+Row 10: {'Opportunity Deployment != mode': 'EV 2025.10.02 SDWT NYC', None: ['In-Person Event', '1']}
+... and 22 more rows
+
+------------------------------
+
+--- 1.2: Unknown ---
+Row count: 28
+Data:
+Row 1: {'Opportunity Deployment != mode': 'Opportunity Source = marketing'}
+Row 2: {'Opportunity Deployment != mode': ''}
+Row 3: {'Opportunity Deployment != mode': 'Opportunity MQL Touch Last Campaign Name', None: ['Opportunity Source MQL Category', 'f Opportunity M1 Created Count']}
+Row 4: {'Opportunity Deployment != mode': 'EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements', None: ['In-Person Event', '14']}
+Row 5: {'Opportunity Deployment != mode': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['Paid Social', '2']}
+Row 6: {'Opportunity Deployment != mode': 'PPC 2025.09.17 Data Leader - Free Trial 2025 (Search Ads)', None: ['Search Ads', '1']}
+Row 7: {'Opportunity Deployment != mode': 'EV 2025.10.01 SDWT Berlin', None: ['In-Person Event', '6']}
+Row 8: {'Opportunity Deployment != mode': 'EV 2025.09.10 CDAO Melbourne -  All attendees and asset download', None: ['In-Person Event', '1']}
+Row 9: {'Opportunity Deployment != mode': 'EV 2025.10.01 Post SDWT Ancillary Event - Berlin', None: ['In-Person Event', '1']}
+Row 10: {'Opportunity Deployment != mode': 'EV 2025.10.02 SDWT NYC', None: ['In-Person Event', '1']}
+... and 18 more rows
+
+------------------------------
+
+--- 2.1: Unknown ---
+Row count: 21
+Data:
+Row 1: {'Content Syndication': 'SEO', '7': '0', '628': '9', '-621': '-9', '-8871.42857142857': '0.0'}
+Row 2: {'Content Syndication': 'ABM', '7': '0', '628': '146', '-621': '-146', '-8871.42857142857': '0.0'}
+Row 3: {'Content Syndication': 'Webinar', '7': '46', '628': '2235', '-621': '-2189', '-8871.42857142857': '-4758.695652173913'}
+Row 4: {'Content Syndication': 'Virtual Event', '7': '17', '628': '1239', '-621': '-1222', '-8871.42857142857': '-7188.235294117647'}
+Row 5: {'Content Syndication': 'In-Person Event', '7': '138', '628': '7433', '-621': '-7295', '-8871.42857142857': '-5286.231884057971'}
+Row 6: {'Content Syndication': 'Third Party', '7': '0', '628': '62', '-621': '-62', '-8871.42857142857': '0.0'}
+Row 7: {'Content Syndication': 'Search Ads', '7': '10', '628': '712', '-621': '-702', '-8871.42857142857': '-7020.0'}
+Row 8: {'Content Syndication': 'Exec. Influence', '7': '0', '628': '18', '-621': '-18', '-8871.42857142857': '0.0'}
+Row 9: {'Content Syndication': 'Hybrid Event', '7': '15', '628': '34', '-621': '-19', '-8871.42857142857': '-126.66666666666666'}
+Row 10: {'Content Syndication': 'Direct Mail', '7': '4', '628': '268', '-621': '-264', '-8871.42857142857': '-6600.0'}
+... and 11 more rows
+
+------------------------------
+
+--- 3.1: Unknown ---
+Row count: 1
+Data:
+Row 1: {'EM 2016.01.29 UK Gartner BI Summit Outreach - Gartner MBIAP': 'AED 2018.07.19 Kansas City, MO TopGolf Event', 'Email': 'In-Person Event', '0': '0', '6': '3', '-6': '-3', '0.0': '0.0'}
+
+------------------------------
+
+--- 4.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+

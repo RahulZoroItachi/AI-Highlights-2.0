@@ -1,0 +1,220 @@
+{
+  "primaryGoal": "Identify the top 3 worst performing Opportunity Source MQL Categories and their associated campaigns that experienced the highest drop in opportunity creation from M0 to M1 for this month.",
+  "assumptions": [
+    "The [Opportunity M0 Date] and [Opportunity M1 Date] fields accurately reflect the timing of opportunity creation in their respective periods.",
+    "M0 represents an earlier stage in the opportunity lifecycle than M1, and a drop from M0 to M1 indicates performance degradation.",
+    "The filters [Opportunity Source] = 'marketing', [Opportunity Source MQL Classification] in ('digital', 'events'), and [Opportunity Deployment] != 'mode' are consistently applied across all data fetches.",
+    "This month refers to the current calendar month for both M0 and M1 date filters.",
+    "A higher absolute drop (M0 - M1) indicates worse performance and is the primary metric for identifying underperforming categories and campaigns."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "M0 and M1 Data Collection at Category and Campaign Level",
+      "phaseDescription": "Fetch all required data separately for M0 and M1 periods at the most granular level (Opportunity Source MQL Category and Campaign Name) to enable comprehensive drop analysis without requiring additional data pulls.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch M0 Opportunity Data by Category and Campaign",
+          "objective": "Retrieve M0 opportunity counts for all combinations of Opportunity Source MQL Category and Campaign Name for this month with all required filters applied.",
+          "requiredData": "Columns: [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M0 Created Count]. Filters: [Opportunity M0 Date] is 'this month', [Opportunity Source] = 'marketing', [Opportunity Source MQL Classification] in ('digital', 'events'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [f Opportunity M0 Created Count] grouped by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity M0 Date] is 'this month' and [Opportunity Source] is 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events') and [Opportunity Deployment] is not equal to 'mode'. Include columns [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M0 Created Count]. Aggregate by summing [f Opportunity M0 Created Count] for each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+          "phaseNumber": 1,
+          "phaseTitle": "M0 and M1 Data Collection at Category and Campaign Level"
+        },
+        {
+          "stepId": "1.2",
+          "title": "Fetch M1 Opportunity Data by Category and Campaign",
+          "objective": "Retrieve M1 opportunity counts for all combinations of Opportunity Source MQL Category and Campaign Name for this month with all required filters applied.",
+          "requiredData": "Columns: [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M1 Created Count]. Filters: [Opportunity M1 Date] is 'this month', [Opportunity Source] = 'marketing', [Opportunity Source MQL Classification] in ('digital', 'events'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [f Opportunity M1 Created Count] grouped by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity M1 Date] is 'this month' and [Opportunity Source] is 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events') and [Opportunity Deployment] is not equal to 'mode'. Include columns [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M1 Created Count]. Aggregate by summing [f Opportunity M1 Created Count] for each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+          "phaseNumber": 1,
+          "phaseTitle": "M0 and M1 Data Collection at Category and Campaign Level"
+        }
+      ],
+      "analysisSteps": []
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "Category-Level Performance Analysis",
+      "phaseDescription": "Merge M0 and M1 data at the category level, calculate drop metrics, and identify the top 3 worst performing Opportunity Source MQL Categories based on the highest absolute drop from M0 to M1.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Merge and Aggregate M0 and M1 Data at Category Level",
+          "objective": "Combine the M0 and M1 datasets from Phase 1 at the [Opportunity Source MQL Category] level to calculate total opportunities and drops for each category.",
+          "requiredData": "This is a computational step using data from steps 1.1 and 1.2. For each [Opportunity Source MQL Category], calculate: Total M0 Count (sum of [f Opportunity M0 Created Count]), Total M1 Count (sum of [f Opportunity M1 Created Count]), Absolute Drop (M0 - M1), and Drop Percentage ((M0 - M1) / M0 * 100).",
+          "fetchPrompt": "Using the data fetched in steps 1.1 and 1.2, merge the datasets on [Opportunity Source MQL Category]. For each unique [Opportunity Source MQL Category], calculate the total [f Opportunity M0 Created Count] and total [f Opportunity M1 Created Count] by summing across all campaigns within that category. Then compute the absolute drop as (Total M0 Count - Total M1 Count) and the drop percentage as ((Total M0 Count - Total M1 Count) / Total M0 Count * 100) for each category.",
+          "phaseNumber": 2,
+          "phaseTitle": "Category-Level Performance Analysis"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Identify Top 3 Worst Performing Categories by Absolute Drop",
+          "groupBy": "[Opportunity Source MQL Category]",
+          "aggregation": "Calculated Metric: Absolute Drop (Total M0 Count - Total M1 Count)",
+          "question": "Which 3 Opportunity Source MQL Categories experienced the highest absolute drop in opportunity creation from M0 to M1 this month?",
+          "analysisPrompt": "Analyze the merged category-level data to identify the top 3 [Opportunity Source MQL Category] values with the highest absolute drop (M0 Count - M1 Count). For each of these top 3 categories, report: the category name, total M0 opportunity count, total M1 opportunity count, absolute drop value, and drop percentage. Rank them by absolute drop in descending order. Generate an insight summarizing which categories are underperforming most significantly and the magnitude of their performance decline.",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Category-Level Performance Analysis"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "Campaign-Level Drill-Down for Worst Performing Categories",
+      "phaseDescription": "For each of the top 3 worst performing Opportunity Source MQL Categories identified in Phase 2, analyze the campaign-level data to identify which specific campaigns within each category had the highest drop from M0 to M1.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Filter and Analyze Campaign Performance for Top 3 Worst Categories",
+          "objective": "Using the granular data from Phase 1 (steps 1.1 and 1.2), filter for only the top 3 worst performing categories and calculate drop metrics at the campaign level within each category.",
+          "requiredData": "This is a computational step using data from steps 1.1 and 1.2, filtered to include only the top 3 [Opportunity Source MQL Category] values identified in step 2.1.1. For each combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name] within these top 3 categories, calculate: M0 Count, M1 Count, Absolute Drop (M0 - M1), and Drop Percentage.",
+          "fetchPrompt": "Using the merged data from steps 1.1 and 1.2, filter the dataset to include only rows where [Opportunity Source MQL Category] is one of the top 3 worst performing categories identified in analysis step 2.1.1. For each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name] within these filtered categories, ensure you have [f Opportunity M0 Created Count] and [f Opportunity M1 Created Count]. Calculate the absolute drop as (M0 Count - M1 Count) and drop percentage as ((M0 Count - M1 Count) / M0 Count * 100) for each campaign.",
+          "phaseNumber": 3,
+          "phaseTitle": "Campaign-Level Drill-Down for Worst Performing Categories"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Identify Worst Performing Campaign for Each Top 3 Category",
+          "groupBy": "[Opportunity Source MQL Category], then within each category by [Opportunity MQL Touch Last Campaign Name]",
+          "aggregation": "Calculated Metric: Absolute Drop (M0 Count - M1 Count) for each campaign",
+          "question": "For each of the top 3 worst performing Opportunity Source MQL Categories, which specific campaign ([Opportunity MQL Touch Last Campaign Name]) had the highest absolute drop from M0 to M1?",
+          "analysisPrompt": "Analyze the filtered campaign-level data for the top 3 worst performing categories. For each of these 3 categories separately, identify the [Opportunity MQL Touch Last Campaign Name] with the highest absolute drop (M0 Count - M1 Count). For each identified worst campaign within each category, report: the category name, campaign name, M0 opportunity count, M1 opportunity count, absolute drop value, and drop percentage. Generate an insight for each category explaining which campaign is the primary driver of poor performance within that category and provide the quantitative evidence. Structure the output to clearly show the worst campaign for Category #1, Category #2, and Category #3.",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "Campaign-Level Drill-Down for Worst Performing Categories"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Comprehensive Performance Summary",
+      "phaseDescription": "Synthesize findings from all previous phases to provide a complete view of underperforming categories and campaigns with actionable recommendations.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Consolidate All Analysis Results",
+          "objective": "Compile all insights from Phase 2 and Phase 3 to create a comprehensive summary report of worst performing categories and their worst performing campaigns.",
+          "requiredData": "This is a synthesis step using insights from analysis steps 2.1.1 and 3.1.1. No new data fetch required.",
+          "fetchPrompt": "Consolidate the results from analysis steps 2.1.1 (top 3 worst performing categories) and 3.1.1 (worst performing campaign for each of those categories). Prepare a structured summary that includes: (1) The complete list of top 3 worst performing [Opportunity Source MQL Category] with their M0 counts, M1 counts, absolute drops, and drop percentages; (2) For each of these categories, the worst performing [Opportunity MQL Touch Last Campaign Name] with its M0 count, M1 count, absolute drop, and drop percentage.",
+          "phaseNumber": 4,
+          "phaseTitle": "Comprehensive Performance Summary"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Generate Executive Summary and Actionable Recommendations",
+          "groupBy": "No grouping - this is a summary analysis",
+          "aggregation": "No aggregation - synthesis of previous insights",
+          "question": "What is the complete picture of campaign underperformance, and what actions should be taken to address the identified issues?",
+          "analysisPrompt": "Create an executive summary that presents the complete analysis findings in a clear, actionable format. Structure the summary as follows: (1) Overview: State the total number of categories and campaigns analyzed, and highlight that 3 categories showed significant underperformance. (2) Top 3 Worst Performing Categories: List each category with its performance metrics (M0, M1, drop, drop %). (3) Worst Campaign Drivers: For each of the 3 categories, identify the specific campaign that contributed most to the poor performance with its metrics. (4) Key Insights: Identify any patterns across the worst performers (e.g., are certain campaign types consistently underperforming?). (5) Actionable Recommendations: Provide specific, data-driven recommendations such as pausing or optimizing the identified campaigns, investigating root causes of the M0 to M1 drop, reallocating budget from underperforming campaigns, and establishing monitoring protocols for these categories. Ensure the summary directly answers the business goal of identifying campaigns that are not performing well.",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Comprehensive Performance Summary"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch M0 Opportunity Data by Category and Campaign",
+      "objective": "Retrieve M0 opportunity counts for all combinations of Opportunity Source MQL Category and Campaign Name for this month with all required filters applied.",
+      "requiredData": "Columns: [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M0 Created Count]. Filters: [Opportunity M0 Date] is 'this month', [Opportunity Source] = 'marketing', [Opportunity Source MQL Classification] in ('digital', 'events'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [f Opportunity M0 Created Count] grouped by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity M0 Date] is 'this month' and [Opportunity Source] is 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events') and [Opportunity Deployment] is not equal to 'mode'. Include columns [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M0 Created Count]. Aggregate by summing [f Opportunity M0 Created Count] for each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+      "phaseNumber": 1,
+      "phaseTitle": "M0 and M1 Data Collection at Category and Campaign Level"
+    },
+    {
+      "stepId": "1.2",
+      "title": "Fetch M1 Opportunity Data by Category and Campaign",
+      "objective": "Retrieve M1 opportunity counts for all combinations of Opportunity Source MQL Category and Campaign Name for this month with all required filters applied.",
+      "requiredData": "Columns: [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M1 Created Count]. Filters: [Opportunity M1 Date] is 'this month', [Opportunity Source] = 'marketing', [Opportunity Source MQL Classification] in ('digital', 'events'), [Opportunity Deployment] != 'mode'. Aggregation: SUM of [f Opportunity M1 Created Count] grouped by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity M1 Date] is 'this month' and [Opportunity Source] is 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events') and [Opportunity Deployment] is not equal to 'mode'. Include columns [Opportunity Source MQL Category], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M1 Created Count]. Aggregate by summing [f Opportunity M1 Created Count] for each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name].",
+      "phaseNumber": 1,
+      "phaseTitle": "M0 and M1 Data Collection at Category and Campaign Level"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Merge and Aggregate M0 and M1 Data at Category Level",
+      "objective": "Combine the M0 and M1 datasets from Phase 1 at the [Opportunity Source MQL Category] level to calculate total opportunities and drops for each category.",
+      "requiredData": "This is a computational step using data from steps 1.1 and 1.2. For each [Opportunity Source MQL Category], calculate: Total M0 Count (sum of [f Opportunity M0 Created Count]), Total M1 Count (sum of [f Opportunity M1 Created Count]), Absolute Drop (M0 - M1), and Drop Percentage ((M0 - M1) / M0 * 100).",
+      "fetchPrompt": "Using the data fetched in steps 1.1 and 1.2, merge the datasets on [Opportunity Source MQL Category]. For each unique [Opportunity Source MQL Category], calculate the total [f Opportunity M0 Created Count] and total [f Opportunity M1 Created Count] by summing across all campaigns within that category. Then compute the absolute drop as (Total M0 Count - Total M1 Count) and the drop percentage as ((Total M0 Count - Total M1 Count) / Total M0 Count * 100) for each category.",
+      "phaseNumber": 2,
+      "phaseTitle": "Category-Level Performance Analysis"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Filter and Analyze Campaign Performance for Top 3 Worst Categories",
+      "objective": "Using the granular data from Phase 1 (steps 1.1 and 1.2), filter for only the top 3 worst performing categories and calculate drop metrics at the campaign level within each category.",
+      "requiredData": "This is a computational step using data from steps 1.1 and 1.2, filtered to include only the top 3 [Opportunity Source MQL Category] values identified in step 2.1.1. For each combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name] within these top 3 categories, calculate: M0 Count, M1 Count, Absolute Drop (M0 - M1), and Drop Percentage.",
+      "fetchPrompt": "Using the merged data from steps 1.1 and 1.2, filter the dataset to include only rows where [Opportunity Source MQL Category] is one of the top 3 worst performing categories identified in analysis step 2.1.1. For each unique combination of [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name] within these filtered categories, ensure you have [f Opportunity M0 Created Count] and [f Opportunity M1 Created Count]. Calculate the absolute drop as (M0 Count - M1 Count) and drop percentage as ((M0 Count - M1 Count) / M0 Count * 100) for each campaign.",
+      "phaseNumber": 3,
+      "phaseTitle": "Campaign-Level Drill-Down for Worst Performing Categories"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Consolidate All Analysis Results",
+      "objective": "Compile all insights from Phase 2 and Phase 3 to create a comprehensive summary report of worst performing categories and their worst performing campaigns.",
+      "requiredData": "This is a synthesis step using insights from analysis steps 2.1.1 and 3.1.1. No new data fetch required.",
+      "fetchPrompt": "Consolidate the results from analysis steps 2.1.1 (top 3 worst performing categories) and 3.1.1 (worst performing campaign for each of those categories). Prepare a structured summary that includes: (1) The complete list of top 3 worst performing [Opportunity Source MQL Category] with their M0 counts, M1 counts, absolute drops, and drop percentages; (2) For each of these categories, the worst performing [Opportunity MQL Touch Last Campaign Name] with its M0 count, M1 count, absolute drop, and drop percentage.",
+      "phaseNumber": 4,
+      "phaseTitle": "Comprehensive Performance Summary"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "2.1.1",
+      "title": "Identify Top 3 Worst Performing Categories by Absolute Drop",
+      "groupBy": "[Opportunity Source MQL Category]",
+      "aggregation": "Calculated Metric: Absolute Drop (Total M0 Count - Total M1 Count)",
+      "question": "Which 3 Opportunity Source MQL Categories experienced the highest absolute drop in opportunity creation from M0 to M1 this month?",
+      "analysisPrompt": "Analyze the merged category-level data to identify the top 3 [Opportunity Source MQL Category] values with the highest absolute drop (M0 Count - M1 Count). For each of these top 3 categories, report: the category name, total M0 opportunity count, total M1 opportunity count, absolute drop value, and drop percentage. Rank them by absolute drop in descending order. Generate an insight summarizing which categories are underperforming most significantly and the magnitude of their performance decline.",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Category-Level Performance Analysis"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Identify Worst Performing Campaign for Each Top 3 Category",
+      "groupBy": "[Opportunity Source MQL Category], then within each category by [Opportunity MQL Touch Last Campaign Name]",
+      "aggregation": "Calculated Metric: Absolute Drop (M0 Count - M1 Count) for each campaign",
+      "question": "For each of the top 3 worst performing Opportunity Source MQL Categories, which specific campaign ([Opportunity MQL Touch Last Campaign Name]) had the highest absolute drop from M0 to M1?",
+      "analysisPrompt": "Analyze the filtered campaign-level data for the top 3 worst performing categories. For each of these 3 categories separately, identify the [Opportunity MQL Touch Last Campaign Name] with the highest absolute drop (M0 Count - M1 Count). For each identified worst campaign within each category, report: the category name, campaign name, M0 opportunity count, M1 opportunity count, absolute drop value, and drop percentage. Generate an insight for each category explaining which campaign is the primary driver of poor performance within that category and provide the quantitative evidence. Structure the output to clearly show the worst campaign for Category #1, Category #2, and Category #3.",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "Campaign-Level Drill-Down for Worst Performing Categories"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Generate Executive Summary and Actionable Recommendations",
+      "groupBy": "No grouping - this is a summary analysis",
+      "aggregation": "No aggregation - synthesis of previous insights",
+      "question": "What is the complete picture of campaign underperformance, and what actions should be taken to address the identified issues?",
+      "analysisPrompt": "Create an executive summary that presents the complete analysis findings in a clear, actionable format. Structure the summary as follows: (1) Overview: State the total number of categories and campaigns analyzed, and highlight that 3 categories showed significant underperformance. (2) Top 3 Worst Performing Categories: List each category with its performance metrics (M0, M1, drop, drop %). (3) Worst Campaign Drivers: For each of the 3 categories, identify the specific campaign that contributed most to the poor performance with its metrics. (4) Key Insights: Identify any patterns across the worst performers (e.g., are certain campaign types consistently underperforming?). (5) Actionable Recommendations: Provide specific, data-driven recommendations such as pausing or optimizing the identified campaigns, investigating root causes of the M0 to M1 drop, reallocating budget from underperforming campaigns, and establishing monitoring protocols for these categories. Ensure the summary directly answers the business goal of identifying campaigns that are not performing well.",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Comprehensive Performance Summary"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [],
+    "1.2": [],
+    "2.1": [
+      "2.1.1"
+    ],
+    "3.1": [
+      "3.1.1"
+    ],
+    "4.1": [
+      "4.1.1"
+    ]
+  }
+}

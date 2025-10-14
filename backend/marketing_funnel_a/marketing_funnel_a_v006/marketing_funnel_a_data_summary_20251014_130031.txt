@@ -1,0 +1,51 @@
+Data Analysis Results - marketing_funnel_a
+Generated on: 20251014
+==================================================
+
+--- 1.1: Unknown ---
+Row count: 32
+Data:
+Row 1: {'Opportunity Deployment != mode': 'Opportunity Source = marketing'}
+Row 2: {'Opportunity Deployment != mode': ''}
+Row 3: {'Opportunity Deployment != mode': 'Opportunity MQL Touch Last Campaign Name', None: ['Opportunity Source MQL Category', 'f Opportunity M0 Created Count']}
+Row 4: {'Opportunity Deployment != mode': 'EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements', None: ['In-Person Event', '14']}
+Row 5: {'Opportunity Deployment != mode': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['Paid Social', '3']}
+Row 6: {'Opportunity Deployment != mode': 'PPC 2025.09.17 Data Leader - Free Trial 2025 (Search Ads)', None: ['Search Ads', '1']}
+Row 7: {'Opportunity Deployment != mode': 'EV 2025.10.01 SDWT Berlin', None: ['In-Person Event', '8']}
+Row 8: {'Opportunity Deployment != mode': 'EV 2025.09.10 CDAO Melbourne -  All attendees and asset download', None: ['In-Person Event', '1']}
+Row 9: {'Opportunity Deployment != mode': 'EV 2025.10.01 Post SDWT Ancillary Event - Berlin', None: ['In-Person Event', '2']}
+Row 10: {'Opportunity Deployment != mode': 'EV 2025.10.02 SDWT NYC', None: ['In-Person Event', '1']}
+... and 22 more rows
+
+------------------------------
+
+--- 1.2: Unknown ---
+Row count: 28
+Data:
+Row 1: {'Opportunity Deployment != mode': 'Opportunity Source = marketing'}
+Row 2: {'Opportunity Deployment != mode': ''}
+Row 3: {'Opportunity Deployment != mode': 'Opportunity MQL Touch Last Campaign Name', None: ['Opportunity Source MQL Category', 'f Opportunity M1 Created Count']}
+Row 4: {'Opportunity Deployment != mode': 'EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements', None: ['In-Person Event', '14']}
+Row 5: {'Opportunity Deployment != mode': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['Paid Social', '2']}
+Row 6: {'Opportunity Deployment != mode': 'PPC 2025.09.17 Data Leader - Free Trial 2025 (Search Ads)', None: ['Search Ads', '1']}
+Row 7: {'Opportunity Deployment != mode': 'EV 2025.10.01 SDWT Berlin', None: ['In-Person Event', '6']}
+Row 8: {'Opportunity Deployment != mode': 'EV 2025.09.10 CDAO Melbourne -  All attendees and asset download', None: ['In-Person Event', '1']}
+Row 9: {'Opportunity Deployment != mode': 'EV 2025.10.01 Post SDWT Ancillary Event - Berlin', None: ['In-Person Event', '1']}
+Row 10: {'Opportunity Deployment != mode': 'EV 2025.10.02 SDWT NYC', None: ['In-Person Event', '1']}
+... and 18 more rows
+
+------------------------------
+
+--- 2.1: Unknown ---
+Error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+
+--- 3.1: Unknown ---
+Row count: 1
+Data:
+Row 1: {'28': '32', '47261258': '35662495'}
+
+------------------------------
+
+--- 4.1: Unknown ---
+Error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+

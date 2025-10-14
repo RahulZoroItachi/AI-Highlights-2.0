@@ -1,0 +1,21 @@
+EXECUTIVE REPORT - MARKETING_FUNNEL_A
+Generated on: 2025-10-14 12:46:16
+================================================================================
+
+I notice that you've provided the report generation framework and specified the goal "To identify the Campaigns that are not doing good," but the actual CSV data to analyze appears to be missing from your input.
+
+To generate the comprehensive business report you've requested, I need:
+
+1. **The CSV Data**: The actual campaign data that needs to be analyzed
+2. **Report Format** (optional): If you have a specific structure you'd like me to follow beyond the default
+3. **User Context** (optional): Any additional background about your organization or specific focus areas
+
+Could you please provide the CSV data containing the campaign information? Once I have the data, I'll follow the exact process you've outlined:
+
+- Analyze the campaign performance data
+- Identify underperforming campaigns with detailed metrics
+- Generate a comprehensive report following your specified structure and rules
+- Provide exhaustive detail including top 3-5 underperformers with bullet-pointed metrics
+- Create an Executive Summary with the Top 5 Focus Areas
+
+Please share the CSV data, and I'll immediately begin the analysis and report generation process.

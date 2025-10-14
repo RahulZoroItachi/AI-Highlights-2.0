@@ -1,5 +1,5 @@
 // Backend configuration - loaded from config.js
-let BACKEND_URL = 'http://localhost:5000'; // Default fallback
+let BACKEND_URL = 'BACKEND_URL'; // Default fallback
 
 /**
  * Initialize backend configuration from loaded config.js
@@ -11,7 +11,7 @@ function initializeBackendConfig() {
         return true;
     } else {
         console.warn('⚠️ No BACKEND_CONFIG found, using default port 5000');
-        BACKEND_URL = 'http://localhost:5000';
+        BACKEND_URL = 'BACKEND_URL';
         return false;
     }
 }
@@ -169,7 +169,7 @@ function createNewScenario() {
 function startScenarioCreationProgressStreaming(sessionId, scenarioName) {
     console.log(`🔄 Starting scenario creation progress stream for session: ${sessionId}`);
     
-    const eventSource = new EventSource(`http://localhost:5000/api/create-scenario-progress/${sessionId}`);
+    const eventSource = new EventSource(`${BACKEND_URL}/api/create-scenario-progress/${sessionId}`);
     
     eventSource.onmessage = function(event) {
         try {
@@ -358,7 +358,7 @@ async function autoFillConfiguration() {
         showMessage('🚀 Starting input population from liveboard...', 'info');
         
         // Call the backend API to trigger input population using the create-scenario endpoint
-        const response = await fetch('http://localhost:5000/api/create-scenario', {
+        const response = await apiCall('/api/create-scenario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -428,7 +428,7 @@ function startAutoFillProgressStreaming(sessionId, scenarioName) {
     // Reset heartbeat counter for new session
     window.heartbeatCounter = 0;
     
-    const eventSource = new EventSource(`http://localhost:5000/api/create-scenario-progress/${sessionId}`);
+    const eventSource = new EventSource(`${BACKEND_URL}/api/create-scenario-progress/${sessionId}`);
     
     eventSource.onmessage = function(event) {
         try {
@@ -498,7 +498,7 @@ function clearAutoFillLog() {
 function startPopulationProgressStreaming(sessionId) {
     console.log(`🔄 Starting progress stream for session: ${sessionId}`);
     
-    const eventSource = new EventSource(`http://localhost:5000/api/populate-progress/${sessionId}`);
+    const eventSource = new EventSource(`${BACKEND_URL}/api/populate-progress/${sessionId}`);
     
     eventSource.onmessage = function(event) {
         try {
@@ -565,7 +565,7 @@ async function saveToBackend(scenario, data) {
         saveButton.textContent = '💾 Saving...';
         saveButton.disabled = true;
         
-        const response = await fetch('http://localhost:5000/api/inputs/scenario', {
+        const response = await apiCall('/api/inputs/scenario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1001,7 +1001,7 @@ async function loadAnalysisScenario() {
 // Update version dropdowns based on available versions for scenario
 async function updateVersionDropdowns(scenario) {
     try {
-        const response = await fetch(`http://localhost:5000/api/versions/${scenario}`);
+        const response = await apiCall(`/api/versions/${scenario}`);
         const result = await response.json();
         
         if (result.success && result.versions) {
@@ -1175,7 +1175,7 @@ async function runAnalysis() {
         
         // Start analysis via API
         console.log('🚀 Starting analysis with config:', config);
-        const response = await fetch('http://localhost:5000/api/analysis/start', {
+        const response = await apiCall('/api/analysis/start', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1216,7 +1216,7 @@ function startProgressStreaming(sessionId) {
     }
     
     // Create new EventSource connection
-    const streamUrl = `http://localhost:5000/api/analysis/progress/${sessionId}`;
+    const streamUrl = `${BACKEND_URL}/api/analysis/progress/${sessionId}`;
     console.log('🔧 Connecting to stream URL:', streamUrl);
     
     progressEventSource = new EventSource(streamUrl);
@@ -1326,7 +1326,7 @@ async function stopAnalysis() {
         stopButton.disabled = true;
         stopButton.textContent = '🛑 Stopping...';
         
-        const response = await fetch(`http://localhost:5000/api/analysis/stop/${currentAnalysisSession}`, {
+        const response = await apiCall(`/api/analysis/stop/${currentAnalysisSession}`, {
             method: 'POST'
         });
         
@@ -1432,7 +1432,7 @@ async function showVersionSelectorModal(scenario) {
     try {
         // Fetch available versions for this scenario
         console.log('🌐 Fetching versions from API...');
-        const response = await fetch(`http://localhost:5000/api/versions/${scenario}`);
+        const response = await apiCall(`/api/versions/${scenario}`);
         const result = await response.json();
         
         console.log('📊 API Response:', result);
@@ -1573,7 +1573,7 @@ async function loadAndShowReport(scenario, version) {
         showMessage(`🔄 Loading analysis report v${version}...`, 'info');
         
         // Fetch the specific report content
-        const response = await fetch(`http://localhost:5000/api/report/${scenario}/${version}`);
+        const response = await apiCall(`/api/report/${scenario}/${version}`);
         const result = await response.json();
         
         if (result.success && result.report_content) {
@@ -1594,7 +1594,7 @@ async function fetchLatestReport(scenario) {
         showMessage('🔄 Loading latest analysis report...', 'info');
         
         // Try to get the latest report from the scenario versions API
-        const response = await fetch(`http://localhost:5000/api/versions/${scenario}`);
+        const response = await apiCall(`/api/versions/${scenario}`);
         const result = await response.json();
         
         if (result.success && result.versions && result.versions.reports && result.versions.reports.length > 0) {

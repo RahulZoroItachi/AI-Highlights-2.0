@@ -1,0 +1,64 @@
+{
+  "1.1.1": {
+    "stepId": "1.1.1",
+    "title": "Analysis 1: Identify Previous Week and Current Week M1 ACV Values",
+    "question": "What were the cumulative M1 ACV values for the previous week and the current week?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "Looking at the provided CSV data, I can identify the weekly cumulative M1 ACV values and determine the two most recent weeks.\n\nThe data shows weekly entries from 07/28/2025 through 10/13/2025. Based on the chronological order:\n\n**Current Week**: 10/13/2025 Week\n**Previous Week**: 10/06/2025 Week\n\n**M1 ACV Until Previous Week**: 1.564655270529921E8 (156,465,527.05)\n\n**M1 ACV Until Current Week**: 1.576090970529921E8 (157,609,097.05)",
+    "status": "completed"
+  },
+  "1.1.2": {
+    "stepId": "1.1.2",
+    "title": "Analysis 2: Calculate Week-over-Week Change and Percentage Change for M1 ACV",
+    "question": "What is the absolute change and percentage change in M1 ACV from the previous week to the current week?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "Looking at the data, I'll identify the Previous Week and Current Week values, then perform the calculations:\n\n**Data Identification:**\n- M1 ACV Until Previous Week (10/06/2025 Week): $156,465,527.05\n- M1 ACV Until Current Week (10/13/2025 Week): $157,609,097.05\n\n**Calculations:**\n\n(1) Change in M1 ACV = $157,609,097.05 - $156,465,527.05 = $1,143,570.00\n\n(2) Percentage Change in M1 ACV = [($1,143,570.00) / ($156,465,527.05)] × 100 = 0.73%\n\n**Summary:**\nM1 ACV Until Previous Week: $156,465,527.05\nM1 ACV Until Current Week: $157,609,097.05\nChange: $1,143,570.00\nPercentage Change: 0.73%\n\n**Insight:** M1 ACV is growing modestly with a small but positive increase of approximately $1.14 million, representing less than 1% growth week-over-week.",
+    "status": "completed"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 3: Identify Previous Week and Current Week M1 Count Values",
+    "question": "What were the cumulative M1 Count values for the previous week and the current week?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that the CSV data you've provided contains only the week dates but does not include the actual cumulative M1 Count values that are needed to complete this analysis.\n\nThe data shows these weeks:\n- 07/28/2025 Week\n- 08/04/2025 Week\n- 08/11/2025 Week\n- 08/18/2025 Week\n- 08/25/2025 Week\n- 09/01/2025 Week\n- 09/08/2025 Week\n- 09/15/2025 Week\n- 09/22/2025 Week\n- 09/29/2025 Week\n- 10/06/2025 Week\n- 10/13/2025 Week\n\nBased on the chronological order, I can identify:\n- **Current Week**: 10/13/2025 Week (most recent)\n- **Previous Week**: 10/06/2025 Week (second most recent)\n\nHowever, to provide the requested cumulative M1 Count values, I would need the actual numerical data associated with each week. Could you please provide the complete table that includes both the week dates and their corresponding cumulative M1 Count values?",
+    "status": "completed"
+  },
+  "2.1.2": {
+    "stepId": "2.1.2",
+    "title": "Analysis 4: Calculate Week-over-Week Change and Percentage Change for M1 Count",
+    "question": "What is the absolute change and percentage change in M1 Count from the previous week to the current week?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I cannot perform the requested calculation because the CSV data provided does not contain the necessary M1 Count values. \n\nThe data shows only:\n- A filter condition (\"Opportunity Deployment != mode\")\n- A list of fiscal week dates from 07/28/2025 through 10/13/2025\n\nTo calculate the change and percentage change in M1 Count, I would need:\n1. The actual M1 Count values for each week\n2. Clear identification of which weeks are designated as 'Previous Week' and 'Current Week'\n3. The cumulative M1 Count values for those specific weeks\n\nPlease provide the complete dataset that includes the M1 Count numerical values alongside the week dates, and specify which weeks should be considered as 'Previous Week' and 'Current Week' for the analysis.",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Analysis 5: Identify Previous Week and Current Week S0 ACV Values",
+    "question": "What were the cumulative S0 ACV values for the previous week and the current week?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "Looking at the provided CSV data, I can identify the weekly cumulative S0 ACV values and determine the two most recent weeks.\n\nThe data shows weeks from 07/28/2025 through 10/13/2025, with the most recent entries being:\n\n**Current Week:** 10/13/2025 Week\n**Previous Week:** 10/06/2025 Week\n\n**S0 ACV Until Previous Week:** 9.196722249510151E7 (91,967,222.50)\n\n**S0 ACV Until Current Week:** 9.302079249510151E7 (93,020,792.50)",
+    "status": "completed"
+  },
+  "3.1.2": {
+    "stepId": "3.1.2",
+    "title": "Analysis 6: Calculate Week-over-Week Change and Percentage Change for S0 ACV",
+    "question": "What is the absolute change and percentage change in S0 ACV from the previous week to the current week?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "Looking at the CSV data, I'll identify the Previous Week and Current Week values, then perform the calculations:\n\n**Previous Week (10/06/2025):** 9.196722249510151E7 = $91,967,222.50\n**Current Week (10/13/2025):** 9.302079249510151E7 = $93,020,792.50\n\n**Calculations:**\n1. Change in S0 ACV = $93,020,792.50 - $91,967,222.50 = $1,053,570.00\n2. Percentage Change = ($1,053,570.00 / $91,967,222.50) × 100 = 1.15%\n\n**Summary:**\n- S0 ACV Until Previous Week: $91,967,222.50\n- S0 ACV Until Current Week: $93,020,792.50\n- Change: $1,053,570.00\n- Percentage Change: 1.15%\n\n**Insight:** S0 ACV is growing at a modest pace with an increase of approximately $1.05 million, representing a 1.15% weekly growth rate.",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "4.1.1",
+    "title": "Analysis 7: Assess Overall KPI Trend Trajectory Across the Quarter",
+    "question": "What are the overall trends for each KPI across the quarter, and are they showing consistent growth, acceleration, deceleration, or stagnation?",
+    "fetchStepId": "4.1"
+  },
+  "4.1.2": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "4.1.2",
+    "title": "Analysis 8: Calculate Quarter-to-Date Growth Rate for Each KPI",
+    "question": "What is the quarter-to-date growth rate for each KPI from the start of the quarter to the current week?",
+    "fetchStepId": "4.1"
+  }
+}

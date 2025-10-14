@@ -1,0 +1,33 @@
+Data Analysis Results - marketing_funnel_a
+Generated on: 20251014
+==================================================
+
+--- 1.1: Unknown ---
+Error: 500 Server Error: Internal Server Error for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+
+--- 2.1: Unknown ---
+Error: 500 Server Error: Internal Server Error for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+
+--- 3.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+
+--- 4.1: Unknown ---
+Error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)
+
+--- 5.1: Unknown ---
+Row count: 179318
+Data:
+Row 1: {'Beats Music, LLC': 'Andersen Tax'}
+Row 2: {'Beats Music, LLC': 'Sterling Talent Solutions'}
+Row 3: {'Beats Music, LLC': 'Fond'}
+Row 4: {'Beats Music, LLC': 'Twitch Interactive, Inc.'}
+Row 5: {'Beats Music, LLC': 'Munchery'}
+Row 6: {'Beats Music, LLC': 'Walmart'}
+Row 7: {'Beats Music, LLC': 'A24'}
+Row 8: {'Beats Music, LLC': 'Figure Eight Inc'}
+Row 9: {'Beats Music, LLC': 'Earnin'}
+Row 10: {'Beats Music, LLC': 'Influitive'}
+... and 179308 more rows
+
+------------------------------
+

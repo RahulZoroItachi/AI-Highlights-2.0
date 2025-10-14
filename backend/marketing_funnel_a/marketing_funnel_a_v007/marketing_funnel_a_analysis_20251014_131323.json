@@ -1,0 +1,25 @@
+{
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Identify Top 3 Worst Performing Categories by Absolute Drop",
+    "question": "Which 3 Opportunity Source MQL Categories experienced the highest absolute drop in opportunity creation from M0 to M1 this month?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "## Top 3 Opportunity Source MQL Categories with Highest Absolute Drop\n\nBased on the analysis of category-level data, here are the top 3 categories ranked by absolute drop (M0 Count - M1 Count):\n\n### 1. **Website**\n- **M0 Opportunity Count:** 294\n- **M1 Opportunity Count:** 8,715\n- **Absolute Drop:** -8,421\n- **Drop Percentage:** -2,864.29%\n\n### 2. **In-Person Event**\n- **M0 Opportunity Count:** 138\n- **M1 Opportunity Count:** 7,433\n- **Absolute Drop:** -7,295\n- **Drop Percentage:** -5,286.23%\n\n### 3. **Paid Social**\n- **M0 Opportunity Count:** 58\n- **M1 Opportunity Count:** 3,978\n- **Absolute Drop:** -3,920\n- **Drop Percentage:** -6,758.62%\n\n## Key Insights\n\nThe data reveals a concerning pattern where these three categories are experiencing dramatic **negative growth** rather than traditional underperformance. The \"absolute drop\" values are actually showing that M1 counts significantly exceed M0 counts, indicating:\n\n1. **Website leads the decline** with over 8,400 fewer opportunities in M0 compared to M1, representing the largest absolute gap despite having a substantial baseline of 294 opportunities in M0.\n\n2. **In-Person Events show severe contraction** with over 7,200 fewer opportunities, suggesting a major shift away from traditional event-based lead generation.\n\n3. **Paid Social demonstrates significant reduction** with nearly 4,000 fewer opportunities, indicating potential budget cuts or strategic pivots in social media advertising.\n\nThe magnitude of these declines (ranging from -2,864% to -6,758%) suggests either a fundamental shift in marketing strategy, budget reallocation, or external factors significantly impacting these traditionally strong opportunity sources. These categories require immediate strategic review to understand whether the decline is intentional (strategic pivot) or problematic (performance issues).",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Identify Worst Performing Campaign for Each Top 3 Category",
+    "question": "For each of the top 3 worst performing Opportunity Source MQL Categories, which specific campaign ([Opportunity MQL Touch Last Campaign Name]) had the highest absolute drop from M0 to M1?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "I notice that the CSV data you've provided only contains 2 rows of campaign data:\n\n1. \"EM 2016.01.29 UK Gartner BI Summit Outreach - Gartner MBIAP\" (Email category)\n2. \"AED 2018.07.19 Kansas City, MO TopGolf Event\" (In-Person Event category)\n\nHowever, your request asks for analysis of the \"top 3 worst performing categories.\" With only 2 categories represented in the data, I can only analyze these 2 categories.\n\n## Analysis of Available Categories:\n\n### Category #1 (Worst Performing): Email\n**Worst Campaign:** \"EM 2016.01.29 UK Gartner BI Summit Outreach - Gartner MBIAP\"\n- **M0 Opportunity Count:** 0\n- **M1 Opportunity Count:** 6  \n- **Absolute Drop Value:** -6\n- **Drop Percentage:** 0.0%\n\n**Insight:** The Email category shows concerning performance with the Gartner BI Summit campaign being the primary (and only) driver of poor performance. This campaign experienced a complete loss of 6 opportunities from M1 to M0, representing a 100% decline in opportunity generation despite the reported 0.0% drop percentage (likely a data calculation issue).\n\n### Category #2 (Second Worst): In-Person Event  \n**Worst Campaign:** \"AED 2018.07.19 Kansas City, MO TopGolf Event\"\n- **M0 Opportunity Count:** 0\n- **M1 Opportunity Count:** 3\n- **Absolute Drop Value:** -3  \n- **Drop Percentage:** 0.0%\n\n**Insight:** The In-Person Event category also demonstrates poor performance, with the Kansas City TopGolf event being the sole contributor to the category's decline. This campaign lost all 3 opportunities from M1 to M0, indicating a complete failure in opportunity retention or conversion.\n\n### Category #3: \n**No third category available in the provided data.**\n\n**Note:** To complete the requested analysis for 3 categories, additional campaign data would be needed. Both available categories show 100% opportunity loss, suggesting systemic issues in campaign performance tracking or execution.",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "error": "Fetch step error: HTTPSConnectionPool(host='champagne.thoughtspotstaging.cloud', port=443): Read timed out. (read timeout=30)",
+    "stepId": "4.1.1",
+    "title": "Generate Executive Summary and Actionable Recommendations",
+    "question": "What is the complete picture of campaign underperformance, and what actions should be taken to address the identified issues?",
+    "fetchStepId": "4.1"
+  }
+}
