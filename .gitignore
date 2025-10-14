@@ -1,7 +1,9 @@
 # Generated data and reports - exclude from version control
-backend/cmo/
-backend/support/
-backend/pg/
+# Exclude all scenario folders (they contain generated analysis results)
+backend/*/
+!backend/input_populator/
+!backend/TMLs/
+!backend/__pycache__/
 
 # Python
 __pycache__/
