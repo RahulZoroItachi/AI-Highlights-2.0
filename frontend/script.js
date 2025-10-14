@@ -1,3 +1,29 @@
+// Backend configuration - loaded from config.js
+let BACKEND_URL = 'http://localhost:5000'; // Default fallback
+
+/**
+ * Initialize backend configuration from loaded config.js
+ */
+function initializeBackendConfig() {
+    if (window.BACKEND_CONFIG && window.BACKEND_CONFIG.url) {
+        BACKEND_URL = window.BACKEND_CONFIG.url;
+        console.log(`✅ Backend config initialized: ${BACKEND_URL}`);
+        return true;
+    } else {
+        console.warn('⚠️ No BACKEND_CONFIG found, using default port 5000');
+        BACKEND_URL = 'http://localhost:5000';
+        return false;
+    }
+}
+
+/**
+ * Make API request using configured backend URL
+ */
+async function apiCall(endpoint, options = {}) {
+    const url = `${BACKEND_URL}${endpoint}`;
+    return fetch(url, options);
+}
+
 // Complete data from inputs.json structure
 let sampleData = {
     "pg": {
@@ -671,7 +697,7 @@ function handleFileImport(event) {
 async function loadScenariosFromAPI() {
     try {
         // First try the dedicated scenarios endpoint
-        const scenariosResponse = await fetch('http://localhost:5000/api/scenarios');
+        const scenariosResponse = await apiCall('/api/scenarios');
         const scenariosResult = await scenariosResponse.json();
         
         if (scenariosResult.success && scenariosResult.scenarios) {
@@ -684,7 +710,7 @@ async function loadScenariosFromAPI() {
         }
         
         // Load the full inputs data for configuration
-        const response = await fetch('http://localhost:5000/api/inputs');
+        const response = await apiCall('/api/inputs');
         const result = await response.json();
         
         if (result.success && result.data) {
@@ -843,13 +869,20 @@ function downloadJSON() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
-    // Load scenarios from API first
+    console.log('🚀 Initializing AI Hybrid Analysis Platform...');
+    
+    // Step 1: Initialize backend configuration from loaded config.js
+    console.log('📡 Loading backend configuration...');
+    initializeBackendConfig(); // No longer async
+    
+    // Step 2: Load scenarios from API first
     await loadScenariosFromAPI();
     
-    // Then update both dropdowns
+    // Step 3: Then update both dropdowns
     updateScenarioSelector();
     updateAnalysisScenarioSelector();
     
+    console.log('✅ Application initialized successfully');
     showMessage('Welcome! Select a scenario to begin configuration.', 'success');
 });
 
@@ -884,6 +917,9 @@ async function switchTab(tabName) {
         await refreshAnalysisScenarios();
     } else if (tabName === 'configuration') {
         await refreshScenarios();
+    } else if (tabName === 'settings') {
+        // Load current settings when switching to settings tab
+        await loadCurrentSettings();
     }
 }
 
@@ -1770,6 +1806,168 @@ function editConfiguration() {
     loadScenario();
     
     showMessage(`✏️ Switched to configuration for ${selectedScenario.toUpperCase()} scenario`, 'success');
+}
+
+// Settings management functions
+async function loadCurrentSettings() {
+    try {
+        console.log('🔄 Loading current settings...');
+        const response = await apiCall('/api/settings/env');
+        const result = await response.json();
+        
+        if (result.success && result.settings) {
+            // Update status display
+            document.getElementById('current-ts-url').textContent = result.settings.thoughtspot_base_url || 'Not configured';
+            document.getElementById('current-ts-token').textContent = result.settings.thoughtspot_auth_token;
+            document.getElementById('current-claude-key').textContent = result.settings.claude_api_key;
+            document.getElementById('current-server-port').textContent = result.settings.port || '5000';
+            
+            // Fill form fields with current values (not masked ones)
+            if (result.settings.thoughtspot_base_url) {
+                document.getElementById('thoughtspot-base-url').value = result.settings.thoughtspot_base_url;
+            }
+            if (result.settings.port) {
+                document.getElementById('server-port').value = result.settings.port;
+            }
+            
+            showMessage('✅ Current settings loaded successfully', 'success');
+        } else {
+            showMessage(`❌ Failed to load settings: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Error loading settings:', error);
+        showMessage('❌ Error loading current settings', 'error');
+    }
+}
+
+async function saveSettings() {
+    try {
+        // Get form values
+        const tsUrl = document.getElementById('thoughtspot-base-url').value.trim();
+        const tsToken = document.getElementById('thoughtspot-auth-token').value.trim();
+        const claudeKey = document.getElementById('claude-api-key').value.trim();
+        const serverPort = document.getElementById('server-port').value.trim();
+        
+        // Validate that at least one field is provided
+        if (!tsUrl && !tsToken && !claudeKey && !serverPort) {
+            showMessage('❌ Please provide at least one setting to update', 'warning');
+            return;
+        }
+        
+        // Prepare data (only include non-empty values)
+        const settingsData = {};
+        if (tsUrl) settingsData.thoughtspot_base_url = tsUrl;
+        if (tsToken) settingsData.thoughtspot_auth_token = tsToken;
+        if (claudeKey) settingsData.claude_api_key = claudeKey;
+        if (serverPort) settingsData.port = serverPort;
+        
+        console.log('💾 Saving settings to .env file...');
+        showMessage('🔄 Updating .env file...', 'info');
+        
+        const response = await apiCall('/api/settings/env', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settingsData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            let restartMessage = '';
+            if (serverPort && serverPort !== '5000') {
+                restartMessage = '\n⚠️ Note: Server port changed - restart the server to take effect.';
+            }
+            
+            showMessage(`✅ Settings saved successfully! Updated: ${result.updated_fields.join(', ')}${restartMessage}`, 'success');
+            
+            // Clear password fields for security
+            document.getElementById('thoughtspot-auth-token').value = '';
+            document.getElementById('claude-api-key').value = '';
+            
+            // Reload current settings to show updated status
+            setTimeout(() => loadCurrentSettings(), 1000);
+        } else {
+            showMessage(`❌ Failed to save settings: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Error saving settings:', error);
+        showMessage('❌ Error saving settings to .env file', 'error');
+    }
+}
+
+function clearSettings() {
+    // Clear all form fields
+    document.getElementById('thoughtspot-base-url').value = '';
+    document.getElementById('thoughtspot-auth-token').value = '';
+    document.getElementById('claude-api-key').value = '';
+    document.getElementById('server-port').value = '';
+    
+    showMessage('🗑️ Settings form cleared', 'info');
+}
+
+async function testConnection() {
+    try {
+        // Get current form values
+        const tsUrl = document.getElementById('thoughtspot-base-url').value.trim();
+        const tsToken = document.getElementById('thoughtspot-auth-token').value.trim();
+        const claudeKey = document.getElementById('claude-api-key').value.trim();
+        const serverPort = document.getElementById('server-port').value.trim();
+        
+        // Prepare test data
+        const testData = {};
+        if (tsUrl) testData.thoughtspot_base_url = tsUrl;
+        if (tsToken) testData.thoughtspot_auth_token = tsToken;
+        if (claudeKey) testData.claude_api_key = claudeKey;
+        if (serverPort) testData.port = serverPort;
+        
+        console.log('🔍 Testing API connections...');
+        showMessage('🔍 Testing API connections...', 'info');
+        
+        const response = await apiCall('/api/settings/test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(testData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.tests) {
+            let message = '🔍 Connection Test Results:\n';
+            
+            // ThoughtSpot test result
+            const tsTest = result.tests.thoughtspot;
+            message += `• ThoughtSpot: ${tsTest.status === 'success' ? '✅' : '❌'} ${tsTest.message}\n`;
+            
+            // Claude test result  
+            const claudeTest = result.tests.claude;
+            message += `• Claude API: ${claudeTest.status === 'success' ? '✅' : '❌'} ${claudeTest.message}`;
+            
+            // Add port configuration note
+            if (serverPort && serverPort !== '5000') {
+                message += `\n• Server Port: ⚠️ Port ${serverPort} configured (restart server to apply)`;
+            }
+            
+            const hasSuccess = tsTest.status === 'success' || claudeTest.status === 'success';
+            const hasError = tsTest.status === 'error' || claudeTest.status === 'error';
+            
+            if (hasSuccess && !hasError) {
+                showMessage(message, 'success');
+            } else if (hasSuccess && hasError) {
+                showMessage(message, 'warning');
+            } else {
+                showMessage(message, 'error');
+            }
+        } else {
+            showMessage(`❌ Failed to test connections: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Error testing connections:', error);
+        showMessage('❌ Error testing API connections', 'error');
+    }
 }
 
 // Add download button functionality

@@ -1,0 +1,56 @@
+{
+  "1.1.1": {
+    "stepId": "1.1.1",
+    "title": "Analysis 1: Aggregate M0 Counts by Campaign Category",
+    "question": "What is the total M0 opportunity count for each Campaign Category in the current month?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "I notice that the CSV data you've provided appears to be incomplete or improperly formatted. The data shows:\n\n1. Some filter conditions (\"Opportunity Deployment != mode\", \"Opportunity Source = marketing\")\n2. Column headers: \"Opportunity MQL Touch Last Campaign Name\" and \"f Opportunity M0 Created Count\"\n3. But no actual data rows with campaign categories and M0 counts\n\nTo create the requested analysis grouping by Campaign Category and calculating total M0 Created Count, I would need:\n\n**Required Data Format:**\n```\nCampaign Category, f Opportunity M0 Created Count\nCategory A, 150\nCategory B, 200\nCategory C, 75\n...\n```\n\n**Expected Output Table:**\n| Campaign Category | Total M0 Created Count |\n|------------------|----------------------|\n| Category A       | XXX                  |\n| Category B       | XXX                  |\n| Category C       | XXX                  |\n| **Grand Total**  | **XXX**              |\n\nCould you please provide:\n1. The complete CSV data with actual rows containing campaign categories and M0 counts?\n2. Clarification on whether \"Opportunity MQL Touch Last Campaign Name\" should be used to derive the Campaign Category, or if there's a separate Campaign Category field?\n\nOnce I have the complete data, I can perform the grouping analysis and create the baseline performance table you requested.",
+    "status": "completed"
+  },
+  "1.1.2": {
+    "stepId": "1.1.2",
+    "title": "Analysis 2: Aggregate M0 Counts by Campaign Category and Campaign Name",
+    "question": "What is the M0 opportunity count for each specific Campaign Name within each Campaign Category?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "I notice that the CSV data you've provided appears to be incomplete or improperly formatted. The data shows:\n\n1. Filter conditions: \"Opportunity Deployment != mode\" and \"Opportunity Source = marketing\"\n2. Column headers: \"Opportunity MQL Touch Last Campaign Name\" and \"f Opportunity M0 Created Count\"\n3. However, there's no actual data rows provided\n\nTo create the detailed table you requested with granular grouping by:\n- **Campaign Category**\n- **Opportunity MQL Touch Last Campaign Name** \n- **Sum of f Opportunity M0 Created Count**\n\nI would need the complete dataset that includes:\n\n## Required Data Structure:\n```\nCampaign Category, Opportunity MQL Touch Last Campaign Name, f Opportunity M0 Created Count\n[Data rows should follow here]\n```\n\n## Expected Output Format:\n| Campaign Category | Campaign Name | M0 Created Count |\n|------------------|---------------|------------------|\n| [Category 1] | [Campaign Name 1] | [Sum of M0 counts] |\n| [Category 2] | [Campaign Name 2] | [Sum of M0 counts] |\n\nCould you please provide the complete CSV data with all the data rows? Once I have the full dataset, I can create the detailed drill-down table you need for analysis.\n\n**Note:** I also notice that \"Campaign Category\" is mentioned in your requirements but doesn't appear in the column headers provided. Please confirm if this field exists in your dataset or if it needs to be derived from another field.",
+    "status": "completed"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 3: Aggregate M1 Counts by Campaign Category",
+    "question": "What is the total M1 opportunity count for each Campaign Category in the current month?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that you've provided the column headers and some filter criteria, but the actual CSV data rows are missing. To create the grouped table you requested, I need the actual data rows containing the Campaign Category values and the corresponding \"f Opportunity M1 Created Count\" numbers.\n\nHowever, I can show you the structure of what the results table will look like once you provide the data:\n\n## Expected Results Table Format:\n\n| Campaign Category | M1 Total |\n|-------------------|----------|\n| [Category 1]      | [Sum]    |\n| [Category 2]      | [Sum]    |\n| [Category 3]      | [Sum]    |\n| **Grand Total**   | [Total]  |\n\n## What I need from you:\n\nPlease provide the actual CSV data rows that contain:\n- The campaign category values (appears to be derived from \"Opportunity MQL Touch Last Campaign Name\")\n- The corresponding \"f Opportunity M1 Created Count\" values\n\n## Data Processing Steps I'll perform:\n\n1. Group all records by Campaign Category\n2. Sum the \"f Opportunity M1 Created Count\" for each category\n3. Present results in a clean table format\n4. Calculate grand total across all categories\n\nOnce you share the actual data rows, I'll immediately process them and provide the grouped results table for your M0 vs M1 drop metrics analysis.",
+    "status": "completed"
+  },
+  "2.1.2": {
+    "stepId": "2.1.2",
+    "title": "Analysis 4: Aggregate M1 Counts by Campaign Category and Campaign Name",
+    "question": "What is the M1 opportunity count for each specific Campaign Name within each Campaign Category?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that you've provided the filtering criteria and column headers, but the actual CSV data rows are missing. To create the detailed table you've requested, I would need the actual data records.\n\nBased on your requirements, here's the table structure I would create once the data is provided:\n\n## Campaign-Level M1 Opportunity Analysis\n\n| Campaign Category | Campaign Name | M1 Created Count |\n|------------------|---------------|------------------|\n| [Category 1] | [Campaign Name 1] | [Sum of M1 Count] |\n| [Category 2] | [Campaign Name 2] | [Sum of M1 Count] |\n| ... | ... | ... |\n\n**Filters Applied:**\n- Opportunity Source = marketing\n- Opportunity Source MQL Classification contains \"digital\" OR \"events\"\n\n**Grouping:**\n- Primary: Campaign Category\n- Secondary: Opportunity MQL Touch Last Campaign Name\n\n**Metric:**\n- Sum of f Opportunity M1 Created Count\n\nCould you please provide the actual CSV data rows so I can:\n1. Parse the campaign data\n2. Group by Campaign Category and Campaign Name\n3. Sum the M1 Created Counts for each combination\n4. Present the granular breakdown for your campaign-level drop analysis\n\nOnce you share the data, I'll create a comprehensive table with subtotals by category and campaign-level details for your analysis.",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "3.1.1",
+    "title": "Analysis 5: Identify Top 3 Worst Performing Campaign Categories",
+    "question": "Which are the top 3 Campaign Categories with the highest absolute drop from M0 to M1 in the current month?",
+    "fetchStepId": "3.1"
+  },
+  "4.1.1": {
+    "stepId": "4.1.1",
+    "title": "Analysis 6: Identify Worst Performing Campaigns within Each Top 3 Category",
+    "question": "For each of the top 3 worst performing Campaign Categories, which specific Campaign Names (Opportunity MQL Touch Last Campaign Name) had the highest M0 to M1 drop?",
+    "fetchStepId": "4.1",
+    "analysisResponse": "I understand you want me to perform a comprehensive analysis involving:\n\n1. Joining M0 and M1 datasets on Campaign Category and Campaign Name\n2. Filtering to top 3 Campaign Categories from Analysis 3.1.1\n3. Calculating Absolute Drop and Drop Percentage for each campaign\n4. Identifying underperforming campaigns within each category\n\nHowever, I notice that you've only provided a single column header \"Activity Subject\" in the CSV data section. To perform this analysis, I would need:\n\n**Required datasets:**\n- **Analysis 1.1.2 results**: M0 counts by Campaign Category and Campaign Name\n- **Analysis 2.1.2 results**: M1 counts by Campaign Category and Campaign Name  \n- **Analysis 3.1.1 results**: Top 3 Campaign Categories identified\n\n**Expected data structure:**\n```\nCampaign Category, Opportunity MQL Touch Last Campaign Name, M0 Count, M1 Count\n```\n\nCould you please provide:\n1. The complete M0 counts dataset from Analysis 1.1.2\n2. The complete M1 counts dataset from Analysis 2.1.2\n3. The top 3 Campaign Categories from Analysis 3.1.1\n\nOnce I have this data, I'll be able to deliver the analysis in the three separate sections you requested, showing campaign performance drops and identifying underperforming campaigns within each category.",
+    "status": "completed"
+  },
+  "5.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.1.1",
+    "title": "Analysis 7: Generate Executive Summary and Recommendations",
+    "question": "What is the complete picture of campaign underperformance, and what specific actions should be taken?",
+    "fetchStepId": "5.1"
+  }
+}

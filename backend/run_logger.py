@@ -5,6 +5,7 @@ Creates scenario-specific folders and manages versioned file storage.
 
 import os
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional
@@ -139,14 +140,69 @@ class RunLogger:
         file_path = self.version_dir / filename
         
         try:
-            with open(file_path, 'w', encoding='utf-8') as f:
-                json.dump(plan_data, f, indent=2, ensure_ascii=False)
+            print(f"🔧 Debug: About to serialize plan data with {len(plan_data)} keys")
+            print(f"🔧 Debug: Plan data keys: {list(plan_data.keys())}")
+            
+            # Check for potential issues with the data structure
+            if 'phases' in plan_data:
+                print(f"🔧 Debug: Plan has {len(plan_data['phases'])} phases")
+            
+            # Try to serialize with a timeout approach
+            print(f"🔧 Debug: Starting JSON serialization...")
+            
+            # First, try a quick JSON serialization check to see if there are any obvious issues
+            try:
+                json_str = json.dumps(plan_data, ensure_ascii=False)
+                print(f"🔧 Debug: JSON serialization test successful, length: {len(json_str)}")
+                
+                # If that works, write to file
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    json.dump(plan_data, f, indent=2, ensure_ascii=False)
+                print(f"🔧 Debug: JSON serialization completed successfully")
+                
+            except (TypeError, ValueError, RecursionError) as json_error:
+                print(f"🔧 Debug: JSON serialization failed with {type(json_error).__name__}: {json_error}")
+                
+                # Try a safer serialization approach by removing potentially problematic fields
+                safe_plan_data = {}
+                for key, value in plan_data.items():
+                    try:
+                        # Test if this field can be serialized
+                        json.dumps(value)
+                        safe_plan_data[key] = value
+                        print(f"🔧 Debug: Field '{key}' is safe to serialize")
+                    except Exception as field_error:
+                        print(f"🔧 Debug: Field '{key}' failed serialization: {field_error}")
+                        safe_plan_data[key] = f"<SERIALIZATION_ERROR: {str(field_error)}>"
+                
+                # Try to save the safe version
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    json.dump(safe_plan_data, f, indent=2, ensure_ascii=False)
+                print(f"🔧 Debug: Safe JSON serialization completed")
             
             print(f"💾 Plan saved: {file_path}")
             return str(file_path)
             
         except Exception as e:
             print(f"❌ Error saving plan: {e}")
+            print(f"🔧 Debug: Error type: {type(e).__name__}")
+            print(f"🔧 Debug: Error details: {str(e)}")
+            
+            # Try to save basic info at least
+            try:
+                basic_info = {
+                    "error": f"Failed to save full plan: {str(e)}",
+                    "keys": list(plan_data.keys()) if isinstance(plan_data, dict) else "Not a dict",
+                    "type": str(type(plan_data)),
+                    "timestamp": datetime.now().isoformat()
+                }
+                error_file = file_path.with_suffix('.error.json')
+                with open(error_file, 'w', encoding='utf-8') as f:
+                    json.dump(basic_info, f, indent=2, ensure_ascii=False)
+                print(f"🔧 Debug: Error info saved to: {error_file}")
+            except Exception as fallback_error:
+                print(f"🔧 Debug: Even fallback save failed: {fallback_error}")
+            
             raise
     
     def save_data_to_json(self, fetched_data: Dict[str, Any]) -> str:

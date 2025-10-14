@@ -1,0 +1,41 @@
+{
+  "1.1.1": {
+    "stepId": "1.1.1",
+    "title": "Analysis 1: Calculate Total M0 Opportunities by RevOps Hierarchy",
+    "question": "What is the total M0 opportunity count for each RevOps Hierarchy segment in the current month?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "I notice that the CSV data provided contains campaign names and opportunity counts, but it doesn't include a \"RevOps Hierarchy\" column that you mentioned for grouping. \n\nThe data structure shows:\n- **Opportunity MQL Touch Last Campaign Name**: Various campaign names\n- **f Opportunity M0 Created Count**: The count values we need to sum\n\nHowever, without the RevOps Hierarchy dimension in the data, I cannot group and calculate the sums as requested. \n\n**Could you please:**\n1. Provide the complete dataset that includes the \"RevOps Hierarchy\" column, or\n2. Clarify how the campaign names should be mapped to RevOps Hierarchy segments?\n\n**What I can provide with the current data:**\n\n| Campaign Name | M0 Opportunity Count |\n|---------------|---------------------|\n| WS 2015.03.05 1:1 Demo Request | 23 |\n| EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements | 14 |\n| WS 2025.08.08 Free Trial Submissions | 9 |\n| EV 2025.10.01 SDWT Berlin | 7 |\n| SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper | 3 |\n| EV 2025.10.02 SDWT NYC - Happy Hour | 3 |\n| (And 20 other campaigns with 1-2 opportunities each) | 26 |\n\n**Total M0 Opportunities: 85**\n\nPlease provide the RevOps Hierarchy mapping so I can complete the requested analysis.",
+    "status": "completed"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 2: Calculate Total M1 Opportunities by RevOps Hierarchy",
+    "question": "What is the total M1 opportunity count for each RevOps Hierarchy segment in the current month?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that the CSV data provided doesn't include a [RevOps Hierarchy] column, which is needed to group the data as requested. The data only contains:\n- \"Opportunity MQL Touch Last Campaign Name\" \n- \"f Opportunity M1 Created Count\"\n\nWithout the RevOps Hierarchy information, I cannot group the data by segments as specified in your request.\n\nHowever, I can provide a summary of the current data showing the total M1 opportunity count:\n\n## Available Data Summary\n\n| Metric | Value |\n|--------|--------|\n| **Total M1 Opportunity Count** | **77** |\n| Number of Campaign Touchpoints | 24 |\n\n### Top Contributing Campaigns by M1 Count:\n| Campaign Name | M1 Count |\n|---------------|----------|\n| WS 2015.03.05 1:1 Demo Request | 23 |\n| EV 2025.09.24 - 2025.09.25 Big Data LDN 2025 - Booth Engagements | 14 |\n| WS 2025.08.08 Free Trial Submissions | 10 |\n| EV 2025.10.01 SDWT Berlin | 6 |\n\n**To complete the requested analysis, please provide:**\n- The RevOps Hierarchy column/field that indicates which segment each opportunity belongs to\n- This will allow me to group the M1 opportunity counts by segment and create the comparison table you need\n\nWould you be able to share the data with the RevOps Hierarchy field included?",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Analysis 3: Calculate M0 to M1 Drop and Identify Top 3 Worst Performing RevOps Hierarchy",
+    "question": "Which 3 RevOps Hierarchy segments experienced the highest absolute drop in opportunity count from M0 to M1 in the current month?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "I understand you want me to analyze RevOps Hierarchy data by joining M0 and M1 totals, calculating drops, and ranking segments. However, I can see that the CSV data you've provided only contains two entries:\n\n- \"Opportunity Pain\"\n- \"unknown\"\n\nThis appears to be incomplete data that doesn't include the necessary information for the analysis you've requested, such as:\n- Complete RevOps Hierarchy segments\n- M0 Count values\n- M1 Count values\n- The results from Analysis 1.1.1 and Analysis 2.1.1\n\nTo perform the analysis you've described, I would need:\n\n1. **Complete dataset** with all RevOps Hierarchy segments\n2. **M0 Count data** (from Analysis 1.1.1)\n3. **M1 Count data** (from Analysis 2.1.1)\n4. **Proper data structure** with counts for each hierarchy segment\n\nCould you please provide the complete CSV data that includes:\n- All RevOps Hierarchy segments\n- Their corresponding M0 and M1 counts\n- Or the full results from Analysis 1.1.1 and Analysis 2.1.1\n\nOnce I have the complete data, I'll be happy to create the table with columns for RevOps Hierarchy, M0 Count, M1 Count, Absolute Drop, Percentage Drop, and Rank, along with the summary insights about the top 3 worst-performing segments.",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "stepId": "4.1.1",
+    "title": "Analysis 4: Identify Campaigns with Highest Drop for Each Top 3 RevOps Hierarchy",
+    "question": "For each of the top 3 worst performing RevOps Hierarchy segments, which campaigns experienced the highest drop from M0 to M1?",
+    "fetchStepId": "4.1",
+    "analysisResponse": "I understand you want me to perform a comprehensive analysis filtering and joining M0 and M1 data for the top 3 RevOps Hierarchy segments, but I don't have access to the referenced datasets:\n\n- **Fetch 1.1** (M0 by RevOps Hierarchy and Campaign)\n- **Fetch 2.1** (M1 by RevOps Hierarchy and Campaign) \n- **Analysis 3.1.1** (Top 3 RevOps Hierarchy identification)\n\nThe CSV data provided only contains two names and ID numbers, which appears to be different from the campaign performance data needed for this analysis.\n\n## What I Need to Complete This Analysis:\n\n1. **M0 Data**: RevOps Hierarchy, Campaign Names, and M0 Counts\n2. **M1 Data**: RevOps Hierarchy, Campaign Names, and M1 Counts  \n3. **Top 3 RevOps Hierarchy**: The segments identified in Analysis 3.1.1\n\n## Expected Output Format:\n\nOnce I have the proper data, I'll provide:\n\n### RevOps Hierarchy 1: [Name]\n| Campaign Name | M0 Count | M1 Count | Absolute Drop | Percentage Drop | Rank |\n|---------------|----------|----------|---------------|-----------------|------|\n| Campaign A    | XXX      | XXX      | XXX           | XX.X%          | 1    |\n\n### RevOps Hierarchy 2: [Name]\n[Similar table structure]\n\n### RevOps Hierarchy 3: [Name]\n[Similar table structure]\n\nPlus detailed insights and optimization recommendations for each hierarchy.\n\nCould you please provide the correct datasets so I can perform this campaign performance analysis?",
+    "status": "completed"
+  },
+  "5.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "5.1.1",
+    "title": "Analysis 5: Create Executive Summary with Prioritized Action Items",
+    "question": "What are the key findings and recommended actions to address the worst performing RevOps Hierarchy segments and campaigns?",
+    "fetchStepId": "5.1"
+  }
+}

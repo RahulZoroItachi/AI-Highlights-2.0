@@ -17,6 +17,7 @@
         <div class="tab-navigation">
             <button class="tab-btn active" onclick="switchTab('configuration')">📝 Configuration</button>
             <button class="tab-btn" onclick="switchTab('analysis')">📊 Analysis</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
         </div>
 
         <!-- Configuration Tab -->
@@ -248,13 +249,86 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> <!-- End Analysis Tab -->
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content">
+            <div class="settings-header">
+                <h2>⚙️ API Configuration Settings</h2>
+                <p>Configure your API keys and endpoints. These settings will update your .env file.</p>
+            </div>
+
+            <div class="settings-form">
+                <div class="form-section">
+                    <h3>🔐 API Keys & Endpoints</h3>
+                    
+                    <div class="form-group">
+                        <label for="thoughtspot-base-url">ThoughtSpot Base URL:</label>
+                        <input type="text" id="thoughtspot-base-url" placeholder="e.g., https://your-instance.thoughtspot.cloud">
+                        <small>The base URL for your ThoughtSpot instance</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="thoughtspot-auth-token">ThoughtSpot Auth Token:</label>
+                        <input type="password" id="thoughtspot-auth-token" placeholder="Your ThoughtSpot API authentication token">
+                        <small>Your ThoughtSpot API authentication token</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="claude-api-key">Claude API Key:</label>
+                        <input type="password" id="claude-api-key" placeholder="Your Claude API key">
+                        <small>Your Anthropic Claude API key for LLM processing</small>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>🌐 Server Configuration</h3>
+                    
+                    <div class="form-group">
+                        <label for="server-port">Server Port:</label>
+                        <input type="number" id="server-port" placeholder="5000" min="1" max="65535">
+                        <small>Port number for the server (default: 5000)</small>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>📝 Current Configuration Status</h3>
+                    <div id="env-status" class="env-status">
+                        <div class="status-item">
+                            <span class="status-label">ThoughtSpot URL:</span>
+                            <span id="current-ts-url" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">ThoughtSpot Token:</span>
+                            <span id="current-ts-token" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Claude API Key:</span>
+                            <span id="current-claude-key" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Server Port:</span>
+                            <span id="current-server-port" class="status-value">5000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="loadCurrentSettings()" class="secondary-btn">🔄 Load Current Settings</button>
+                    <button type="button" onclick="saveSettings()" class="primary-btn">💾 Save Settings to .env</button>
+                    <button type="button" onclick="clearSettings()" class="secondary-btn">🗑️ Clear Fields</button>
+                    <button type="button" onclick="testConnection()" class="secondary-btn">🔍 Test Connection</button>
+                </div>
+            </div>
+        </div> <!-- End Settings Tab -->
 
         <div id="message-container"></div>
 
         <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
     </div>
 
-    <script src="script.js?v=modal-fix-2025"></script>
+    <!-- Load backend configuration first -->
+    <script src="config.js"></script>
+    <script src="script.js?v=config-js-v1"></script>
 </body>
 </html>

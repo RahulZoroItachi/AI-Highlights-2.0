@@ -1,0 +1,40 @@
+EXECUTIVE REPORT - MARKETING_FUNNEL_A
+Generated on: 2025-10-14 08:56:32
+================================================================================
+
+**BACKGROUND**
+
+This report analyzes campaign performance data to identify underperforming campaigns based on M0 to M1 conversion metrics. The analysis was intended to examine opportunity counts across different campaign categories and specific campaign names to determine conversion drop rates and highlight campaigns requiring attention. The reporting period covers the current month with focus on marketing-sourced opportunities.
+
+**EXECUTIVE SUMMARY**
+
+The requested campaign performance analysis could not be completed due to incomplete data provision. The analysis framework was designed to evaluate M0 to M1 conversion performance across campaign categories and identify underperforming campaigns, but execution was prevented by missing essential data components.
+
+**Top 5 Focus Areas:**
+- **Data Completeness Issues**: Missing M0 opportunity count data, missing M1 opportunity count data, incomplete CSV data structure
+- **Campaign Category Analysis Gap**: Unable to aggregate M0 counts by campaign category, unable to aggregate M1 counts by campaign category, missing campaign categorization data
+- **Campaign Name Performance Analysis Gap**: Cannot evaluate M0 counts by specific campaign names, cannot evaluate M1 counts by specific campaign names, missing granular campaign performance data
+- **Conversion Drop Analysis Limitation**: Unable to calculate M0 to M1 drop rates, cannot identify worst performing campaigns, missing comparative performance metrics
+- **Data Structure Requirements**: Need complete M0/M1 datasets, require campaign category mappings, missing opportunity count values for analysis
+
+**DETAILED ANALYSIS**
+
+The comprehensive campaign performance analysis encompassed six distinct analytical components designed to identify underperforming campaigns through systematic evaluation of M0 to M1 conversion metrics.
+
+**Analysis 1: Aggregate M0 Counts by Campaign Category**
+The analysis framework was established to calculate total M0 opportunity counts for each campaign category in the current month. The intended approach involved filtering data where Opportunity Deployment does not equal "mode" and Opportunity Source equals "marketing", then grouping by Campaign Category to sum the "f Opportunity M0 Created Count" values. However, the provided CSV data contained only filter conditions and column headers ("Opportunity MQL Touch Last Campaign Name" and "f Opportunity M0 Created Count") without actual data rows. The analysis required a complete dataset with campaign categories and corresponding M0 counts to generate the baseline performance table with total M0 created counts per category and grand total calculations.
+
+**Analysis 2: Aggregate M0 Counts by Campaign Category and Campaign Name**
+This granular analysis was designed to provide detailed M0 opportunity counts for each specific campaign name within campaign categories. The methodology involved grouping data by both Campaign Category and "Opportunity MQL Touch Last Campaign Name" while summing "f Opportunity M0 Created Count" values. The analysis encountered the same data completeness issues, with only column headers provided and no actual data rows for processing. The expected output format required Campaign Category, Campaign Name, and M0 Created Count columns to enable drill-down analysis of campaign-specific performance within broader category contexts.
+
+**Analysis 3: Aggregate M1 Counts by Campaign Category**
+The M1 opportunity count analysis was structured to calculate total M1 opportunity counts for each campaign category in the current month, providing the conversion baseline for drop rate calculations. The analysis framework included the same filtering criteria applied to M0 data, focusing on marketing-sourced opportunities. The provided data structure showed column headers and filter criteria but lacked the essential data rows containing campaign category values and corresponding "f Opportunity M1 Created Count" numbers. The intended results table would have displayed Campaign Category and M1 Total columns with grand total calculations for comprehensive category-level M1 performance assessment.
+
+**Analysis 4: Aggregate M1 Counts by Campaign Category and Campaign Name**
+This detailed M1 analysis was designed to provide campaign-specific M1 opportunity counts within each campaign category, enabling granular conversion performance evaluation. The analysis incorporated additional filtering criteria where Opportunity Source MQL Classification contains "digital" OR "events", providing more refined segmentation of marketing activities. The grouping methodology involved primary grouping by Campaign Category and secondary grouping by "Opportunity MQL Touch Last Campaign Name" with summation of "f Opportunity M1 Created Count" values. The data provision included only filtering criteria and column headers without the actual CSV data rows necessary for processing and generating the comprehensive campaign-level breakdown table.
+
+**Analysis 6: Identify Worst Performing Campaigns within Each Top 3 Category**
+The most sophisticated analysis component was designed to identify campaigns with the highest M0 to M1 drop rates within the top 3 worst performing campaign categories. This analysis required joining M0 and M1 datasets on Campaign Category and Campaign Name dimensions, filtering to the top 3 categories identified from previous analysis, calculating both absolute drop values and drop percentages for each campaign, and identifying underperforming campaigns within each category. The provided CSV data contained only a single column header "Activity Subject", which was insufficient for the comprehensive multi-dataset analysis required. The analysis framework needed complete M0 counts by campaign category and name, M1 counts by campaign category and name, and identification of the top 3 campaign categories to execute the intended performance drop calculations and campaign ranking within categories.
+
+**Data Structure and Requirements Assessment**
+Across all analytical components, the fundamental limitation was the absence of complete, properly formatted CSV data containing the essential fields and values required for campaign performance calculations. The analysis framework was designed to process data with Campaign Category, Opportunity MQL Touch Last Campaign Name, M0 Created Count, and M1 Created Count fields, but the provided data consisted primarily of column headers, filter conditions, and structural elements without the actual numerical data necessary for aggregation, calculation, and performance assessment. The intended analytical outputs required comprehensive datasets to enable grouping operations, summation calculations, drop rate computations, and performance ranking across campaign categories and individual campaign names.

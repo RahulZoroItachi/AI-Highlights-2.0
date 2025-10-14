@@ -1,0 +1,27 @@
+EXECUTIVE REPORT - MARKETING_FUNNEL_A
+Generated on: 2025-10-13 19:54:41
+================================================================================
+
+I cannot generate the requested report due to insufficient data provided. The analysis results indicate that all four required analyses could not be completed because:
+
+**Critical Data Gaps Identified:**
+
+1. **Missing RevOps Hierarchy Column**: The CSV data lacks the essential "RevOps Hierarchy" field needed to segment and group opportunity data by business hierarchy levels.
+
+2. **Incomplete Dataset Structure**: The provided CSV contains only campaign names and opportunity counts, but missing the dimensional data required for cross-sectional analysis.
+
+3. **Insufficient Campaign Performance Data**: The analysis requires both M0 and M1 opportunity counts mapped to specific RevOps Hierarchy segments and campaigns to identify underperforming campaigns.
+
+**Required Data Elements for Report Completion:**
+
+- Complete RevOps Hierarchy segment classifications
+- M0 opportunity counts by hierarchy and campaign
+- M1 opportunity counts by hierarchy and campaign  
+- Campaign-level performance metrics with proper dimensional mapping
+
+**Available Data Summary:**
+- Total M0 Opportunities: 85 across 26 campaigns
+- Total M1 Opportunities: 77 across 24 campaigns
+- Top performing campaigns identified by volume, but cannot be analyzed by hierarchy segments
+
+To generate the comprehensive campaign performance analysis report as requested, please provide the complete dataset including the RevOps Hierarchy classifications and the properly structured M0/M1 data with all required dimensional fields.

@@ -3,7 +3,7 @@
 Simple API server to handle frontend requests for updating inputs.json and running analysis
 """
 
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, send_from_directory
 from flask_cors import CORS
 import json
 import os
@@ -12,12 +12,14 @@ import sys
 import threading
 import time
 import signal
+from datetime import datetime
 from pathlib import Path
 import queue
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+env_file_path = Path(__file__).parent / '.env'
+load_dotenv(env_file_path)
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend requests
@@ -1185,20 +1187,284 @@ def get_create_scenario_progress(session_id):
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
+@app.route('/config.js', methods=['GET'])
+def serve_config_js():
+    """Serve config.js file with backend configuration"""
+    backend_port = os.getenv('PORT', '5000')
+    
+    config_js_content = f"""// Auto-generated backend configuration
+window.BACKEND_CONFIG = {{
+    port: '{backend_port}',
+    url: 'http://localhost:{backend_port}',
+    version: '1.0.0',
+    generated_at: '{datetime.now().isoformat()}'
+}};
+
+console.log('✅ Backend config loaded:', window.BACKEND_CONFIG);
+"""
+    
+    response = Response(config_js_content, mimetype='application/javascript')
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache' 
+    response.headers['Expires'] = '0'
+    return response
+
+
+# Serve frontend files
+@app.route('/')
+def serve_index():
+    """Serve the main frontend page"""
+    return send_from_directory('../frontend', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static frontend files (JS, CSS, etc.)"""
+    try:
+        return send_from_directory('../frontend', path)
+    except:
+        # If file not found, return 404
+        return "File not found", 404
+
+
+@app.route('/api/config', methods=['GET'])
+def get_config():
+    """Get backend configuration from .env file for frontend"""
+    backend_port = os.getenv('PORT', '5000')
+    return jsonify({
+        "backend_port": backend_port,
+        "backend_url": f"http://localhost:{backend_port}"
+    })
+
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     return jsonify({"status": "healthy", "message": "API server is running"})
 
+@app.route('/api/settings/env', methods=['GET', 'POST'])
+def manage_env_settings():
+    """Get or update .env file settings"""
+    env_file_path = Path(__file__).parent / '.env'
+    
+    if request.method == 'GET':
+        # Return current settings (masked for security)
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(env_file_path)
+            
+            # Get current values and mask them for security
+            current_settings = {}
+            
+            ts_url = os.getenv('THOUGHTSPOT_BASE_URL', '')
+            ts_token = os.getenv('THOUGHTSPOT_AUTH_TOKEN', '')
+            claude_key = os.getenv('CLAUDE_API_KEY', '')
+            backend_port = os.getenv('PORT', '5000')
+            frontend_port = os.getenv('FRONTEND_PORT', '3000')
+            
+            current_settings['thoughtspot_base_url'] = ts_url if ts_url else ''
+            current_settings['thoughtspot_auth_token'] = '***' + ts_token[-4:] if len(ts_token) > 4 else ('Set' if ts_token else 'Not set')
+            current_settings['claude_api_key'] = '***' + claude_key[-4:] if len(claude_key) > 4 else ('Set' if claude_key else 'Not set')
+            current_settings['backend_port'] = backend_port
+            current_settings['frontend_port'] = frontend_port
+            
+            return jsonify({
+                "success": True,
+                "settings": current_settings
+            })
+            
+        except Exception as e:
+            print(f"❌ Error reading .env file: {e}")
+            return jsonify({
+                "success": False,
+                "error": f"Failed to read settings: {str(e)}"
+            })
+    
+    elif request.method == 'POST':
+        # Update .env file with new settings
+        try:
+            data = request.get_json()
+            
+            # Validate required data
+            if not data:
+                return jsonify({
+                    "success": False,
+                    "error": "No data provided"
+                })
+            
+            # Get new values
+            new_ts_url = data.get('thoughtspot_base_url', '').strip()
+            new_ts_token = data.get('thoughtspot_auth_token', '').strip()
+            new_claude_key = data.get('claude_api_key', '').strip()
+            new_backend_port = data.get('backend_port', '').strip()
+            new_frontend_port = data.get('frontend_port', '').strip()
+            
+            # Validate port numbers if provided
+            if new_backend_port and not (new_backend_port.isdigit() and 1 <= int(new_backend_port) <= 65535):
+                return jsonify({
+                    "success": False,
+                    "error": "Backend port must be a number between 1 and 65535"
+                })
+            
+            if new_frontend_port and not (new_frontend_port.isdigit() and 1 <= int(new_frontend_port) <= 65535):
+                return jsonify({
+                    "success": False,
+                    "error": "Frontend port must be a number between 1 and 65535"
+                })
+            
+            # Validate that at least one field is provided
+            if not any([new_ts_url, new_ts_token, new_claude_key, new_backend_port, new_frontend_port]):
+                return jsonify({
+                    "success": False,
+                    "error": "At least one setting must be provided"
+                })
+            
+            # Read existing .env file
+            env_vars = {}
+            if env_file_path.exists():
+                with open(env_file_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and '=' in line and not line.startswith('#'):
+                            key, value = line.split('=', 1)
+                            env_vars[key.strip()] = value.strip()
+            
+            # Update with new values (only if provided)
+            if new_ts_url:
+                env_vars['THOUGHTSPOT_BASE_URL'] = new_ts_url
+            if new_ts_token:
+                env_vars['THOUGHTSPOT_AUTH_TOKEN'] = new_ts_token
+            if new_claude_key:
+                env_vars['CLAUDE_API_KEY'] = new_claude_key
+            if new_backend_port:
+                env_vars['PORT'] = new_backend_port
+            if new_frontend_port:
+                env_vars['FRONTEND_PORT'] = new_frontend_port
+            
+            # Write updated .env file
+            with open(env_file_path, 'w') as f:
+                for key, value in env_vars.items():
+                    f.write(f"{key}={value}\n")
+            
+            print(f"✅ Updated .env file with new settings")
+            print(f"🔧 Updated fields: {[k for k, v in {'THOUGHTSPOT_BASE_URL': new_ts_url, 'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 'CLAUDE_API_KEY': new_claude_key}.items() if v]}")
+            
+            # Reload environment variables
+            from dotenv import load_dotenv
+            load_dotenv(env_file_path, override=True)
+            
+            return jsonify({
+                "success": True,
+                "message": "Settings updated successfully",
+                "updated_fields": [k for k, v in {
+                    'THOUGHTSPOT_BASE_URL': new_ts_url, 
+                    'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 
+                    'CLAUDE_API_KEY': new_claude_key,
+                    'PORT': new_backend_port,
+                    'FRONTEND_PORT': new_frontend_port
+                }.items() if v]
+            })
+            
+        except Exception as e:
+            print(f"❌ Error updating .env file: {e}")
+            return jsonify({
+                "success": False,
+                "error": f"Failed to update settings: {str(e)}"
+            })
+
+
+@app.route('/api/settings/test', methods=['POST'])
+def test_api_connections():
+    """Test API connections with current or provided credentials"""
+    try:
+        data = request.get_json() or {}
+        
+        # Get credentials from request or environment
+        ts_url = data.get('thoughtspot_base_url') or os.getenv('THOUGHTSPOT_BASE_URL')
+        ts_token = data.get('thoughtspot_auth_token') or os.getenv('THOUGHTSPOT_AUTH_TOKEN')
+        claude_key = data.get('claude_api_key') or os.getenv('CLAUDE_API_KEY')
+        
+        results = {}
+        
+        # Test ThoughtSpot connection
+        if ts_url and ts_token:
+            try:
+                import requests
+                headers = {
+                    'Authorization': f'Bearer {ts_token}',
+                    'Content-Type': 'application/json'
+                }
+                # Simple API call to test connection
+                response = requests.get(f"{ts_url.rstrip('/')}/api/rest/2.0/system/health", 
+                                      headers=headers, timeout=10)
+                if response.status_code == 200:
+                    results['thoughtspot'] = {'status': 'success', 'message': 'Connection successful'}
+                else:
+                    results['thoughtspot'] = {'status': 'error', 'message': f'HTTP {response.status_code}'}
+            except Exception as e:
+                results['thoughtspot'] = {'status': 'error', 'message': f'Connection failed: {str(e)}'}
+        else:
+            results['thoughtspot'] = {'status': 'error', 'message': 'URL or token not configured'}
+        
+        # Test Claude connection
+        if claude_key:
+            try:
+                from anthropic import Anthropic
+                client = Anthropic(api_key=claude_key)
+                # Simple test message
+                response = client.messages.create(
+                    model="claude-sonnet-4-5-20250929",
+                    max_tokens=10,
+                    messages=[{"role": "user", "content": "Hi"}]
+                )
+                results['claude'] = {'status': 'success', 'message': 'API key valid'}
+            except Exception as e:
+                results['claude'] = {'status': 'error', 'message': f'Authentication failed: {str(e)}'}
+        else:
+            results['claude'] = {'status': 'error', 'message': 'API key not configured'}
+        
+        return jsonify({
+            "success": True,
+            "tests": results
+        })
+        
+    except Exception as e:
+        print(f"❌ Error testing connections: {e}")
+        return jsonify({
+            "success": False,
+            "error": f"Failed to test connections: {str(e)}"
+        })
+
+
 if __name__ == '__main__':
-    print("🚀 Starting Input Configuration API Server...")
+    print("🚀 Starting AI Hybrid Analysis Platform Server...")
     print(f"📁 Inputs file: {INPUTS_FILE}")
-    print("🌐 Server will run on http://localhost:5000")
+    
+    # Get port from environment or use default
+    port = int(os.getenv('PORT', 5000))
+    
+    print(f"🌐 Server running on: http://localhost:{port}")
+    print(f"🎨 Frontend UI: http://localhost:{port}")
+    print(f"🔧 API Base: http://localhost:{port}/api/")
     print("📋 Available endpoints:")
+    print("  GET  / - Frontend application")
+    print("  GET  /config.js - Auto-generated configuration")
+    print("  GET  /api/config - Get backend configuration")
     print("  GET  /api/inputs - Get current inputs")
     print("  POST /api/inputs - Update all inputs")
     print("  POST /api/inputs/scenario - Update specific scenario")
+    print("  POST /api/create-scenario - Create new scenario")
+    print("  POST /api/populate-inputs - Auto-populate inputs")
+    print("  POST /api/analysis/start - Start analysis")
+    print("  GET  /api/analysis/progress/<session_id> - Get analysis progress")
+    print("  GET  /api/scenarios - Get available scenarios")
+    print("  GET  /api/versions/<scenario> - Get scenario versions")
+    print("  GET  /api/report/<scenario>/<version> - Get report content")
+    print("  GET  /api/settings/env - Get environment settings")
+    print("  POST /api/settings/env - Update environment settings")
+    print("  POST /api/settings/test - Test API connections")
     print("  GET  /api/health - Health check")
     print()
+    print("💡 Open your browser and go to the URL above to access the application")
+    print("⚙️ Use the Settings tab to configure API keys and ports")
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)

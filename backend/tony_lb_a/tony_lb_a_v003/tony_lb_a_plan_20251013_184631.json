@@ -1,0 +1,1169 @@
+{
+  "primaryGoal": "Identify all EMEA sales cycle opportunities (stages S1-S6) closing in the next 6 months that lack a Solution Engineer assignment, categorize them as expansion/upsell or new accounts, identify historical SEs for expansions, and assess current SE bandwidth to enable informed SE assignment decisions.",
+  "assumptions": [
+    "The value '{null}' in [Opportunity SE Name] definitively indicates no SE is assigned to that opportunity.",
+    "An account is considered expansion/upsell if the [Account Name] has any historical opportunities in 'S7 Closed Won' or 'Closed DQ/Lost' stages.",
+    "An account is considered new if the [Account Name] has no historical opportunities in 'S7 Closed Won' or 'Closed DQ/Lost' stages.",
+    "SE bandwidth is accurately represented by counting the distinct number of [Account Name] currently assigned to each [Opportunity SE Name] in active sales cycle stages (S1-S6).",
+    "[Opportunity Close Date] field is accurate and reliable for filtering the next 6 months.",
+    "All EMEA team filters must be applied consistently across all data fetches.",
+    "Opportunities in stages S1 through S6 represent active sales cycle opportunities requiring SE support."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities",
+      "phaseDescription": "This phase identifies all opportunities in the EMEA sales cycle (S1-S6) closing in the next 6 months that currently have no Solution Engineer assigned. This forms the baseline list requiring SE assignment.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch 1: S1 Discovery Stage Opportunities Without SE",
+          "objective": "Retrieve all S1 discovery stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.2",
+          "title": "Fetch 2: S2 POT Stage Opportunities Without SE",
+          "objective": "Retrieve all S2 POT stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's2 pot', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2 pot' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.3",
+          "title": "Fetch 3: S3 Go/No-Go with EB Stage Opportunities Without SE",
+          "objective": "Retrieve all S3 go/no-go with eb stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's3 go/no-go with eb', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's3 go/no-go with eb' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.4",
+          "title": "Fetch 4: S4 Validation Stage Opportunities Without SE",
+          "objective": "Retrieve all S4 validation stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's4 validation', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's4 validation' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.5",
+          "title": "Fetch 5: S5 Negotiate Stage Opportunities Without SE",
+          "objective": "Retrieve all S5 negotiate stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's5 negotiate', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's5 negotiate' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.6",
+          "title": "Fetch 6: S6 Ready to Book Stage Opportunities Without SE",
+          "objective": "Retrieve all S6 ready to book stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's6 ready to book', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's6 ready to book' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.7",
+          "title": "Fetch 7: All Sales Cycle Opportunities Without SE (Consolidated)",
+          "objective": "Retrieve a consolidated list of all opportunities across S1-S6 stages in EMEA closing in the next 6 months that lack SE assignment for comprehensive account-level analysis.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] IN ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book'), [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is in ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book') and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "1.1.1",
+          "title": "Analysis 1: Count S1 Discovery Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S1 discovery stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S1 discovery stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S1 discovery stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.2.1",
+          "title": "Analysis 2: Count S2 POT Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S2 POT stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S2 POT stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S2 POT stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.2",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.3.1",
+          "title": "Analysis 3: Count S3 Go/No-Go Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S3 go/no-go with eb stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S3 go/no-go with eb stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S3 go/no-go with eb stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.3",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.4.1",
+          "title": "Analysis 4: Count S4 Validation Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S4 validation stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S4 validation stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S4 validation stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.4",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.5.1",
+          "title": "Analysis 5: Count S5 Negotiate Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S5 negotiate stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S5 negotiate stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S5 negotiate stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.5",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.6.1",
+          "title": "Analysis 6: Count S6 Ready to Book Opportunities Without SE",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How many S6 ready to book stage opportunities lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of opportunities in S6 ready to book stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S6 ready to book stage without a Solution Engineer assigned.'",
+          "fetchStepId": "1.6",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.7.1",
+          "title": "Analysis 7: Total Unassigned Opportunities Across All Sales Stages",
+          "groupBy": "None",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "What is the total number of opportunities across all sales cycle stages (S1-S6) that lack a Solution Engineer assignment?",
+          "analysisPrompt": "Using the fetched data, count the total number of distinct opportunities without an SE assigned across all sales cycle stages. Present the total count with a clear statement: 'In total, there are [X] opportunities across all sales cycle stages (S1-S6) that require Solution Engineer assignment.'",
+          "fetchStepId": "1.7",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        },
+        {
+          "stepId": "1.7.2",
+          "title": "Analysis 8: Distribution of Unassigned Opportunities by Stage",
+          "groupBy": "[Opportunity Stage]",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "How are the unassigned opportunities distributed across different sales stages?",
+          "analysisPrompt": "Using the fetched data, group opportunities by [Opportunity Stage] and count the number of opportunities in each stage. Present a breakdown showing which stages have the most unassigned opportunities, formatted as: 'S1 discovery: [X] opportunities, S2 POT: [Y] opportunities, etc.' Identify which stage has the highest number of unassigned opportunities requiring urgent attention.",
+          "fetchStepId": "1.7",
+          "phaseNumber": 1,
+          "phaseTitle": "Identification of Unassigned Opportunities"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification",
+      "phaseDescription": "This phase examines historical opportunity data to determine which accounts with unassigned opportunities have previous closed deals (won or lost), indicating they are expansion/upsell opportunities rather than new accounts. This also identifies which SEs previously worked with these accounts.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Fetch 8: Historical Closed Won Opportunities for EMEA Accounts",
+          "objective": "Retrieve all historically closed won opportunities (S7 Closed Won) for EMEA accounts to identify expansion accounts and their assigned SEs.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'S7 Closed Won', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'S7 Closed Won' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'). Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        },
+        {
+          "stepId": "2.2",
+          "title": "Fetch 9: Historical Closed DQ/Lost Opportunities for EMEA Accounts",
+          "objective": "Retrieve all historically closed DQ/lost opportunities for EMEA accounts to identify accounts with previous engagement and their assigned SEs.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'Closed DQ/Lost', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager').",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'Closed DQ/Lost' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'). Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Analysis 9: Count of Accounts with Historical Closed Won Deals",
+          "groupBy": "None",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many unique EMEA accounts have at least one historically closed won opportunity?",
+          "analysisPrompt": "Using the fetched data, count the number of distinct [Account Name] values that have closed won opportunities. Present the count with a clear statement: 'There are [X] unique EMEA accounts with at least one historically closed won opportunity, indicating these are established accounts.'",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        },
+        {
+          "stepId": "2.1.2",
+          "title": "Analysis 10: Identify Accounts and Their Historical SEs from Closed Won",
+          "groupBy": "[Account Name]",
+          "aggregation": "None",
+          "question": "Which accounts have closed won opportunities and which SEs handled them?",
+          "analysisPrompt": "Using the fetched data, create a reference list showing each [Account Name] along with all associated [Opportunity SE Name] values and [Opportunity Name] from closed won deals. This will serve as a lookup to identify expansion opportunities and their historical SE assignments. Present this as: 'Account: [Account Name] | Historical Closed Won Opportunities: [Opportunity Names] | Historical SEs: [SE Names]'.",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        },
+        {
+          "stepId": "2.2.1",
+          "title": "Analysis 11: Count of Accounts with Historical Closed DQ/Lost Deals",
+          "groupBy": "None",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many unique EMEA accounts have at least one historically closed DQ/lost opportunity?",
+          "analysisPrompt": "Using the fetched data, count the number of distinct [Account Name] values that have closed DQ/lost opportunities. Present the count with a clear statement: 'There are [X] unique EMEA accounts with at least one historically closed DQ/lost opportunity, indicating previous engagement with these accounts.'",
+          "fetchStepId": "2.2",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        },
+        {
+          "stepId": "2.2.2",
+          "title": "Analysis 12: Identify Accounts and Their Historical SEs from Closed DQ/Lost",
+          "groupBy": "[Account Name]",
+          "aggregation": "None",
+          "question": "Which accounts have closed DQ/lost opportunities and which SEs handled them?",
+          "analysisPrompt": "Using the fetched data, create a reference list showing each [Account Name] along with all associated [Opportunity SE Name] values and [Opportunity Name] from closed DQ/lost deals. This will serve as a lookup to identify accounts with previous engagement and their historical SE assignments. Present this as: 'Account: [Account Name] | Historical Closed DQ/Lost Opportunities: [Opportunity Names] | Historical SEs: [SE Names]'.",
+          "fetchStepId": "2.2",
+          "phaseNumber": 2,
+          "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts",
+      "phaseDescription": "This phase categorizes each unassigned opportunity as either expansion/upsell (account has historical closed opportunities) or new account (no historical closed opportunities). For expansions, we identify the historical SEs who worked with the account.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Fetch 10: Cross-Reference Unassigned Opportunities with Historical Closed Won Accounts",
+          "objective": "Match unassigned opportunities against accounts with historical closed won deals to identify expansion opportunities.",
+          "requiredData": "This is a logical join operation. Use the consolidated list from Fetch 7 (Step 1.7) containing unassigned opportunities with [Account Name], and cross-reference with the historical closed won data from Fetch 8 (Step 2.1) to identify matches. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage] from unassigned list; [Account Name], [Opportunity SE Name] from historical closed won list.",
+          "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) match with [Account Name] values from the historical closed won opportunities (Fetch 8, Step 2.1). For each match, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage] from the unassigned list, and [Opportunity SE Name] from the historical closed won list.",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.2",
+          "title": "Fetch 11: Cross-Reference Unassigned Opportunities with Historical Closed DQ/Lost Accounts",
+          "objective": "Match unassigned opportunities against accounts with historical closed DQ/lost deals to identify additional expansion opportunities.",
+          "requiredData": "This is a logical join operation. Use the consolidated list from Fetch 7 (Step 1.7) containing unassigned opportunities with [Account Name], and cross-reference with the historical closed DQ/lost data from Fetch 9 (Step 2.2) to identify matches. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage] from unassigned list; [Account Name], [Opportunity SE Name] from historical closed DQ/lost list.",
+          "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) match with [Account Name] values from the historical closed DQ/lost opportunities (Fetch 9, Step 2.2). For each match, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage] from the unassigned list, and [Opportunity SE Name] from the historical closed DQ/lost list.",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.3",
+          "title": "Fetch 12: Consolidate All Expansion Opportunities with Historical SEs",
+          "objective": "Create a consolidated list of all expansion/upsell opportunities (from both closed won and closed DQ/lost history) with their historical SE assignments.",
+          "requiredData": "This is a consolidation operation. Combine the results from Analysis 13 (Step 3.1.1) and Analysis 14 (Step 3.2.1) to create a complete list of expansion opportunities. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage], [Opportunity SE Name] (historical).",
+          "fetchPrompt": "Consolidate the expansion opportunities identified from both closed won history (Analysis 13) and closed DQ/lost history (Analysis 14). For each expansion opportunity, include [Opportunity Name], [Account Name], [Opportunity Stage], and the historical [Opportunity SE Name]. Remove any duplicates where the same opportunity appears in both lists.",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.4",
+          "title": "Fetch 13: Identify New Account Opportunities",
+          "objective": "Identify all unassigned opportunities that do NOT match any historical closed accounts, categorizing them as new accounts.",
+          "requiredData": "This is an exclusion operation. From the consolidated unassigned opportunities list (Fetch 7, Step 1.7), exclude all [Account Name] values that appear in either the closed won historical data (Fetch 8) or closed DQ/lost historical data (Fetch 9). Required columns: [Opportunity Name], [Account Name], [Opportunity Stage].",
+          "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) do NOT match with any [Account Name] from either the historical closed won opportunities (Fetch 8, Step 2.1) or historical closed DQ/lost opportunities (Fetch 9, Step 2.2). For each non-matching opportunity, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage].",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Analysis 13: Identify Expansion Opportunities from Closed Won History",
+          "groupBy": "None",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "Which unassigned opportunities are expansion/upsell opportunities based on closed won history, and which SEs previously handled these accounts?",
+          "analysisPrompt": "Using the matched data, identify all unassigned opportunities where the [Account Name] has a historical closed won opportunity. For each matched opportunity, list: [Opportunity Name], [Account Name], [Opportunity Stage], and the [Opportunity SE Name] who handled the previous closed won deal. Count the total number of expansion opportunities identified through closed won history. Present as: 'Expansion Opportunities (from Closed Won history): [Count]. Details: Opportunity: [Name] | Account: [Account Name] | Stage: [Stage] | Historical SE: [SE Name]'.",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.2.1",
+          "title": "Analysis 14: Identify Expansion Opportunities from Closed DQ/Lost History",
+          "groupBy": "None",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "Which unassigned opportunities are expansion/upsell opportunities based on closed DQ/lost history, and which SEs previously handled these accounts?",
+          "analysisPrompt": "Using the matched data, identify all unassigned opportunities where the [Account Name] has a historical closed DQ/lost opportunity. For each matched opportunity, list: [Opportunity Name], [Account Name], [Opportunity Stage], and the [Opportunity SE Name] who handled the previous closed DQ/lost deal. Count the total number of expansion opportunities identified through closed DQ/lost history. Present as: 'Expansion Opportunities (from Closed DQ/Lost history): [Count]. Details: Opportunity: [Name] | Account: [Account Name] | Stage: [Stage] | Historical SE: [SE Name]'.",
+          "fetchStepId": "3.2",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.3.1",
+          "title": "Analysis 15: Final Expansion Opportunities List with Historical SE Assignments",
+          "groupBy": "None",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "What is the complete list of expansion/upsell opportunities without SE assignment, and which SEs previously handled these accounts?",
+          "analysisPrompt": "Using the consolidated expansion opportunities data, create the final list of all expansion/upsell opportunities. For each opportunity, present: [Opportunity Name], [Account Name], [Opportunity Stage], and [Opportunity SE Name] (historical SE who handled the account). Count the total number of expansion opportunities. Format as: 'EXPANSION/UPSELL OPPORTUNITIES (Total: [X]): | Opportunity: [Name] | Account: [Account] | Current Stage: [Stage] | Recommended SE (handled previous deal): [SE Name] |'. This list directly answers the requirement for expansion opportunities with historical SE information.",
+          "fetchStepId": "3.3",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        },
+        {
+          "stepId": "3.4.1",
+          "title": "Analysis 16: Final New Account Opportunities List",
+          "groupBy": "None",
+          "aggregation": "Count of [Opportunity Name]",
+          "question": "What is the complete list of new account opportunities without SE assignment?",
+          "analysisPrompt": "Using the data of unassigned opportunities that have no historical closed deals, create the final list of new account opportunities. For each opportunity, present: [Opportunity Name], [Account Name], and [Opportunity Stage]. Count the total number of new account opportunities. Format as: 'NEW ACCOUNT OPPORTUNITIES (Total: [X]): | Opportunity: [Name] | Account: [Account] | Current Stage: [Stage] |'. This list directly answers the requirement for new account opportunities.",
+          "fetchStepId": "3.4",
+          "phaseNumber": 3,
+          "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment",
+      "phaseDescription": "This phase assesses the current workload of all Solution Engineers by calculating how many accounts each SE is currently handling in active sales cycle stages. This bandwidth information enables informed decisions about SE assignments for the unassigned opportunities identified in previous phases.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Fetch 14: Current Active Opportunities with SE Assignments in S1 Discovery",
+          "objective": "Retrieve all S1 discovery stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.2",
+          "title": "Fetch 15: Current Active Opportunities with SE Assignments in S2 POT",
+          "objective": "Retrieve all S2 POT stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's2 pot', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2 pot' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.3",
+          "title": "Fetch 16: Current Active Opportunities with SE Assignments in S3 Go/No-Go",
+          "objective": "Retrieve all S3 go/no-go with eb stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's3 go/no-go with eb', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's3 go/no-go with eb' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.4",
+          "title": "Fetch 17: Current Active Opportunities with SE Assignments in S4 Validation",
+          "objective": "Retrieve all S4 validation stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's4 validation', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's4 validation' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.5",
+          "title": "Fetch 18: Current Active Opportunities with SE Assignments in S5 Negotiate",
+          "objective": "Retrieve all S5 negotiate stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's5 negotiate', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's5 negotiate' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.6",
+          "title": "Fetch 19: Current Active Opportunities with SE Assignments in S6 Ready to Book",
+          "objective": "Retrieve all S6 ready to book stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's6 ready to book', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's6 ready to book' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.7",
+          "title": "Fetch 20: All Current Active Opportunities with SE Assignments (Consolidated)",
+          "objective": "Retrieve a consolidated list of all opportunities across S1-S6 stages in EMEA with SE assignments to calculate total SE bandwidth.",
+          "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] IN ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book'), [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is in ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book') and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Analysis 17: SE Bandwidth in S1 Discovery Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S1 discovery stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S1 discovery stage. Present the results as: 'S1 Discovery Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S1 workload for each SE.",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.2.1",
+          "title": "Analysis 18: SE Bandwidth in S2 POT Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S2 POT stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S2 POT stage. Present the results as: 'S2 POT Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S2 workload for each SE.",
+          "fetchStepId": "4.2",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.3.1",
+          "title": "Analysis 19: SE Bandwidth in S3 Go/No-Go Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S3 go/no-go with eb stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S3 go/no-go with eb stage. Present the results as: 'S3 Go/No-Go Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S3 workload for each SE.",
+          "fetchStepId": "4.3",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.4.1",
+          "title": "Analysis 20: SE Bandwidth in S4 Validation Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S4 validation stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S4 validation stage. Present the results as: 'S4 Validation Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S4 workload for each SE.",
+          "fetchStepId": "4.4",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.5.1",
+          "title": "Analysis 21: SE Bandwidth in S5 Negotiate Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S5 negotiate stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S5 negotiate stage. Present the results as: 'S5 Negotiate Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S5 workload for each SE.",
+          "fetchStepId": "4.5",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.6.1",
+          "title": "Analysis 22: SE Bandwidth in S6 Ready to Book Stage",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "How many distinct accounts is each SE currently handling in S6 ready to book stage?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S6 ready to book stage. Present the results as: 'S6 Ready to Book Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S6 workload for each SE.",
+          "fetchStepId": "4.6",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.7.1",
+          "title": "Analysis 23: Total SE Bandwidth Across All Sales Stages",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "What is the total number of distinct accounts each SE is currently handling across all active sales cycle stages?",
+          "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the total number of distinct [Account Name] values for each SE across all sales cycle stages (S1-S6). This represents the total current bandwidth for each SE. Present the results sorted by account count (descending) as: 'SOLUTION ENGINEER BANDWIDTH SUMMARY: SE: [SE Name] | Total Accounts Currently Assigned: [Count]'. Identify which SEs have the highest and lowest workloads. This directly answers the requirement for SE bandwidth information.",
+          "fetchStepId": "4.7",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        },
+        {
+          "stepId": "4.7.2",
+          "title": "Analysis 24: Identify Available SE Capacity",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "Count of distinct [Account Name]",
+          "question": "Which SEs have the lowest current workload and may have capacity for new assignments?",
+          "analysisPrompt": "Using the fetched data with SE bandwidth calculations, identify the SEs with the lowest number of assigned accounts. Present the bottom 5 SEs by workload as: 'SEs WITH LOWEST CURRENT WORKLOAD (Most Capacity): SE: [SE Name] | Current Accounts: [Count]'. These SEs should be prioritized for assignment to the new account opportunities identified in Phase 3. Provide a recommendation statement: 'Recommendation: Prioritize assigning new account opportunities to these SEs to balance workload.'",
+          "fetchStepId": "4.7",
+          "phaseNumber": 4,
+          "phaseTitle": "Solution Engineer Bandwidth Assessment"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations",
+      "phaseDescription": "This final phase consolidates all findings from previous phases into three actionable reports: (1) Expansion opportunities with recommended SEs based on historical account relationships, (2) New account opportunities requiring SE assignment, and (3) Complete SE bandwidth analysis to inform assignment decisions.",
+      "fetchSteps": [
+        {
+          "stepId": "5.1",
+          "title": "Fetch 21: Consolidate Final Report Data",
+          "objective": "Consolidate all analysis results from previous phases to create the three required final reports.",
+          "requiredData": "This is a consolidation of previous analysis results: (1) Expansion opportunities list from Analysis 15 (Step 3.3.1) with [Opportunity Name], [Account Name], [Opportunity Stage], [Opportunity SE Name] (historical), (2) New account opportunities list from Analysis 16 (Step 3.4.1) with [Opportunity Name], [Account Name], [Opportunity Stage], (3) SE bandwidth data from Analysis 23 (Step 4.7.1) with [Opportunity SE Name] and account counts.",
+          "fetchPrompt": "Consolidate the following data sets from previous analyses: (1) The expansion opportunities list with historical SE assignments from Analysis 15, (2) The new account opportunities list from Analysis 16, (3) The complete SE bandwidth summary from Analysis 23. Ensure all data is formatted consistently for final reporting.",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        },
+        {
+          "stepId": "5.2",
+          "title": "Fetch 22: Final SE Bandwidth Report",
+          "objective": "Create the final comprehensive SE bandwidth report for assignment decision-making.",
+          "requiredData": "Use the SE bandwidth data from Analysis 23 (Step 4.7.1) showing [Opportunity SE Name] and total account counts across all stages.",
+          "fetchPrompt": "Retrieve the complete SE bandwidth summary from Analysis 23 showing each [Opportunity SE Name] and their total count of distinct [Account Name] currently assigned across all sales cycle stages (S1-S6).",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        },
+        {
+          "stepId": "5.3",
+          "title": "Fetch 23: Executive Summary Metrics",
+          "objective": "Create high-level summary metrics for executive reporting.",
+          "requiredData": "Aggregate counts from all previous analyses: total unassigned opportunities, expansion count, new account count, total active SEs, average SE bandwidth.",
+          "fetchPrompt": "Compile summary metrics from all previous analyses including: total unassigned opportunities from Analysis 7, expansion opportunities count from Analysis 15, new account opportunities count from Analysis 16, total SEs and average bandwidth from Analysis 23.",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "5.1.1",
+          "title": "Analysis 25: Final Report - Expansion Opportunities with Historical SE",
+          "groupBy": "None",
+          "aggregation": "None",
+          "question": "What is the final actionable report of expansion/upsell opportunities with SE assignment recommendations?",
+          "analysisPrompt": "Using the consolidated expansion opportunities data from Analysis 15, create the final Report 1: EXPANSION/UPSELL OPPORTUNITIES. For each opportunity, present in a structured format: | Opportunity Name: [Name] | Account Name: [Account] | Current Stage: [Stage] | Recommended SE (handled previous deal): [SE Name] | Action: Assign to this SE for account continuity |. Include a summary count at the top: 'Total Expansion/Upsell Opportunities Requiring SE Assignment: [X]'. Add a recommendation: 'Priority Action: These opportunities should be assigned to their historical SEs to leverage existing account relationships and knowledge.'",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        },
+        {
+          "stepId": "5.1.2",
+          "title": "Analysis 26: Final Report - New Account Opportunities",
+          "groupBy": "None",
+          "aggregation": "None",
+          "question": "What is the final actionable report of new account opportunities requiring SE assignment?",
+          "analysisPrompt": "Using the consolidated new account opportunities data from Analysis 16, create the final Report 2: NEW ACCOUNT OPPORTUNITIES. For each opportunity, present in a structured format: | Opportunity Name: [Name] | Account Name: [Account] | Current Stage: [Stage] | Action: Assign SE based on bandwidth availability |. Include a summary count at the top: 'Total New Account Opportunities Requiring SE Assignment: [X]'. Add a recommendation: 'Priority Action: Assign these opportunities to SEs with lowest current workload (refer to Report 3 for SE bandwidth). Consider geographic alignment and expertise when making assignments.'",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        },
+        {
+          "stepId": "5.2.1",
+          "title": "Analysis 27: Final Report - SE Bandwidth for Assignment Decisions",
+          "groupBy": "[Opportunity SE Name]",
+          "aggregation": "None",
+          "question": "What is the final comprehensive SE bandwidth report to guide assignment decisions?",
+          "analysisPrompt": "Using the SE bandwidth data from Analysis 23, create the final Report 3: SOLUTION ENGINEER BANDWIDTH SUMMARY. Present each SE with their current workload in a structured format sorted by account count (ascending - lowest workload first): | SE Name: [Name] | Total Accounts Currently Assigned: [Count] | Capacity Status: [High/Medium/Low based on relative workload] |. Include summary statistics: 'Total Active SEs: [X] | Average Accounts per SE: [Y] | Highest Workload: [SE Name] with [Z] accounts | Lowest Workload: [SE Name] with [A] accounts'. Add actionable recommendations: 'Assignment Strategy: (1) For expansion opportunities, assign to historical SE regardless of current bandwidth to maintain account continuity. (2) For new account opportunities, prioritize SEs with below-average workload. (3) If historical SE for expansion has critical bandwidth issues, consider team discussion for optimal assignment.'",
+          "fetchStepId": "5.2",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        },
+        {
+          "stepId": "5.3.1",
+          "title": "Analysis 28: Executive Summary Dashboard",
+          "groupBy": "None",
+          "aggregation": "None",
+          "question": "What are the key executive-level metrics summarizing the SE assignment situation?",
+          "analysisPrompt": "Create an executive summary dashboard with the following key metrics: EXECUTIVE SUMMARY - SE ASSIGNMENT ANALYSIS | Total Opportunities Requiring SE Assignment: [X] (from Analysis 7) | - Expansion/Upsell Opportunities: [Y] (from Analysis 15) | - New Account Opportunities: [Z] (from Analysis 16) | Total Active Solution Engineers: [A] (from Analysis 23) | Average Accounts per SE: [B] (from Analysis 23) | Stage Distribution: [breakdown by stage from Analysis 8] | Critical Actions Required: (1) Assign [Y] expansion opportunities to historical SEs, (2) Distribute [Z] new opportunities based on SE capacity, (3) Monitor SE workload balance | Timeline: All opportunities close within next 6 months - immediate action required |. This provides leadership with a clear snapshot of the situation and required actions.",
+          "fetchStepId": "5.3",
+          "phaseNumber": 5,
+          "phaseTitle": "Final Report Compilation and Recommendations"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch 1: S1 Discovery Stage Opportunities Without SE",
+      "objective": "Retrieve all S1 discovery stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.2",
+      "title": "Fetch 2: S2 POT Stage Opportunities Without SE",
+      "objective": "Retrieve all S2 POT stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's2 pot', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2 pot' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.3",
+      "title": "Fetch 3: S3 Go/No-Go with EB Stage Opportunities Without SE",
+      "objective": "Retrieve all S3 go/no-go with eb stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's3 go/no-go with eb', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's3 go/no-go with eb' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.4",
+      "title": "Fetch 4: S4 Validation Stage Opportunities Without SE",
+      "objective": "Retrieve all S4 validation stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's4 validation', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's4 validation' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.5",
+      "title": "Fetch 5: S5 Negotiate Stage Opportunities Without SE",
+      "objective": "Retrieve all S5 negotiate stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's5 negotiate', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's5 negotiate' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.6",
+      "title": "Fetch 6: S6 Ready to Book Stage Opportunities Without SE",
+      "objective": "Retrieve all S6 ready to book stage opportunities in EMEA closing in the next 6 months that lack SE assignment.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] = 's6 ready to book', [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's6 ready to book' and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.7",
+      "title": "Fetch 7: All Sales Cycle Opportunities Without SE (Consolidated)",
+      "objective": "Retrieve a consolidated list of all opportunities across S1-S6 stages in EMEA closing in the next 6 months that lack SE assignment for comprehensive account-level analysis.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], [Opportunity Close Date]. Filters: [Opportunity Stage] IN ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book'), [Opportunity SE Name] = '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is in ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book') and [Opportunity SE Name] is '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team], and [Opportunity Close Date].",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Fetch 8: Historical Closed Won Opportunities for EMEA Accounts",
+      "objective": "Retrieve all historically closed won opportunities (S7 Closed Won) for EMEA accounts to identify expansion accounts and their assigned SEs.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'S7 Closed Won', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'S7 Closed Won' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'). Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "2.2",
+      "title": "Fetch 9: Historical Closed DQ/Lost Opportunities for EMEA Accounts",
+      "objective": "Retrieve all historically closed DQ/lost opportunities for EMEA accounts to identify accounts with previous engagement and their assigned SEs.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 'Closed DQ/Lost', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager').",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 'Closed DQ/Lost' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'). Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Fetch 10: Cross-Reference Unassigned Opportunities with Historical Closed Won Accounts",
+      "objective": "Match unassigned opportunities against accounts with historical closed won deals to identify expansion opportunities.",
+      "requiredData": "This is a logical join operation. Use the consolidated list from Fetch 7 (Step 1.7) containing unassigned opportunities with [Account Name], and cross-reference with the historical closed won data from Fetch 8 (Step 2.1) to identify matches. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage] from unassigned list; [Account Name], [Opportunity SE Name] from historical closed won list.",
+      "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) match with [Account Name] values from the historical closed won opportunities (Fetch 8, Step 2.1). For each match, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage] from the unassigned list, and [Opportunity SE Name] from the historical closed won list.",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.2",
+      "title": "Fetch 11: Cross-Reference Unassigned Opportunities with Historical Closed DQ/Lost Accounts",
+      "objective": "Match unassigned opportunities against accounts with historical closed DQ/lost deals to identify additional expansion opportunities.",
+      "requiredData": "This is a logical join operation. Use the consolidated list from Fetch 7 (Step 1.7) containing unassigned opportunities with [Account Name], and cross-reference with the historical closed DQ/lost data from Fetch 9 (Step 2.2) to identify matches. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage] from unassigned list; [Account Name], [Opportunity SE Name] from historical closed DQ/lost list.",
+      "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) match with [Account Name] values from the historical closed DQ/lost opportunities (Fetch 9, Step 2.2). For each match, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage] from the unassigned list, and [Opportunity SE Name] from the historical closed DQ/lost list.",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.3",
+      "title": "Fetch 12: Consolidate All Expansion Opportunities with Historical SEs",
+      "objective": "Create a consolidated list of all expansion/upsell opportunities (from both closed won and closed DQ/lost history) with their historical SE assignments.",
+      "requiredData": "This is a consolidation operation. Combine the results from Analysis 13 (Step 3.1.1) and Analysis 14 (Step 3.2.1) to create a complete list of expansion opportunities. Required columns: [Opportunity Name], [Account Name], [Opportunity Stage], [Opportunity SE Name] (historical).",
+      "fetchPrompt": "Consolidate the expansion opportunities identified from both closed won history (Analysis 13) and closed DQ/lost history (Analysis 14). For each expansion opportunity, include [Opportunity Name], [Account Name], [Opportunity Stage], and the historical [Opportunity SE Name]. Remove any duplicates where the same opportunity appears in both lists.",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.4",
+      "title": "Fetch 13: Identify New Account Opportunities",
+      "objective": "Identify all unassigned opportunities that do NOT match any historical closed accounts, categorizing them as new accounts.",
+      "requiredData": "This is an exclusion operation. From the consolidated unassigned opportunities list (Fetch 7, Step 1.7), exclude all [Account Name] values that appear in either the closed won historical data (Fetch 8) or closed DQ/lost historical data (Fetch 9). Required columns: [Opportunity Name], [Account Name], [Opportunity Stage].",
+      "fetchPrompt": "Using the data from previous fetches, identify which [Account Name] values from the unassigned opportunities list (Fetch 7, Step 1.7) do NOT match with any [Account Name] from either the historical closed won opportunities (Fetch 8, Step 2.1) or historical closed DQ/lost opportunities (Fetch 9, Step 2.2). For each non-matching opportunity, retrieve [Opportunity Name], [Account Name], and [Opportunity Stage].",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Fetch 14: Current Active Opportunities with SE Assignments in S1 Discovery",
+      "objective": "Retrieve all S1 discovery stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's1 discovery', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's1 discovery' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.2",
+      "title": "Fetch 15: Current Active Opportunities with SE Assignments in S2 POT",
+      "objective": "Retrieve all S2 POT stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's2 pot', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's2 pot' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.3",
+      "title": "Fetch 16: Current Active Opportunities with SE Assignments in S3 Go/No-Go",
+      "objective": "Retrieve all S3 go/no-go with eb stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's3 go/no-go with eb', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's3 go/no-go with eb' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.4",
+      "title": "Fetch 17: Current Active Opportunities with SE Assignments in S4 Validation",
+      "objective": "Retrieve all S4 validation stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's4 validation', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's4 validation' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.5",
+      "title": "Fetch 18: Current Active Opportunities with SE Assignments in S5 Negotiate",
+      "objective": "Retrieve all S5 negotiate stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's5 negotiate', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's5 negotiate' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.6",
+      "title": "Fetch 19: Current Active Opportunities with SE Assignments in S6 Ready to Book",
+      "objective": "Retrieve all S6 ready to book stage opportunities in EMEA with SE assignments to calculate SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] = 's6 ready to book', [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is 's6 ready to book' and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.7",
+      "title": "Fetch 20: All Current Active Opportunities with SE Assignments (Consolidated)",
+      "objective": "Retrieve a consolidated list of all opportunities across S1-S6 stages in EMEA with SE assignments to calculate total SE bandwidth.",
+      "requiredData": "Columns: [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], [Opportunity Owner Team]. Filters: [Opportunity Stage] IN ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book'), [Opportunity SE Name] is NOT '{null}', [Opportunity Owner Team] IN ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager'), [Opportunity Close Date] = next 6 months.",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity Stage] is in ('s1 discovery', 's2 pot', 's3 go/no-go with eb', 's4 validation', 's5 negotiate', 's6 ready to book') and [Opportunity SE Name] is NOT '{null}' and [Opportunity Owner Team] is in ('emea', 'emea commercial', 'emea commercial roe', 'emea commercial uki', 'emea dach', 'emea dach commercial', 'emea dach enterprise', 'emea emerging enterprise', 'emea enterprise', 'emea france commercial', 'emea outbound', 'emea partner', 'emea sdr manager') and [Opportunity Close Date] is in the next 6 months. Include columns [Opportunity Name], [Account Name], [Opportunity SE Name], [Opportunity Stage], and [Opportunity Owner Team].",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "5.1",
+      "title": "Fetch 21: Consolidate Final Report Data",
+      "objective": "Consolidate all analysis results from previous phases to create the three required final reports.",
+      "requiredData": "This is a consolidation of previous analysis results: (1) Expansion opportunities list from Analysis 15 (Step 3.3.1) with [Opportunity Name], [Account Name], [Opportunity Stage], [Opportunity SE Name] (historical), (2) New account opportunities list from Analysis 16 (Step 3.4.1) with [Opportunity Name], [Account Name], [Opportunity Stage], (3) SE bandwidth data from Analysis 23 (Step 4.7.1) with [Opportunity SE Name] and account counts.",
+      "fetchPrompt": "Consolidate the following data sets from previous analyses: (1) The expansion opportunities list with historical SE assignments from Analysis 15, (2) The new account opportunities list from Analysis 16, (3) The complete SE bandwidth summary from Analysis 23. Ensure all data is formatted consistently for final reporting.",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    },
+    {
+      "stepId": "5.2",
+      "title": "Fetch 22: Final SE Bandwidth Report",
+      "objective": "Create the final comprehensive SE bandwidth report for assignment decision-making.",
+      "requiredData": "Use the SE bandwidth data from Analysis 23 (Step 4.7.1) showing [Opportunity SE Name] and total account counts across all stages.",
+      "fetchPrompt": "Retrieve the complete SE bandwidth summary from Analysis 23 showing each [Opportunity SE Name] and their total count of distinct [Account Name] currently assigned across all sales cycle stages (S1-S6).",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    },
+    {
+      "stepId": "5.3",
+      "title": "Fetch 23: Executive Summary Metrics",
+      "objective": "Create high-level summary metrics for executive reporting.",
+      "requiredData": "Aggregate counts from all previous analyses: total unassigned opportunities, expansion count, new account count, total active SEs, average SE bandwidth.",
+      "fetchPrompt": "Compile summary metrics from all previous analyses including: total unassigned opportunities from Analysis 7, expansion opportunities count from Analysis 15, new account opportunities count from Analysis 16, total SEs and average bandwidth from Analysis 23.",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "1.1.1",
+      "title": "Analysis 1: Count S1 Discovery Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S1 discovery stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S1 discovery stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S1 discovery stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.2.1",
+      "title": "Analysis 2: Count S2 POT Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S2 POT stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S2 POT stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S2 POT stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.2",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.3.1",
+      "title": "Analysis 3: Count S3 Go/No-Go Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S3 go/no-go with eb stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S3 go/no-go with eb stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S3 go/no-go with eb stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.3",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.4.1",
+      "title": "Analysis 4: Count S4 Validation Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S4 validation stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S4 validation stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S4 validation stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.4",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.5.1",
+      "title": "Analysis 5: Count S5 Negotiate Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S5 negotiate stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S5 negotiate stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S5 negotiate stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.5",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.6.1",
+      "title": "Analysis 6: Count S6 Ready to Book Opportunities Without SE",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How many S6 ready to book stage opportunities lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of opportunities in S6 ready to book stage without an SE assigned. Present the count with a clear statement: 'There are [X] opportunities in S6 ready to book stage without a Solution Engineer assigned.'",
+      "fetchStepId": "1.6",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.7.1",
+      "title": "Analysis 7: Total Unassigned Opportunities Across All Sales Stages",
+      "groupBy": "None",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "What is the total number of opportunities across all sales cycle stages (S1-S6) that lack a Solution Engineer assignment?",
+      "analysisPrompt": "Using the fetched data, count the total number of distinct opportunities without an SE assigned across all sales cycle stages. Present the total count with a clear statement: 'In total, there are [X] opportunities across all sales cycle stages (S1-S6) that require Solution Engineer assignment.'",
+      "fetchStepId": "1.7",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "1.7.2",
+      "title": "Analysis 8: Distribution of Unassigned Opportunities by Stage",
+      "groupBy": "[Opportunity Stage]",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "How are the unassigned opportunities distributed across different sales stages?",
+      "analysisPrompt": "Using the fetched data, group opportunities by [Opportunity Stage] and count the number of opportunities in each stage. Present a breakdown showing which stages have the most unassigned opportunities, formatted as: 'S1 discovery: [X] opportunities, S2 POT: [Y] opportunities, etc.' Identify which stage has the highest number of unassigned opportunities requiring urgent attention.",
+      "fetchStepId": "1.7",
+      "phaseNumber": 1,
+      "phaseTitle": "Identification of Unassigned Opportunities"
+    },
+    {
+      "stepId": "2.1.1",
+      "title": "Analysis 9: Count of Accounts with Historical Closed Won Deals",
+      "groupBy": "None",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many unique EMEA accounts have at least one historically closed won opportunity?",
+      "analysisPrompt": "Using the fetched data, count the number of distinct [Account Name] values that have closed won opportunities. Present the count with a clear statement: 'There are [X] unique EMEA accounts with at least one historically closed won opportunity, indicating these are established accounts.'",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "2.1.2",
+      "title": "Analysis 10: Identify Accounts and Their Historical SEs from Closed Won",
+      "groupBy": "[Account Name]",
+      "aggregation": "None",
+      "question": "Which accounts have closed won opportunities and which SEs handled them?",
+      "analysisPrompt": "Using the fetched data, create a reference list showing each [Account Name] along with all associated [Opportunity SE Name] values and [Opportunity Name] from closed won deals. This will serve as a lookup to identify expansion opportunities and their historical SE assignments. Present this as: 'Account: [Account Name] | Historical Closed Won Opportunities: [Opportunity Names] | Historical SEs: [SE Names]'.",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "2.2.1",
+      "title": "Analysis 11: Count of Accounts with Historical Closed DQ/Lost Deals",
+      "groupBy": "None",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many unique EMEA accounts have at least one historically closed DQ/lost opportunity?",
+      "analysisPrompt": "Using the fetched data, count the number of distinct [Account Name] values that have closed DQ/lost opportunities. Present the count with a clear statement: 'There are [X] unique EMEA accounts with at least one historically closed DQ/lost opportunity, indicating previous engagement with these accounts.'",
+      "fetchStepId": "2.2",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "2.2.2",
+      "title": "Analysis 12: Identify Accounts and Their Historical SEs from Closed DQ/Lost",
+      "groupBy": "[Account Name]",
+      "aggregation": "None",
+      "question": "Which accounts have closed DQ/lost opportunities and which SEs handled them?",
+      "analysisPrompt": "Using the fetched data, create a reference list showing each [Account Name] along with all associated [Opportunity SE Name] values and [Opportunity Name] from closed DQ/lost deals. This will serve as a lookup to identify accounts with previous engagement and their historical SE assignments. Present this as: 'Account: [Account Name] | Historical Closed DQ/Lost Opportunities: [Opportunity Names] | Historical SEs: [SE Names]'.",
+      "fetchStepId": "2.2",
+      "phaseNumber": 2,
+      "phaseTitle": "Historical Account Analysis for Expansion/Upsell Identification"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Analysis 13: Identify Expansion Opportunities from Closed Won History",
+      "groupBy": "None",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "Which unassigned opportunities are expansion/upsell opportunities based on closed won history, and which SEs previously handled these accounts?",
+      "analysisPrompt": "Using the matched data, identify all unassigned opportunities where the [Account Name] has a historical closed won opportunity. For each matched opportunity, list: [Opportunity Name], [Account Name], [Opportunity Stage], and the [Opportunity SE Name] who handled the previous closed won deal. Count the total number of expansion opportunities identified through closed won history. Present as: 'Expansion Opportunities (from Closed Won history): [Count]. Details: Opportunity: [Name] | Account: [Account Name] | Stage: [Stage] | Historical SE: [SE Name]'.",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.2.1",
+      "title": "Analysis 14: Identify Expansion Opportunities from Closed DQ/Lost History",
+      "groupBy": "None",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "Which unassigned opportunities are expansion/upsell opportunities based on closed DQ/lost history, and which SEs previously handled these accounts?",
+      "analysisPrompt": "Using the matched data, identify all unassigned opportunities where the [Account Name] has a historical closed DQ/lost opportunity. For each matched opportunity, list: [Opportunity Name], [Account Name], [Opportunity Stage], and the [Opportunity SE Name] who handled the previous closed DQ/lost deal. Count the total number of expansion opportunities identified through closed DQ/lost history. Present as: 'Expansion Opportunities (from Closed DQ/Lost history): [Count]. Details: Opportunity: [Name] | Account: [Account Name] | Stage: [Stage] | Historical SE: [SE Name]'.",
+      "fetchStepId": "3.2",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.3.1",
+      "title": "Analysis 15: Final Expansion Opportunities List with Historical SE Assignments",
+      "groupBy": "None",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "What is the complete list of expansion/upsell opportunities without SE assignment, and which SEs previously handled these accounts?",
+      "analysisPrompt": "Using the consolidated expansion opportunities data, create the final list of all expansion/upsell opportunities. For each opportunity, present: [Opportunity Name], [Account Name], [Opportunity Stage], and [Opportunity SE Name] (historical SE who handled the account). Count the total number of expansion opportunities. Format as: 'EXPANSION/UPSELL OPPORTUNITIES (Total: [X]): | Opportunity: [Name] | Account: [Account] | Current Stage: [Stage] | Recommended SE (handled previous deal): [SE Name] |'. This list directly answers the requirement for expansion opportunities with historical SE information.",
+      "fetchStepId": "3.3",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "3.4.1",
+      "title": "Analysis 16: Final New Account Opportunities List",
+      "groupBy": "None",
+      "aggregation": "Count of [Opportunity Name]",
+      "question": "What is the complete list of new account opportunities without SE assignment?",
+      "analysisPrompt": "Using the data of unassigned opportunities that have no historical closed deals, create the final list of new account opportunities. For each opportunity, present: [Opportunity Name], [Account Name], and [Opportunity Stage]. Count the total number of new account opportunities. Format as: 'NEW ACCOUNT OPPORTUNITIES (Total: [X]): | Opportunity: [Name] | Account: [Account] | Current Stage: [Stage] |'. This list directly answers the requirement for new account opportunities.",
+      "fetchStepId": "3.4",
+      "phaseNumber": 3,
+      "phaseTitle": "Categorization: Expansion/Upsell vs. New Accounts"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Analysis 17: SE Bandwidth in S1 Discovery Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S1 discovery stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S1 discovery stage. Present the results as: 'S1 Discovery Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S1 workload for each SE.",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.2.1",
+      "title": "Analysis 18: SE Bandwidth in S2 POT Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S2 POT stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S2 POT stage. Present the results as: 'S2 POT Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S2 workload for each SE.",
+      "fetchStepId": "4.2",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.3.1",
+      "title": "Analysis 19: SE Bandwidth in S3 Go/No-Go Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S3 go/no-go with eb stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S3 go/no-go with eb stage. Present the results as: 'S3 Go/No-Go Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S3 workload for each SE.",
+      "fetchStepId": "4.3",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.4.1",
+      "title": "Analysis 20: SE Bandwidth in S4 Validation Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S4 validation stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S4 validation stage. Present the results as: 'S4 Validation Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S4 workload for each SE.",
+      "fetchStepId": "4.4",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.5.1",
+      "title": "Analysis 21: SE Bandwidth in S5 Negotiate Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S5 negotiate stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S5 negotiate stage. Present the results as: 'S5 Negotiate Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S5 workload for each SE.",
+      "fetchStepId": "4.5",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.6.1",
+      "title": "Analysis 22: SE Bandwidth in S6 Ready to Book Stage",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "How many distinct accounts is each SE currently handling in S6 ready to book stage?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the number of distinct [Account Name] values for each SE in S6 ready to book stage. Present the results as: 'S6 Ready to Book Stage Bandwidth: SE: [SE Name] | Accounts: [Count]'. This shows the S6 workload for each SE.",
+      "fetchStepId": "4.6",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.7.1",
+      "title": "Analysis 23: Total SE Bandwidth Across All Sales Stages",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "What is the total number of distinct accounts each SE is currently handling across all active sales cycle stages?",
+      "analysisPrompt": "Using the fetched data, group by [Opportunity SE Name] and count the total number of distinct [Account Name] values for each SE across all sales cycle stages (S1-S6). This represents the total current bandwidth for each SE. Present the results sorted by account count (descending) as: 'SOLUTION ENGINEER BANDWIDTH SUMMARY: SE: [SE Name] | Total Accounts Currently Assigned: [Count]'. Identify which SEs have the highest and lowest workloads. This directly answers the requirement for SE bandwidth information.",
+      "fetchStepId": "4.7",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "4.7.2",
+      "title": "Analysis 24: Identify Available SE Capacity",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "Count of distinct [Account Name]",
+      "question": "Which SEs have the lowest current workload and may have capacity for new assignments?",
+      "analysisPrompt": "Using the fetched data with SE bandwidth calculations, identify the SEs with the lowest number of assigned accounts. Present the bottom 5 SEs by workload as: 'SEs WITH LOWEST CURRENT WORKLOAD (Most Capacity): SE: [SE Name] | Current Accounts: [Count]'. These SEs should be prioritized for assignment to the new account opportunities identified in Phase 3. Provide a recommendation statement: 'Recommendation: Prioritize assigning new account opportunities to these SEs to balance workload.'",
+      "fetchStepId": "4.7",
+      "phaseNumber": 4,
+      "phaseTitle": "Solution Engineer Bandwidth Assessment"
+    },
+    {
+      "stepId": "5.1.1",
+      "title": "Analysis 25: Final Report - Expansion Opportunities with Historical SE",
+      "groupBy": "None",
+      "aggregation": "None",
+      "question": "What is the final actionable report of expansion/upsell opportunities with SE assignment recommendations?",
+      "analysisPrompt": "Using the consolidated expansion opportunities data from Analysis 15, create the final Report 1: EXPANSION/UPSELL OPPORTUNITIES. For each opportunity, present in a structured format: | Opportunity Name: [Name] | Account Name: [Account] | Current Stage: [Stage] | Recommended SE (handled previous deal): [SE Name] | Action: Assign to this SE for account continuity |. Include a summary count at the top: 'Total Expansion/Upsell Opportunities Requiring SE Assignment: [X]'. Add a recommendation: 'Priority Action: These opportunities should be assigned to their historical SEs to leverage existing account relationships and knowledge.'",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    },
+    {
+      "stepId": "5.1.2",
+      "title": "Analysis 26: Final Report - New Account Opportunities",
+      "groupBy": "None",
+      "aggregation": "None",
+      "question": "What is the final actionable report of new account opportunities requiring SE assignment?",
+      "analysisPrompt": "Using the consolidated new account opportunities data from Analysis 16, create the final Report 2: NEW ACCOUNT OPPORTUNITIES. For each opportunity, present in a structured format: | Opportunity Name: [Name] | Account Name: [Account] | Current Stage: [Stage] | Action: Assign SE based on bandwidth availability |. Include a summary count at the top: 'Total New Account Opportunities Requiring SE Assignment: [X]'. Add a recommendation: 'Priority Action: Assign these opportunities to SEs with lowest current workload (refer to Report 3 for SE bandwidth). Consider geographic alignment and expertise when making assignments.'",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    },
+    {
+      "stepId": "5.2.1",
+      "title": "Analysis 27: Final Report - SE Bandwidth for Assignment Decisions",
+      "groupBy": "[Opportunity SE Name]",
+      "aggregation": "None",
+      "question": "What is the final comprehensive SE bandwidth report to guide assignment decisions?",
+      "analysisPrompt": "Using the SE bandwidth data from Analysis 23, create the final Report 3: SOLUTION ENGINEER BANDWIDTH SUMMARY. Present each SE with their current workload in a structured format sorted by account count (ascending - lowest workload first): | SE Name: [Name] | Total Accounts Currently Assigned: [Count] | Capacity Status: [High/Medium/Low based on relative workload] |. Include summary statistics: 'Total Active SEs: [X] | Average Accounts per SE: [Y] | Highest Workload: [SE Name] with [Z] accounts | Lowest Workload: [SE Name] with [A] accounts'. Add actionable recommendations: 'Assignment Strategy: (1) For expansion opportunities, assign to historical SE regardless of current bandwidth to maintain account continuity. (2) For new account opportunities, prioritize SEs with below-average workload. (3) If historical SE for expansion has critical bandwidth issues, consider team discussion for optimal assignment.'",
+      "fetchStepId": "5.2",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    },
+    {
+      "stepId": "5.3.1",
+      "title": "Analysis 28: Executive Summary Dashboard",
+      "groupBy": "None",
+      "aggregation": "None",
+      "question": "What are the key executive-level metrics summarizing the SE assignment situation?",
+      "analysisPrompt": "Create an executive summary dashboard with the following key metrics: EXECUTIVE SUMMARY - SE ASSIGNMENT ANALYSIS | Total Opportunities Requiring SE Assignment: [X] (from Analysis 7) | - Expansion/Upsell Opportunities: [Y] (from Analysis 15) | - New Account Opportunities: [Z] (from Analysis 16) | Total Active Solution Engineers: [A] (from Analysis 23) | Average Accounts per SE: [B] (from Analysis 23) | Stage Distribution: [breakdown by stage from Analysis 8] | Critical Actions Required: (1) Assign [Y] expansion opportunities to historical SEs, (2) Distribute [Z] new opportunities based on SE capacity, (3) Monitor SE workload balance | Timeline: All opportunities close within next 6 months - immediate action required |. This provides leadership with a clear snapshot of the situation and required actions.",
+      "fetchStepId": "5.3",
+      "phaseNumber": 5,
+      "phaseTitle": "Final Report Compilation and Recommendations"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [
+      "1.1.1"
+    ],
+    "1.2": [
+      "1.2.1"
+    ],
+    "1.3": [
+      "1.3.1"
+    ],
+    "1.4": [
+      "1.4.1"
+    ],
+    "1.5": [
+      "1.5.1"
+    ],
+    "1.6": [
+      "1.6.1"
+    ],
+    "1.7": [
+      "1.7.1",
+      "1.7.2"
+    ],
+    "2.1": [
+      "2.1.1",
+      "2.1.2"
+    ],
+    "2.2": [
+      "2.2.1",
+      "2.2.2"
+    ],
+    "3.1": [
+      "3.1.1"
+    ],
+    "3.2": [
+      "3.2.1"
+    ],
+    "3.3": [
+      "3.3.1"
+    ],
+    "3.4": [
+      "3.4.1"
+    ],
+    "4.1": [
+      "4.1.1"
+    ],
+    "4.2": [
+      "4.2.1"
+    ],
+    "4.3": [
+      "4.3.1"
+    ],
+    "4.4": [
+      "4.4.1"
+    ],
+    "4.5": [
+      "4.5.1"
+    ],
+    "4.6": [
+      "4.6.1"
+    ],
+    "4.7": [
+      "4.7.1",
+      "4.7.2"
+    ],
+    "5.1": [
+      "5.1.1",
+      "5.1.2"
+    ],
+    "5.2": [
+      "5.2.1"
+    ],
+    "5.3": [
+      "5.3.1"
+    ]
+  }
+}

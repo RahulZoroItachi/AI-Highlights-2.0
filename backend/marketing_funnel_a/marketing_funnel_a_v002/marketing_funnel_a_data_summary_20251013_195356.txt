@@ -1,0 +1,55 @@
+Data Analysis Results - marketing_funnel_a
+Generated on: 20251013
+==================================================
+
+--- 1.1: Unknown ---
+Row count: 28
+Data:
+Row 1: {'Opportunity Source = marketing': ''}
+Row 2: {'Opportunity Source = marketing': 'Opportunity MQL Touch Last Campaign Name', None: ['f Opportunity M0 Created Count']}
+Row 3: {'Opportunity Source = marketing': 'WB 2025.02.05 - Trends and predictions 2025', None: ['1']}
+Row 4: {'Opportunity Source = marketing': 'WB 2025.04.10 AI is the new BI', None: ['1']}
+Row 5: {'Opportunity Source = marketing': 'EV 2025.09.10 AI at the Table | NYC Executive Dinner', None: ['1']}
+Row 6: {'Opportunity Source = marketing': 'WS 2025.06.13 Gartner MQ 2025 Report', None: ['1']}
+Row 7: {'Opportunity Source = marketing': 'PPC 2024.07.31 Dashboards are Dead [refresh] - Ebook', None: ['1']}
+Row 8: {'Opportunity Source = marketing': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['3']}
+Row 9: {'Opportunity Source = marketing': 'EV 2025.06.17 Agentic AI Analytics Conference London - In Person', None: ['1']}
+Row 10: {'Opportunity Source = marketing': 'WB 2025.03.25 From data consumption to conversations replay - EMEA', None: ['1']}
+... and 18 more rows
+
+------------------------------
+
+--- 2.1: Unknown ---
+Row count: 26
+Data:
+Row 1: {'Opportunity Source = marketing': ''}
+Row 2: {'Opportunity Source = marketing': 'Opportunity MQL Touch Last Campaign Name', None: ['f Opportunity M1 Created Count']}
+Row 3: {'Opportunity Source = marketing': 'WB 2025.02.05 - Trends and predictions 2025', None: ['1']}
+Row 4: {'Opportunity Source = marketing': 'WS 2025.06.13 Gartner MQ 2025 Report', None: ['1']}
+Row 5: {'Opportunity Source = marketing': 'PPC 2024.07.31 Dashboards are Dead [refresh] - Ebook', None: ['1']}
+Row 6: {'Opportunity Source = marketing': 'SM 2024.06.27 LI Unleashing the Power of Generative AI - whitepaper', None: ['2']}
+Row 7: {'Opportunity Source = marketing': 'EV 2025.06.17 Agentic AI Analytics Conference London - In Person', None: ['1']}
+Row 8: {'Opportunity Source = marketing': 'WB 2025.03.25 From data consumption to conversations replay - EMEA', None: ['1']}
+Row 9: {'Opportunity Source = marketing': 'WS 2025.06.27 Leveraging AI in analytics - Ebook', None: ['1']}
+Row 10: {'Opportunity Source = marketing': 'EV 2025.10.08 Post SDWT Ancillary Event - Paris', None: ['1']}
+... and 16 more rows
+
+------------------------------
+
+--- 3.1: Unknown ---
+Row count: 1
+Data:
+Row 1: {'Opportunity Pain': 'unknown'}
+
+------------------------------
+
+--- 4.1: Unknown ---
+Row count: 1
+Data:
+Row 1: {'Jeffrey Williams': 'Kevin Hollahan', '11713752': '10890001'}
+
+------------------------------
+
+--- 5.1: Unknown ---
+Error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create
+

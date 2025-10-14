@@ -816,6 +816,250 @@ button:hover::before {
     letter-spacing: 0.5px;
 }
 
+/* Settings Tab Styles */
+.settings-header {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(20px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.settings-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.1), transparent);
+    animation: sweep 3s infinite;
+}
+
+.settings-header h2 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 2.2em;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.settings-header p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.settings-form {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Environment Status Display */
+.env-status {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-item:hover {
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 0 -10px;
+    padding: 12px 10px;
+}
+
+.status-label {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-value {
+    color: var(--neon-blue);
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+    font-size: 13px;
+    background: rgba(0, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.status-value:hover {
+    background: rgba(0, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+/* Settings Form Specific Styles */
+.settings-form .form-section {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 35px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.settings-form .form-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-orange));
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+}
+
+.settings-form .form-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-size: 1.6em;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.settings-form .form-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-orange));
+    border-radius: 2px;
+}
+
+.settings-form .form-group {
+    margin-bottom: 25px;
+}
+
+.settings-form input[type="text"],
+.settings-form input[type="password"],
+.settings-form input[type="number"] {
+    width: 100%;
+    background: rgba(10, 25, 45, 0.8);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: var(--text-primary);
+    font-size: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.settings-form input[type="text"]:focus,
+.settings-form input[type="password"]:focus,
+.settings-form input[type="number"]:focus {
+    outline: none;
+    border-color: var(--neon-purple);
+    box-shadow: 
+        0 0 20px rgba(168, 85, 247, 0.3),
+        0 4px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(10, 25, 45, 0.95);
+    transform: translateY(-2px);
+}
+
+/* Number input specific styling */
+.settings-form input[type="number"] {
+    appearance: textfield; /* Standard */
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.settings-form input[type="number"]::-webkit-outer-spin-button,
+.settings-form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.settings-form .form-group small {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.settings-form .form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+.settings-form .form-actions button {
+    min-width: 160px;
+    padding: 16px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Settings-specific button styles */
+.settings-form button.primary-btn {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-orange));
+    box-shadow: 
+        0 8px 25px rgba(168, 85, 247, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.settings-form button.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 35px rgba(168, 85, 247, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.settings-form button.secondary-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+}
+
+.settings-form button.secondary-btn:hover {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+    transform: translateY(-2px);
+}
+
 /* Status displays */
 .status-display {
     background: var(--glass-bg);

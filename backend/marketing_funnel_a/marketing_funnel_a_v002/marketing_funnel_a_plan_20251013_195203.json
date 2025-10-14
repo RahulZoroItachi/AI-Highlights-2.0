@@ -1,0 +1,279 @@
+{
+  "primaryGoal": "Identify the top 3 worst performing RevOps Hierarchy segments by M0 to M1 opportunity drop for the current month, and determine which campaigns within each segment are contributing most to the decline.",
+  "assumptions": [
+    "The [Opportunity M0 Date] and [Opportunity M1 Date] fields accurately represent when opportunities reached their respective stages in the current month.",
+    "M0 and M1 represent sequential stages in the opportunity lifecycle, where M0 precedes M1.",
+    "A 'drop' from M0 to M1 indicates opportunity attrition, where fewer opportunities progress from M0 to M1 stage.",
+    "The [Opportunity Source] = 'marketing' and [Opportunity Source MQL Classification] in ('digital', 'events') filters are consistently applied across all data pulls.",
+    "The [Opportunity MQL Touch Last Campaign Name] field is populated for all relevant opportunities and represents the last marketing campaign that influenced the MQL.",
+    "Higher absolute and percentage drops indicate worse performance requiring immediate attention."
+  ],
+  "phases": [
+    {
+      "phaseNumber": 1,
+      "phaseTitle": "M0 Stage Data Collection",
+      "phaseDescription": "Fetch all M0 stage opportunity data for the current month at the most granular level (RevOps Hierarchy and Campaign Name) to establish the baseline for comparison.",
+      "fetchSteps": [
+        {
+          "stepId": "1.1",
+          "title": "Fetch 1: M0 Opportunity Data by RevOps Hierarchy and Campaign",
+          "objective": "Retrieve all M0 stage opportunities created in the current month, grouped by RevOps Hierarchy and Campaign Name, to establish the baseline opportunity volume.",
+          "requiredData": "Columns: [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M0 Created Count]. Filters: [Opportunity M0 Date] is 'current month', [Opportunity Source] equals 'marketing', [Opportunity Source MQL Classification] is in ('digital', 'events'). Aggregation: SUM of [f Opportunity M0 Created Count] grouped by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity M0 Date] is in the current month and [Opportunity Source] equals 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events'). Include columns [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M0 Created Count]. Group the data by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name] and sum the [f Opportunity M0 Created Count].",
+          "phaseNumber": 1,
+          "phaseTitle": "M0 Stage Data Collection"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "1.1.1",
+          "title": "Analysis 1: Calculate Total M0 Opportunities by RevOps Hierarchy",
+          "groupBy": "[RevOps Hierarchy]",
+          "aggregation": "SUM of [f Opportunity M0 Created Count]",
+          "question": "What is the total M0 opportunity count for each RevOps Hierarchy segment in the current month?",
+          "analysisPrompt": "Using the fetched data, group by [RevOps Hierarchy] and calculate the sum of [f Opportunity M0 Created Count] for each segment. Present the results in a table showing each RevOps Hierarchy and their total M0 opportunity count. This establishes the baseline M0 performance across all segments.",
+          "fetchStepId": "1.1",
+          "phaseNumber": 1,
+          "phaseTitle": "M0 Stage Data Collection"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Stage Data Collection",
+      "phaseDescription": "Fetch all M1 stage opportunity data for the current month at the most granular level (RevOps Hierarchy and Campaign Name) to enable comparison with M0 stage.",
+      "fetchSteps": [
+        {
+          "stepId": "2.1",
+          "title": "Fetch 2: M1 Opportunity Data by RevOps Hierarchy and Campaign",
+          "objective": "Retrieve all M1 stage opportunities created in the current month, grouped by RevOps Hierarchy and Campaign Name, to measure progression from M0.",
+          "requiredData": "Columns: [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M1 Created Count]. Filters: [Opportunity M1 Date] is 'current month', [Opportunity Source] equals 'marketing', [Opportunity Source MQL Classification] is in ('digital', 'events'). Aggregation: SUM of [f Opportunity M1 Created Count] grouped by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name].",
+          "fetchPrompt": "Fetch all opportunities where [Opportunity M1 Date] is in the current month and [Opportunity Source] equals 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events'). Include columns [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M1 Created Count]. Group the data by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name] and sum the [f Opportunity M1 Created Count].",
+          "phaseNumber": 2,
+          "phaseTitle": "M1 Stage Data Collection"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "2.1.1",
+          "title": "Analysis 2: Calculate Total M1 Opportunities by RevOps Hierarchy",
+          "groupBy": "[RevOps Hierarchy]",
+          "aggregation": "SUM of [f Opportunity M1 Created Count]",
+          "question": "What is the total M1 opportunity count for each RevOps Hierarchy segment in the current month?",
+          "analysisPrompt": "Using the fetched data, group by [RevOps Hierarchy] and calculate the sum of [f Opportunity M1 Created Count] for each segment. Present the results in a table showing each RevOps Hierarchy and their total M1 opportunity count. This establishes the M1 performance across all segments for comparison with M0.",
+          "fetchStepId": "2.1",
+          "phaseNumber": 2,
+          "phaseTitle": "M1 Stage Data Collection"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 3,
+      "phaseTitle": "RevOps Hierarchy Performance Comparison and Top 3 Worst Performers Identification",
+      "phaseDescription": "Combine M0 and M1 data at the RevOps Hierarchy level to calculate the drop metrics and identify the top 3 worst performing segments.",
+      "fetchSteps": [
+        {
+          "stepId": "3.1",
+          "title": "Analysis 3: Join M0 and M1 Data and Calculate Drop Metrics by RevOps Hierarchy",
+          "objective": "Merge the M0 and M1 aggregated data from previous analyses to calculate absolute and percentage drops for each RevOps Hierarchy.",
+          "requiredData": "Data from Analysis 1.1.1 (M0 totals by RevOps Hierarchy) and Analysis 2.1.1 (M1 totals by RevOps Hierarchy).",
+          "fetchPrompt": "No new fetch required. Use the output from Analysis 1.1.1 and Analysis 2.1.1.",
+          "phaseNumber": 3,
+          "phaseTitle": "RevOps Hierarchy Performance Comparison and Top 3 Worst Performers Identification"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "3.1.1",
+          "title": "Analysis 3: Calculate M0 to M1 Drop and Identify Top 3 Worst Performing RevOps Hierarchy",
+          "groupBy": "[RevOps Hierarchy]",
+          "aggregation": "Calculate: (M0 Count - M1 Count) as Absolute Drop, and ((M0 Count - M1 Count) / M0 Count * 100) as Percentage Drop",
+          "question": "Which 3 RevOps Hierarchy segments experienced the highest absolute drop in opportunity count from M0 to M1 in the current month?",
+          "analysisPrompt": "Join the results from Analysis 1.1.1 (M0 totals) and Analysis 2.1.1 (M1 totals) on [RevOps Hierarchy]. For each RevOps Hierarchy, calculate the absolute drop (M0 Count - M1 Count) and the percentage drop (((M0 Count - M1 Count) / M0 Count) * 100). Rank all RevOps Hierarchy segments by absolute drop in descending order. Identify and highlight the top 3 RevOps Hierarchy segments with the highest absolute drop. Present the results in a table with columns: [RevOps Hierarchy], M0 Count, M1 Count, Absolute Drop, Percentage Drop, and Rank. Provide a summary insight explaining which 3 segments are worst performing and the magnitude of their drops.",
+          "fetchStepId": "3.1",
+          "phaseNumber": 3,
+          "phaseTitle": "RevOps Hierarchy Performance Comparison and Top 3 Worst Performers Identification"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 4,
+      "phaseTitle": "Campaign-Level Deep Dive for Top 3 Worst Performing RevOps Hierarchy",
+      "phaseDescription": "For each of the top 3 worst performing RevOps Hierarchy segments identified in Phase 3, drill down to the campaign level to identify which campaigns are driving the poor performance.",
+      "fetchSteps": [
+        {
+          "stepId": "4.1",
+          "title": "Analysis 4: Campaign-Level M0 to M1 Drop Analysis for Top 3 RevOps Hierarchy",
+          "objective": "Calculate M0 to M1 drop at the campaign level for each of the top 3 worst performing RevOps Hierarchy segments to identify problematic campaigns.",
+          "requiredData": "Data from Fetch 1.1 (M0 data by RevOps Hierarchy and Campaign) and Fetch 2.1 (M1 data by RevOps Hierarchy and Campaign), filtered to only the top 3 RevOps Hierarchy identified in Analysis 3.1.1.",
+          "fetchPrompt": "No new fetch required. Use the output from Fetch 1.1 and Fetch 2.1, filtered to the top 3 RevOps Hierarchy identified in Analysis 3.1.1.",
+          "phaseNumber": 4,
+          "phaseTitle": "Campaign-Level Deep Dive for Top 3 Worst Performing RevOps Hierarchy"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "4.1.1",
+          "title": "Analysis 4: Identify Campaigns with Highest Drop for Each Top 3 RevOps Hierarchy",
+          "groupBy": "[RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name]",
+          "aggregation": "Calculate: (M0 Count - M1 Count) as Absolute Drop for each campaign within each RevOps Hierarchy",
+          "question": "For each of the top 3 worst performing RevOps Hierarchy segments, which campaigns experienced the highest drop from M0 to M1?",
+          "analysisPrompt": "Filter the data from Fetch 1.1 (M0 by RevOps Hierarchy and Campaign) and Fetch 2.1 (M1 by RevOps Hierarchy and Campaign) to include only the top 3 RevOps Hierarchy identified in Analysis 3.1.1. Join the M0 and M1 data on both [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name]. For each combination, calculate the absolute drop (M0 Count - M1 Count) and percentage drop (((M0 Count - M1 Count) / M0 Count) * 100). For each of the 3 RevOps Hierarchy segments, rank all campaigns by absolute drop in descending order and identify the campaigns with the highest drops. Present the results in three separate tables (one for each RevOps Hierarchy) with columns: [Opportunity MQL Touch Last Campaign Name], M0 Count, M1 Count, Absolute Drop, Percentage Drop, and Rank. Provide insights for each RevOps Hierarchy explaining which campaigns are the primary contributors to poor performance and recommend which campaigns should be reviewed or optimized.",
+          "fetchStepId": "4.1",
+          "phaseNumber": 4,
+          "phaseTitle": "Campaign-Level Deep Dive for Top 3 Worst Performing RevOps Hierarchy"
+        }
+      ]
+    },
+    {
+      "phaseNumber": 5,
+      "phaseTitle": "Executive Summary and Actionable Recommendations",
+      "phaseDescription": "Synthesize findings from all phases to create a comprehensive summary with clear, prioritized recommendations for addressing the worst performing segments and campaigns.",
+      "fetchSteps": [
+        {
+          "stepId": "5.1",
+          "title": "Analysis 5: Generate Executive Summary",
+          "objective": "Consolidate all analysis findings into an executive summary with actionable recommendations.",
+          "requiredData": "All outputs from Analysis 3.1.1 (Top 3 RevOps Hierarchy) and Analysis 4.1.1 (Campaign breakdowns).",
+          "fetchPrompt": "No new fetch required. Use outputs from all previous analyses.",
+          "phaseNumber": 5,
+          "phaseTitle": "Executive Summary and Actionable Recommendations"
+        }
+      ],
+      "analysisSteps": [
+        {
+          "stepId": "5.1.1",
+          "title": "Analysis 5: Create Executive Summary with Prioritized Action Items",
+          "groupBy": "No grouping required",
+          "aggregation": "No aggregation required",
+          "question": "What are the key findings and recommended actions to address the worst performing RevOps Hierarchy segments and campaigns?",
+          "analysisPrompt": "Create an executive summary that includes: (1) Overview of overall M0 to M1 performance across all RevOps Hierarchy segments, (2) Detailed findings for the top 3 worst performing RevOps Hierarchy including their absolute and percentage drops, (3) For each of the top 3 segments, list the campaigns with the highest drops and their impact, (4) Prioritized recommendations including: which segments require immediate attention, which campaigns should be paused or optimized, what additional investigation is needed (e.g., campaign creative, targeting, budget allocation issues), and suggested next steps for stakeholders. Format the summary with clear sections, bullet points, and data visualizations where appropriate to make it actionable for leadership.",
+          "fetchStepId": "5.1",
+          "phaseNumber": 5,
+          "phaseTitle": "Executive Summary and Actionable Recommendations"
+        }
+      ]
+    }
+  ],
+  "fetchSteps": [
+    {
+      "stepId": "1.1",
+      "title": "Fetch 1: M0 Opportunity Data by RevOps Hierarchy and Campaign",
+      "objective": "Retrieve all M0 stage opportunities created in the current month, grouped by RevOps Hierarchy and Campaign Name, to establish the baseline opportunity volume.",
+      "requiredData": "Columns: [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M0 Created Count]. Filters: [Opportunity M0 Date] is 'current month', [Opportunity Source] equals 'marketing', [Opportunity Source MQL Classification] is in ('digital', 'events'). Aggregation: SUM of [f Opportunity M0 Created Count] grouped by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity M0 Date] is in the current month and [Opportunity Source] equals 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events'). Include columns [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M0 Created Count]. Group the data by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name] and sum the [f Opportunity M0 Created Count].",
+      "phaseNumber": 1,
+      "phaseTitle": "M0 Stage Data Collection"
+    },
+    {
+      "stepId": "2.1",
+      "title": "Fetch 2: M1 Opportunity Data by RevOps Hierarchy and Campaign",
+      "objective": "Retrieve all M1 stage opportunities created in the current month, grouped by RevOps Hierarchy and Campaign Name, to measure progression from M0.",
+      "requiredData": "Columns: [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], [f Opportunity M1 Created Count]. Filters: [Opportunity M1 Date] is 'current month', [Opportunity Source] equals 'marketing', [Opportunity Source MQL Classification] is in ('digital', 'events'). Aggregation: SUM of [f Opportunity M1 Created Count] grouped by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name].",
+      "fetchPrompt": "Fetch all opportunities where [Opportunity M1 Date] is in the current month and [Opportunity Source] equals 'marketing' and [Opportunity Source MQL Classification] is in ('digital', 'events'). Include columns [RevOps Hierarchy], [Opportunity MQL Touch Last Campaign Name], and [f Opportunity M1 Created Count]. Group the data by [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name] and sum the [f Opportunity M1 Created Count].",
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Stage Data Collection"
+    },
+    {
+      "stepId": "3.1",
+      "title": "Analysis 3: Join M0 and M1 Data and Calculate Drop Metrics by RevOps Hierarchy",
+      "objective": "Merge the M0 and M1 aggregated data from previous analyses to calculate absolute and percentage drops for each RevOps Hierarchy.",
+      "requiredData": "Data from Analysis 1.1.1 (M0 totals by RevOps Hierarchy) and Analysis 2.1.1 (M1 totals by RevOps Hierarchy).",
+      "fetchPrompt": "No new fetch required. Use the output from Analysis 1.1.1 and Analysis 2.1.1.",
+      "phaseNumber": 3,
+      "phaseTitle": "RevOps Hierarchy Performance Comparison and Top 3 Worst Performers Identification"
+    },
+    {
+      "stepId": "4.1",
+      "title": "Analysis 4: Campaign-Level M0 to M1 Drop Analysis for Top 3 RevOps Hierarchy",
+      "objective": "Calculate M0 to M1 drop at the campaign level for each of the top 3 worst performing RevOps Hierarchy segments to identify problematic campaigns.",
+      "requiredData": "Data from Fetch 1.1 (M0 data by RevOps Hierarchy and Campaign) and Fetch 2.1 (M1 data by RevOps Hierarchy and Campaign), filtered to only the top 3 RevOps Hierarchy identified in Analysis 3.1.1.",
+      "fetchPrompt": "No new fetch required. Use the output from Fetch 1.1 and Fetch 2.1, filtered to the top 3 RevOps Hierarchy identified in Analysis 3.1.1.",
+      "phaseNumber": 4,
+      "phaseTitle": "Campaign-Level Deep Dive for Top 3 Worst Performing RevOps Hierarchy"
+    },
+    {
+      "stepId": "5.1",
+      "title": "Analysis 5: Generate Executive Summary",
+      "objective": "Consolidate all analysis findings into an executive summary with actionable recommendations.",
+      "requiredData": "All outputs from Analysis 3.1.1 (Top 3 RevOps Hierarchy) and Analysis 4.1.1 (Campaign breakdowns).",
+      "fetchPrompt": "No new fetch required. Use outputs from all previous analyses.",
+      "phaseNumber": 5,
+      "phaseTitle": "Executive Summary and Actionable Recommendations"
+    }
+  ],
+  "analysisSteps": [
+    {
+      "stepId": "1.1.1",
+      "title": "Analysis 1: Calculate Total M0 Opportunities by RevOps Hierarchy",
+      "groupBy": "[RevOps Hierarchy]",
+      "aggregation": "SUM of [f Opportunity M0 Created Count]",
+      "question": "What is the total M0 opportunity count for each RevOps Hierarchy segment in the current month?",
+      "analysisPrompt": "Using the fetched data, group by [RevOps Hierarchy] and calculate the sum of [f Opportunity M0 Created Count] for each segment. Present the results in a table showing each RevOps Hierarchy and their total M0 opportunity count. This establishes the baseline M0 performance across all segments.",
+      "fetchStepId": "1.1",
+      "phaseNumber": 1,
+      "phaseTitle": "M0 Stage Data Collection"
+    },
+    {
+      "stepId": "2.1.1",
+      "title": "Analysis 2: Calculate Total M1 Opportunities by RevOps Hierarchy",
+      "groupBy": "[RevOps Hierarchy]",
+      "aggregation": "SUM of [f Opportunity M1 Created Count]",
+      "question": "What is the total M1 opportunity count for each RevOps Hierarchy segment in the current month?",
+      "analysisPrompt": "Using the fetched data, group by [RevOps Hierarchy] and calculate the sum of [f Opportunity M1 Created Count] for each segment. Present the results in a table showing each RevOps Hierarchy and their total M1 opportunity count. This establishes the M1 performance across all segments for comparison with M0.",
+      "fetchStepId": "2.1",
+      "phaseNumber": 2,
+      "phaseTitle": "M1 Stage Data Collection"
+    },
+    {
+      "stepId": "3.1.1",
+      "title": "Analysis 3: Calculate M0 to M1 Drop and Identify Top 3 Worst Performing RevOps Hierarchy",
+      "groupBy": "[RevOps Hierarchy]",
+      "aggregation": "Calculate: (M0 Count - M1 Count) as Absolute Drop, and ((M0 Count - M1 Count) / M0 Count * 100) as Percentage Drop",
+      "question": "Which 3 RevOps Hierarchy segments experienced the highest absolute drop in opportunity count from M0 to M1 in the current month?",
+      "analysisPrompt": "Join the results from Analysis 1.1.1 (M0 totals) and Analysis 2.1.1 (M1 totals) on [RevOps Hierarchy]. For each RevOps Hierarchy, calculate the absolute drop (M0 Count - M1 Count) and the percentage drop (((M0 Count - M1 Count) / M0 Count) * 100). Rank all RevOps Hierarchy segments by absolute drop in descending order. Identify and highlight the top 3 RevOps Hierarchy segments with the highest absolute drop. Present the results in a table with columns: [RevOps Hierarchy], M0 Count, M1 Count, Absolute Drop, Percentage Drop, and Rank. Provide a summary insight explaining which 3 segments are worst performing and the magnitude of their drops.",
+      "fetchStepId": "3.1",
+      "phaseNumber": 3,
+      "phaseTitle": "RevOps Hierarchy Performance Comparison and Top 3 Worst Performers Identification"
+    },
+    {
+      "stepId": "4.1.1",
+      "title": "Analysis 4: Identify Campaigns with Highest Drop for Each Top 3 RevOps Hierarchy",
+      "groupBy": "[RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name]",
+      "aggregation": "Calculate: (M0 Count - M1 Count) as Absolute Drop for each campaign within each RevOps Hierarchy",
+      "question": "For each of the top 3 worst performing RevOps Hierarchy segments, which campaigns experienced the highest drop from M0 to M1?",
+      "analysisPrompt": "Filter the data from Fetch 1.1 (M0 by RevOps Hierarchy and Campaign) and Fetch 2.1 (M1 by RevOps Hierarchy and Campaign) to include only the top 3 RevOps Hierarchy identified in Analysis 3.1.1. Join the M0 and M1 data on both [RevOps Hierarchy] and [Opportunity MQL Touch Last Campaign Name]. For each combination, calculate the absolute drop (M0 Count - M1 Count) and percentage drop (((M0 Count - M1 Count) / M0 Count) * 100). For each of the 3 RevOps Hierarchy segments, rank all campaigns by absolute drop in descending order and identify the campaigns with the highest drops. Present the results in three separate tables (one for each RevOps Hierarchy) with columns: [Opportunity MQL Touch Last Campaign Name], M0 Count, M1 Count, Absolute Drop, Percentage Drop, and Rank. Provide insights for each RevOps Hierarchy explaining which campaigns are the primary contributors to poor performance and recommend which campaigns should be reviewed or optimized.",
+      "fetchStepId": "4.1",
+      "phaseNumber": 4,
+      "phaseTitle": "Campaign-Level Deep Dive for Top 3 Worst Performing RevOps Hierarchy"
+    },
+    {
+      "stepId": "5.1.1",
+      "title": "Analysis 5: Create Executive Summary with Prioritized Action Items",
+      "groupBy": "No grouping required",
+      "aggregation": "No aggregation required",
+      "question": "What are the key findings and recommended actions to address the worst performing RevOps Hierarchy segments and campaigns?",
+      "analysisPrompt": "Create an executive summary that includes: (1) Overview of overall M0 to M1 performance across all RevOps Hierarchy segments, (2) Detailed findings for the top 3 worst performing RevOps Hierarchy including their absolute and percentage drops, (3) For each of the top 3 segments, list the campaigns with the highest drops and their impact, (4) Prioritized recommendations including: which segments require immediate attention, which campaigns should be paused or optimized, what additional investigation is needed (e.g., campaign creative, targeting, budget allocation issues), and suggested next steps for stakeholders. Format the summary with clear sections, bullet points, and data visualizations where appropriate to make it actionable for leadership.",
+      "fetchStepId": "5.1",
+      "phaseNumber": 5,
+      "phaseTitle": "Executive Summary and Actionable Recommendations"
+    }
+  ],
+  "fetchToAnalysisMapping": {
+    "1.1": [
+      "1.1.1"
+    ],
+    "2.1": [
+      "2.1.1"
+    ],
+    "3.1": [
+      "3.1.1"
+    ],
+    "4.1": [
+      "4.1.1"
+    ],
+    "5.1": [
+      "5.1.1"
+    ]
+  }
+}

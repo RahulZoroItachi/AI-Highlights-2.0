@@ -1,0 +1,33 @@
+{
+  "1.1.1": {
+    "stepId": "1.1.1",
+    "title": "Analysis 1.1.1: Identify Previous Week and Current Week M1 ACV Values",
+    "question": "What is the cumulative M1 ACV for the previous week and the current week, and what is the absolute and percentage change between them?",
+    "fetchStepId": "1.1",
+    "analysisResponse": "Based on the provided data, I'll analyze the two most recent weeks of M1 ACV performance.\n\n## Weekly M1 ACV Analysis Summary\n\n| Previous Week M1 ACV | Current Week M1 ACV | Absolute Change | Percentage Change |\n|---------------------|---------------------|-----------------|-------------------|\n| $142,528,900.74 | $156,465,527.05 | $13,936,626.31 | 9.78% |\n\n**Previous Week:** 09/29/2025 Week  \n**Current Week:** 10/06/2025 Week\n\n## Narrative Insight\n\nM1 ACV is **increasing** week-over-week, showing strong positive momentum. The cumulative M1 ACV grew by approximately $13.9 million from the previous week to the current week, representing a robust 9.78% increase. \n\nThis substantial week-over-week growth indicates healthy business performance, with the cumulative M1 ACV now reaching over $156.4 million. The nearly 10% weekly growth rate suggests strong sales execution and pipeline conversion during this period. This upward trajectory demonstrates positive business momentum as the quarter progresses.",
+    "status": "completed"
+  },
+  "2.1.1": {
+    "stepId": "2.1.1",
+    "title": "Analysis 2.1.1: Identify Previous Week and Current Week M1 Count Values",
+    "question": "What is the cumulative M1 Count for the previous week and the current week, and what is the absolute and percentage change between them?",
+    "fetchStepId": "2.1",
+    "analysisResponse": "I notice that the CSV data you've provided contains only the weekly date headers but is missing the actual M1 Count values that are needed for the analysis. The data shows:\n\n- Column header: \"Weekly Opportunity M1 Date - Fiscal\"\n- Week dates ranging from 07/28/2025 to 10/06/2025\n- But no corresponding M1 Count values\n\nTo complete this analysis, I would need the cumulative M1 Count values for each week. The data structure should look something like:\n\n| Weekly Opportunity M1 Date - Fiscal | Cumulative M1 Count |\n|-------------------------------------|-------------------|\n| 07/28/2025 Week | [value] |\n| 08/04/2025 Week | [value] |\n| ... | ... |\n| 09/29/2025 Week | [value] |\n| 10/06/2025 Week | [value] |\n\nBased on the dates provided, I can identify that:\n- **Current Week (most recent)**: 10/06/2025 Week\n- **Previous Week (second most recent)**: 09/29/2025 Week\n\nCould you please provide the complete dataset with the M1 Count values so I can perform the requested calculations and provide the summary table with absolute change, percentage change, and narrative insights?",
+    "status": "completed"
+  },
+  "3.1.1": {
+    "stepId": "3.1.1",
+    "title": "Analysis 3.1.1: Identify Previous Week and Current Week S0 ACV Values",
+    "question": "What is the cumulative S0 ACV for the previous week and the current week, and what is the absolute and percentage change between them?",
+    "fetchStepId": "3.1",
+    "analysisResponse": "Based on the weekly cumulative S0 ACV data provided, I'll analyze the two most recent weeks and calculate the changes.\n\n## Analysis Results\n\n**Most Recent Weeks Identified:**\n- Current Week: 10/13/2025 Week\n- Previous Week: 10/06/2025 Week\n\n## Summary Table\n\n| Previous Week S0 ACV | Current Week S0 ACV | Absolute Change | Percentage Change |\n|---------------------|---------------------|-----------------|-------------------|\n| $91,967,222.50 | $92,177,222.50 | $210,000.00 | 0.23% |\n\n## Narrative Insight\n\nThe S0 ACV is **increasing** week-over-week, showing continued positive momentum. However, the growth rate has significantly decelerated compared to previous weeks in the dataset. \n\n**Key Observations:**\n- **Magnitude**: The absolute increase of $210,000 represents a modest 0.23% growth\n- **Trend Context**: This is the smallest week-over-week increase in the entire quarter, suggesting the S0 ACV growth is plateauing\n- **Previous Momentum**: Earlier weeks showed much stronger growth rates (e.g., the week ending 09/29/2025 saw an increase of over $18.6 million)\n\nThe minimal growth suggests that S0 ACV may be approaching a saturation point for the quarter, or there could be seasonal factors affecting new opportunity generation. While the trend remains positive, the dramatic slowdown in growth velocity warrants attention and potential investigation into pipeline health and opportunity conversion rates.",
+    "status": "completed"
+  },
+  "4.1.1": {
+    "error": "Fetch step error: 400 Client Error: Bad Request for url: https://champagne.thoughtspotstaging.cloud/api/rest/2.0/ai/answer/create",
+    "stepId": "4.1.1",
+    "title": "Analysis 4.1.1: Create Consolidated KPI Summary Report",
+    "question": "What is the overall week-over-week performance across all three KPIs, and which KPIs are trending positively or negatively towards their targets?",
+    "fetchStepId": "4.1"
+  }
+}

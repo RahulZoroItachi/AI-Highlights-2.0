@@ -525,16 +525,53 @@ def main():
             print("\n🔍 Step 5.5: Parsing JSON response...")
             print(f"📊 Raw response length: {len(llm_response_2_raw)}")
             
+            # Debug: Show first and last parts of the response
+            print(f"🔧 Debug: First 200 chars: {repr(llm_response_2_raw[:200])}")
+            print(f"🔧 Debug: Last 200 chars: {repr(llm_response_2_raw[-200:])}")
+            
             import json
             try:
                 llm_response_2 = json.loads(llm_response_2_raw)
                 print("✅ JSON response parsed successfully")
             except json.JSONDecodeError as e:
                 print(f"❌ JSON parsing failed: {e}")
+                print(f"🔧 Debug: Error position: {e.pos}")
+                if e.pos < len(llm_response_2_raw):
+                    error_context_start = max(0, e.pos - 50)
+                    error_context_end = min(len(llm_response_2_raw), e.pos + 50)
+                    error_context = llm_response_2_raw[error_context_start:error_context_end]
+                    print(f"🔧 Debug: Error context: {repr(error_context)}")
+                
                 print("📊 Trying to use parse_llm_output instead...")
                 from prompts import parse_llm_output
-                llm_response_2 = parse_llm_output(llm_response_2_raw)
-                print("✅ Response parsed using parse_llm_output")
+                try:
+                    llm_response_2 = parse_llm_output(llm_response_2_raw)
+                    print("✅ Response parsed using parse_llm_output")
+                except Exception as parse_error:
+                    print(f"❌ parse_llm_output also failed: {parse_error}")
+                    print(f"🔧 Debug: parse_llm_output error type: {type(parse_error).__name__}")
+                    
+                    # Try to find JSON boundaries manually
+                    print("🔧 Debug: Trying manual JSON extraction...")
+                    start_idx = llm_response_2_raw.find('{')
+                    end_idx = llm_response_2_raw.rfind('}')
+                    print(f"🔧 Debug: JSON boundaries - start: {start_idx}, end: {end_idx}")
+                    
+                    if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
+                        json_portion = llm_response_2_raw[start_idx:end_idx + 1]
+                        print(f"🔧 Debug: Extracted JSON length: {len(json_portion)}")
+                        print(f"🔧 Debug: Extracted JSON first 100 chars: {repr(json_portion[:100])}")
+                        print(f"🔧 Debug: Extracted JSON last 100 chars: {repr(json_portion[-100:])}")
+                        
+                        try:
+                            llm_response_2 = json.loads(json_portion)
+                            print("✅ Manual JSON extraction successful")
+                        except json.JSONDecodeError as manual_error:
+                            print(f"❌ Manual JSON extraction failed: {manual_error}")
+                            raise parse_error
+                    else:
+                        print("🔧 Debug: No valid JSON boundaries found")
+                        raise parse_error
             
             # Step 6: Parse final plan and extract execution plan
             print("\n🔍 Step 6: Parsing final plan and extracting execution plan...")
