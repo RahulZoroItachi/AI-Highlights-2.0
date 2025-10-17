@@ -168,13 +168,13 @@
     "tml_filename": "NA",
     "liveboard_id": "NA",
     "worksheet_id": "9cfb299b-7378-48cb-ae20-a0bc5a82b223",
-    "kpi": "f Opportunity M0 Created Count, f Opportunity M1 Created Count\n\nApply the filters [Opportunity Source] = marketing, [Opportunity Source MQL Classification] = digital and events, [Opportunity Deployment] != mode",
+    "kpi": "f Opportunity M0 Created Count, f Opportunity M1 Created Count, f Opportunity S0 Created Count, f Opportunity S1 Created Count, f Opportunity S2 Created Count\n\n\nApply the filters [Opportunity Source] = marketing, [Opportunity Source MQL Classification] = digital and events, [Opportunity Deployment] != mode",
     "attributes": "Opportunity Source MQL Category, Opportunity MQL Touch Last Campaign Name\n",
     "aggregations": "NA",
-    "date_column": "Opportunity M0 Date, Opportunity M1 Date",
-    "goal": "To identify the Campaigns that are not doing good ",
-    "user_context": "1. Fetch the M0 and M1 Opportunity Created Count for this month by [Opportunity Source MQL Category]\n2. Fetch the M0 and M1 Opportunity Created Count for this month by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name]\n3. Identify the top [Opportunity Source MQL Category] drop from M0 to M1\n3, For these top [Opportunity Source MQL Category], identify the top drop in [Opportunity MQL Touch Last Campaign Name] from M0 to M1\n\n\n\nFetch all the required data at the begining as we will not know the top 3 and then fetch the [Opportunity MQL Touch Last Campaign Name] as we fetch data only once. Get all the data and then we can analyse\n\n\nIMPORTANT: Fetch M0 and M1 data separately using the relevant data columns and then run the comparison. Do NOT fetch them together",
-    "report_format": "NA"
+    "date_column": "Opportunity M0 Date, Opportunity M1 Date, Opportunity S0 Date, Opportunity S1 Date, Opportunity S2 Date",
+    "goal": "To identify the Campaigns that are not doing good across the Marketing stages",
+    "user_context": "1. Fetch the M0, M1, S0, S1 and S2 Opportunity Created Count for this month by [Opportunity Source MQL Category]\n2. Fetch the M0, M1, S0, S1 and S2 Opportunity Created Count for this month by [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name]\n3. Identify the top [Opportunity Source MQL Category] drop from M0 to M1\n4, Filter these top [Opportunity Source MQL Category] individually on the data fetched in Step 2 and identify the top drop in [Opportunity MQL Touch Last Campaign Name] from M0, M1, S0, S1 and S2 \n5. Do this for each stage conversion: M0 to M1, M1 to S0, S0 to S1 and S1 to S2\n\nI am interested in the drop between the funnel stages, the [Opportunity Source MQL Category] and [Opportunity MQL Touch Last Campaign Name] that has seen the most drop between the funnel stages\n\n\nFetch all the required data at the begining as we will not know the top 3 and then fetch the [Opportunity MQL Touch Last Campaign Name] as we fetch data only once. Get all the data and then we can analyse\n\n\nIMPORTANT: Fetch M0, M1, S0, S1 and S2 data separately using the relevant data columns and then run the comparison. Do NOT fetch them together\n\nI want to know the top 3 [Opportunity Source MQL Category] that dropped the most between each stage. For these [Opportunity Source MQL Category], I want to know the top 3 drop in [Opportunity MQL Touch Last Campaign Name] between the stages.\n\nJust give me these numbers for the entire funnel\n\nThe funnel is M0 to M1 to S0 to S1 to S2",
+    "report_format": "Give each stage drop separately with top 3s"
   },
   "t": {
     "tml_filename": "NA",

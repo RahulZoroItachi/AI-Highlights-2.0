@@ -195,7 +195,7 @@ def main():
     print("✅ Configuration validated")
     
     # Configuration - can be overridden by environment variables
-    scenario = os.getenv('ANALYSIS_SCENARIO', "support")  # Change this to 'pg', 'ta', 'cmo' as needed
+    scenario = os.getenv('ANALYSIS_SCENARIO', "pg")  # Change this to 'pg', 'ta', 'cmo' as needed
     llm_provider = os.getenv('LLM_PROVIDER', "claude")  # Change to "claude" to use Claude Sonnet 4
     load_previous_plan = os.getenv('LOAD_PREVIOUS_PLAN') or None  # Set to version number to load previous plan, None to generate new
     load_previous_data = os.getenv('LOAD_PREVIOUS_DATA') or None  # Set to version number to load previous data, None to fetch fresh data

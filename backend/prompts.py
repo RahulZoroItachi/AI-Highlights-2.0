@@ -575,12 +575,12 @@ Organize the entire plan into logical Phases. Each phase should represent a dist
 
 2. Fetch Steps:
 Each Fetch step represents a specific data retrieval action. The goal is to fetch small, targeted datasets to keep the analysis focused and efficient. The fetched data should have the attributes for grouping as well as context as necessary. Each Phase can have multiple Fetch steps
-For each granular step, the Fetch Prompt should be a clear, self-contained natural language query that an NL-to-SQL agent can execute. It must explicitly mention all columns to fetch and all filter conditions for that specific, granular step. Ensure that required filters are mentioned in the Fetch Prompt and not left to the analysis step to aggregate
+For each granular step, the Fetch Prompt should be a clear, self-contained natural language query that an NL-to-SQL agent can execute. It must explicitly mention all columns to fetch and all filter conditions for that specific, granular step. Ensure that required filters are mentioned in the Fetch Prompt.
 For each Fetch step, you must clearly specify:
 
 Objective: A brief sentence explaining the purpose of this data pull.
-Required Data: The specific columns (attributes and measures) needed from the master table. Mention any required aggregations (e.g., SUM of [Amount]) and filters (e.g., Date Range: Last Quarter, [Status] is 'Open').
-Fetch Prompt: A precise, natural language query for a data agent to execute. Crucially, you must enclose all column names in square brackets [].
+Required Data: The specific columns (attributes and measures) needed from the master table. Mention any required aggregations for the measure (e.g., SUM of [Amount]) and filters (e.g., Date Range: Last Quarter, [Status] is 'Open'). ALWAYS, you must enclose all measures and attributes in square brackets []. This is a data fetch prompt, so do not include the aggregation and group by information in this prompt
+Fetch Prompt: A precise, natural language query for a data agent to execute. 
 
 3. Analysis Steps:
 Each Analysis step details the computation and the business question to be answered using the data from the immediately preceding Fetch step.
