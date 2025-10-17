@@ -189,14 +189,6 @@
                     <h3>⚙️ Analysis Configuration</h3>
                     <div class="analysis-controls">
                         <div class="control-group">
-                            <label for="llm-provider">LLM Provider:</label>
-                            <select id="llm-provider">
-                                <option value="gemini">Gemini Pro</option>
-                                <option value="claude" selected>Claude Sonnet</option>
-                            </select>
-                        </div>
-                        
-                        <div class="control-group">
                             <label for="load-previous-plan">Load Previous Plan:</label>
                             <div style="display: flex; gap: 10px; align-items: center;">
                                 <select id="load-previous-plan" style="flex: 1;">
@@ -276,8 +268,30 @@
 
                     <div class="form-group">
                         <label for="claude-api-key">Claude API Key:</label>
-                        <input type="password" id="claude-api-key" placeholder="Your Claude API key">
-                        <small>Your Anthropic Claude API key for LLM processing</small>
+                        <input type="password" id="claude-api-key" placeholder="Your Claude API key (optional)">
+                        <small>Your Anthropic Claude API key - Get it from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="openai-api-key">OpenAI API Key (ChatGPT):</label>
+                        <input type="password" id="openai-api-key" placeholder="Your OpenAI API key (optional)">
+                        <small>Your OpenAI API key for ChatGPT - Get it from <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gemini-api-key">Gemini API Key:</label>
+                        <input type="password" id="gemini-api-key" placeholder="Your Google Gemini API key (optional)">
+                        <small>Your Google AI Gemini API key - Get it from <a href="https://makersuite.google.com/app/apikey" target="_blank">makersuite.google.com/app/apikey</a></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="default-llm-provider">Default LLM Provider:</label>
+                        <select id="default-llm-provider">
+                            <option value="claude">Claude (Anthropic)</option>
+                            <option value="openai">OpenAI (ChatGPT)</option>
+                            <option value="gemini">Google Gemini</option>
+                        </select>
+                        <small>Choose which LLM to use for analysis and input configuration</small>
                     </div>
                 </div>
 
@@ -307,6 +321,18 @@
                             <span id="current-claude-key" class="status-value">Not configured</span>
                         </div>
                         <div class="status-item">
+                            <span class="status-label">OpenAI API Key:</span>
+                            <span id="current-openai-key" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Gemini API Key:</span>
+                            <span id="current-gemini-key" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Default LLM Provider:</span>
+                            <span id="current-llm-provider" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
                             <span class="status-label">Server Port:</span>
                             <span id="current-server-port" class="status-value">5005</span>
                         </div>
@@ -329,6 +355,6 @@
 
     <!-- Load backend configuration first -->
     <script src="config.js"></script>
-    <script src="script.js?v=port-5005-v1"></script>
+    <script src="script.js?v=llm-provider-fix-v1"></script>
 </body>
 </html>

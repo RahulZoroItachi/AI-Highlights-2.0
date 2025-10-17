@@ -5,6 +5,8 @@ Prompt templates and LLM calling functions for TML analysis and extraction.
 import json
 import os
 from anthropic import Anthropic
+import openai
+import google.generativeai as genai
 
 
 def call_llm_for_analysis(system_prompt: str, user_prompt: str, llm_provider: str = "claude") -> str:
@@ -14,13 +16,17 @@ def call_llm_for_analysis(system_prompt: str, user_prompt: str, llm_provider: st
     Args:
         system_prompt: System prompt/instructions
         user_prompt: User prompt with data to analyze
-        llm_provider: LLM provider (only "claude" supported)
+        llm_provider: LLM provider ("claude", "openai", or "gemini")
         
     Returns:
         LLM analysis response
     """
     if llm_provider.lower() == "claude":
         return call_claude_for_analysis(system_prompt, user_prompt)
+    elif llm_provider.lower() == "openai":
+        return call_openai_for_analysis(system_prompt, user_prompt)
+    elif llm_provider.lower() == "gemini":
+        return call_gemini_for_analysis(system_prompt, user_prompt)
     else:
         raise ValueError(f"Unsupported LLM provider: {llm_provider}")
 
@@ -58,6 +64,64 @@ def call_claude_for_analysis(system_prompt: str, user_prompt: str) -> str:
         return full_response
     except Exception as e:
         print(f"❌ Error calling Claude: {e}")
+        raise
+
+
+def call_openai_for_analysis(system_prompt: str, user_prompt: str) -> str:
+    """Call OpenAI GPT for analysis."""
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable not set")
+    
+    client = openai.OpenAI(api_key=api_key)
+    
+    try:
+        print("🤖 Calling OpenAI for analysis...")
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt
+                }
+            ],
+            temperature=0.7,
+            max_tokens=16000,
+            stream=True
+        )
+        
+        # Handle streaming response
+        full_response = ""
+        for chunk in response:
+            if chunk.choices and chunk.choices[0].delta.content:
+                full_response += chunk.choices[0].delta.content
+        
+        return full_response
+    except Exception as e:
+        print(f"❌ Error calling OpenAI: {e}")
+        raise
+
+
+def call_gemini_for_analysis(system_prompt: str, user_prompt: str) -> str:
+    """Call Google Gemini for analysis."""
+    api_key = os.getenv('GEMINI_API_KEY')
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable not set")
+    
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    
+    try:
+        print("🤖 Calling Gemini for analysis...")
+        full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        response = model.generate_content(full_prompt)
+        return response.text
+    except Exception as e:
+        print(f"❌ Error calling Gemini: {e}")
         raise
 
 

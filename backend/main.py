@@ -24,6 +24,7 @@ def print(*args, **kwargs):
 
 import google.generativeai as genai
 from anthropic import Anthropic
+import openai
 from dotenv import load_dotenv
 
 # Load environment variables from backend/.env
@@ -150,6 +151,70 @@ def call_claude_sonnet(system_prompt: str, output_format_prompt: str, user_messa
         print(f"❌ Error calling Claude: {e}")
         raise
 
+def call_openai_gpt(system_prompt: str, output_format_prompt: str, user_message: str = "") -> str:
+    """
+    Call OpenAI GPT-4 with API key.
+    
+    Args:
+        system_prompt: Main system prompt
+        output_format_prompt: Output format specification
+        user_message: Optional user message
+        
+    Returns:
+        LLM response as string
+    """
+    # Get API key from environment
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable not set")
+    
+    # Initialize OpenAI client
+    client = openai.OpenAI(api_key=api_key)
+    
+    # Combine prompts
+    full_prompt = f"{system_prompt}\n\n{output_format_prompt}"
+    
+    if user_message:
+        full_prompt += f"\n\nUser Message: {user_message}"
+    
+    try:
+        print("🤖 Calling OpenAI GPT-4o-mini...")
+        print("⏳ Waiting for OpenAI response... (this may take 1-3 minutes)")
+        
+        response = client.chat.completions.create(
+            model="gpt-5",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": f"{output_format_prompt}\n\n{user_message}" if user_message else output_format_prompt
+                }
+            ],
+            #temperature=0.7,
+            #max_tokens=64000,
+            stream=True
+        )
+        
+        print("✅ OpenAI response started, processing stream...")
+        
+        # Handle streaming response
+        full_response = ""
+        chunk_count = 0
+        
+        for chunk in response:
+            if chunk.choices and chunk.choices[0].delta.content:
+                full_response += chunk.choices[0].delta.content
+                chunk_count += 1
+        
+        print(f"✅ OpenAI response completed. Total length: {len(full_response)}")
+        return full_response
+    except Exception as e:
+        print(f"❌ Error calling OpenAI: {e}")
+        raise
+
 
 def call_llm(system_prompt: str, output_format_prompt: str = "", user_message: str = "", llm_provider: str = "gemini") -> str:
     """
@@ -159,7 +224,7 @@ def call_llm(system_prompt: str, output_format_prompt: str = "", user_message: s
         system_prompt: Main system prompt
         output_format_prompt: Output format specification
         user_message: Optional user message
-        llm_provider: Either "gemini" or "claude"
+        llm_provider: Either "gemini", "claude", or "openai"
         
     Returns:
         LLM response as string
@@ -168,14 +233,21 @@ def call_llm(system_prompt: str, output_format_prompt: str = "", user_message: s
         return call_gemini_pro(system_prompt, output_format_prompt, user_message)
     elif llm_provider.lower() == "claude":
         return call_claude_sonnet(system_prompt, output_format_prompt, user_message)
+    elif llm_provider.lower() == "openai":
+        return call_openai_gpt(system_prompt, output_format_prompt, user_message)
     else:
-        raise ValueError(f"Unsupported LLM provider: {llm_provider}. Use 'gemini' or 'claude'")
+        raise ValueError(f"Unsupported LLM provider: {llm_provider}. Use 'gemini', 'claude', or 'openai'")
 
 
 
 def main():
     """Main workflow execution."""
+    # Start timer
+    start_time = time.time()
+    start_datetime = datetime.now()
+    
     print("🚀 Starting AI Analysis...")
+    print(f"⏰ Analysis started at: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
     print("   Analyzing your ThoughtSpot data with AI insights")
     
     # Validate critical environment variables early
@@ -204,7 +276,13 @@ def main():
     print(f"🔧 Configuration loaded: scenario={scenario}, llm_provider={llm_provider}")
     
     # Validate LLM provider API key
-    llm_api_key_var = 'CLAUDE_API_KEY' if llm_provider.lower() == 'claude' else 'GEMINI_API_KEY'
+    if llm_provider.lower() == 'claude':
+        llm_api_key_var = 'CLAUDE_API_KEY'
+    elif llm_provider.lower() == 'openai':
+        llm_api_key_var = 'OPENAI_API_KEY'
+    else:  # gemini
+        llm_api_key_var = 'GEMINI_API_KEY'
+    
     if not os.getenv(llm_api_key_var):
         print(f"❌ Missing {llm_provider.upper()} API key: {llm_api_key_var}")
         print("💡 Make sure your .env file contains the correct API key")
@@ -744,8 +822,15 @@ def main():
                         
                         # Save the report to a file using the logger
                         try:
+                            # Calculate elapsed time
+                            end_time = time.time()
+                            elapsed_seconds = end_time - start_time
+                            elapsed_minutes = elapsed_seconds / 60
+                            
                             report_content = f"EXECUTIVE REPORT - {scenario.upper()}\n"
                             report_content += f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                            report_content += f"Analysis Duration: {elapsed_minutes:.2f} minutes ({elapsed_seconds:.1f} seconds)\n"
+                            report_content += f"LLM Provider: {llm_provider.upper()}\n"
                             report_content += "="*80 + "\n\n"
                             report_content += report_response
                             
@@ -767,10 +852,27 @@ def main():
         else:
             print("⚠️ No analysis results available for report generation")
         
-        print("\n🎉 Workflow completed successfully!")
+        # Calculate and print final timing
+        end_time = time.time()
+        end_datetime = datetime.now()
+        elapsed_seconds = end_time - start_time
+        elapsed_minutes = elapsed_seconds / 60
+        
+        print("\n" + "="*80)
+        print("🎉 Workflow completed successfully!")
+        print(f"⏰ Started at:  {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"⏰ Finished at: {end_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"⏱️  Total Time:  {elapsed_minutes:.2f} minutes ({elapsed_seconds:.1f} seconds)")
+        print("="*80 + "\n")
         
     except Exception as e:
-        print(f"❌ Workflow failed: {e}")
+        # Calculate timing even for failed runs
+        end_time = time.time()
+        elapsed_seconds = end_time - start_time
+        elapsed_minutes = elapsed_seconds / 60
+        
+        print(f"\n❌ Workflow failed: {e}")
+        print(f"⏱️  Time before failure: {elapsed_minutes:.2f} minutes ({elapsed_seconds:.1f} seconds)")
         raise
 
 

@@ -9,6 +9,7 @@ from typing import Dict, Any, List
 from dotenv import load_dotenv
 import google.generativeai as genai
 from anthropic import Anthropic
+import openai
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +22,7 @@ def call_llm_for_analysis(system_prompt: str, csv_data: str, llm_provider) -> st
     Args:
         system_prompt: Analysis prompt/instructions
         csv_data: CSV data to analyze
-        llm_provider: Either "gemini" or "claude"
+        llm_provider: Either "gemini", "claude", or "openai"
         
     Returns:
         LLM analysis response
@@ -30,6 +31,8 @@ def call_llm_for_analysis(system_prompt: str, csv_data: str, llm_provider) -> st
         return call_gemini_for_analysis(system_prompt, csv_data)
     elif llm_provider.lower() == "claude":
         return call_claude_for_analysis(system_prompt, csv_data)
+    elif llm_provider.lower() == "openai":
+        return call_openai_for_analysis(system_prompt, csv_data)
     else:
         raise ValueError(f"Unsupported LLM provider: {llm_provider}")
 
@@ -90,6 +93,59 @@ def call_claude_for_analysis(system_prompt: str, csv_data: str) -> str:
         return full_response
     except Exception as e:
         print(f"❌ Error calling Claude: {e}")
+        raise
+
+
+def call_openai_for_analysis(system_prompt: str, csv_data: str) -> str:
+    """Call OpenAI GPT for analysis."""
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable not set")
+    
+    client = openai.OpenAI(api_key=api_key)
+    
+    try:
+        print("🤖 Calling OpenAI for analysis...")
+        
+        # If csv_data is empty or just whitespace, send everything in the user message
+        # This happens during report generation where all content is in system_prompt
+        if not csv_data or not csv_data.strip():
+            messages = [
+                {
+                    "role": "user",
+                    "content": system_prompt
+                }
+            ]
+        else:
+            # For analysis steps, send system prompt and data separately
+            messages = [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": f"CSV Data to analyze:\n{csv_data}"
+                }
+            ]
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=16000,
+            stream=True
+        )
+        
+        # Handle streaming response
+        full_response = ""
+        for chunk in response:
+            if chunk.choices and chunk.choices[0].delta.content:
+                full_response += chunk.choices[0].delta.content
+        
+        return full_response
+    except Exception as e:
+        print(f"❌ Error calling OpenAI: {e}")
         raise
 
 

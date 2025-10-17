@@ -145,9 +145,16 @@ def start_analysis():
         analysis_outputs[session_id] = output_queue
         
         # Prepare environment variables for main.py
-        env = os.environ.copy()  # Start with all current environment variables
+        # Re-load .env file to get the latest values (in case they were updated via settings)
+        from dotenv import load_dotenv
+        env_file_path = Path(__file__).parent / '.env'
+        load_dotenv(env_file_path, override=True)
+        
+        env = os.environ.copy()  # Start with all current environment variables (now includes fresh .env values)
         env['ANALYSIS_SCENARIO'] = scenario
-        env['LLM_PROVIDER'] = data.get('llm_provider', 'claude')
+        # LLM_PROVIDER should now be loaded from the fresh .env file
+        if 'LLM_PROVIDER' not in env or not env['LLM_PROVIDER']:
+            env['LLM_PROVIDER'] = 'claude'  # Default fallback
         env['LOAD_PREVIOUS_PLAN'] = str(data.get('load_previous_plan', '')) if data.get('load_previous_plan') else ''
         env['LOAD_PREVIOUS_DATA'] = str(data.get('load_previous_data', '')) if data.get('load_previous_data') else ''
         env['REPORT_ANALYSIS_VERSION'] = str(data.get('report_analysis_version', '')) if data.get('report_analysis_version') else ''
@@ -159,10 +166,14 @@ def start_analysis():
             'THOUGHTSPOT_AUTH_TOKEN'
         ]
         
-        # LLM provider specific
-        llm_provider = data.get('llm_provider', 'claude')
+        # LLM provider specific (use from environment, not from request)
+        llm_provider = env.get('LLM_PROVIDER', 'claude')
+        print(f"🤖 Using LLM Provider: {llm_provider.upper()}")
+        
         if llm_provider == 'claude':
             required_env_vars.append('CLAUDE_API_KEY')
+        elif llm_provider == 'openai':
+            required_env_vars.append('OPENAI_API_KEY')
         elif llm_provider == 'gemini':
             required_env_vars.append('GEMINI_API_KEY')
         
@@ -1255,14 +1266,18 @@ def manage_env_settings():
             ts_url = os.getenv('THOUGHTSPOT_BASE_URL', '')
             ts_token = os.getenv('THOUGHTSPOT_AUTH_TOKEN', '')
             claude_key = os.getenv('CLAUDE_API_KEY', '')
-            backend_port = os.getenv('PORT', '5005')
-            frontend_port = os.getenv('FRONTEND_PORT', '3000')
+            openai_key = os.getenv('OPENAI_API_KEY', '')
+            gemini_key = os.getenv('GEMINI_API_KEY', '')
+            llm_provider = os.getenv('LLM_PROVIDER', 'claude')
+            port = os.getenv('PORT', '5005')
             
             current_settings['thoughtspot_base_url'] = ts_url if ts_url else ''
             current_settings['thoughtspot_auth_token'] = '***' + ts_token[-4:] if len(ts_token) > 4 else ('Set' if ts_token else 'Not set')
             current_settings['claude_api_key'] = '***' + claude_key[-4:] if len(claude_key) > 4 else ('Set' if claude_key else 'Not set')
-            current_settings['backend_port'] = backend_port
-            current_settings['frontend_port'] = frontend_port
+            current_settings['openai_api_key'] = '***' + openai_key[-4:] if len(openai_key) > 4 else ('Set' if openai_key else 'Not set')
+            current_settings['gemini_api_key'] = '***' + gemini_key[-4:] if len(gemini_key) > 4 else ('Set' if gemini_key else 'Not set')
+            current_settings['llm_provider'] = llm_provider
+            current_settings['port'] = port
             
             return jsonify({
                 "success": True,
@@ -1292,24 +1307,29 @@ def manage_env_settings():
             new_ts_url = data.get('thoughtspot_base_url', '').strip()
             new_ts_token = data.get('thoughtspot_auth_token', '').strip()
             new_claude_key = data.get('claude_api_key', '').strip()
-            new_backend_port = data.get('backend_port', '').strip()
-            new_frontend_port = data.get('frontend_port', '').strip()
+            new_openai_key = data.get('openai_api_key', '').strip()
+            new_gemini_key = data.get('gemini_api_key', '').strip()
+            new_llm_provider = data.get('llm_provider', '').strip()
+            new_port = data.get('port', '').strip()
             
-            # Validate port numbers if provided
-            if new_backend_port and not (new_backend_port.isdigit() and 1 <= int(new_backend_port) <= 65535):
+            print(f"🔍 Received data: llm_provider='{new_llm_provider}'")
+            
+            # Validate LLM provider if provided
+            if new_llm_provider and new_llm_provider not in ['claude', 'openai', 'gemini']:
                 return jsonify({
                     "success": False,
-                    "error": "Backend port must be a number between 1 and 65535"
+                    "error": "LLM provider must be one of: claude, openai, gemini"
                 })
             
-            if new_frontend_port and not (new_frontend_port.isdigit() and 1 <= int(new_frontend_port) <= 65535):
+            # Validate port number if provided
+            if new_port and not (new_port.isdigit() and 1 <= int(new_port) <= 65535):
                 return jsonify({
                     "success": False,
-                    "error": "Frontend port must be a number between 1 and 65535"
+                    "error": "Port must be a number between 1 and 65535"
                 })
             
             # Validate that at least one field is provided
-            if not any([new_ts_url, new_ts_token, new_claude_key, new_backend_port, new_frontend_port]):
+            if not any([new_ts_url, new_ts_token, new_claude_key, new_openai_key, new_gemini_key, new_llm_provider, new_port]):
                 return jsonify({
                     "success": False,
                     "error": "At least one setting must be provided"
@@ -1332,10 +1352,15 @@ def manage_env_settings():
                 env_vars['THOUGHTSPOT_AUTH_TOKEN'] = new_ts_token
             if new_claude_key:
                 env_vars['CLAUDE_API_KEY'] = new_claude_key
-            if new_backend_port:
-                env_vars['PORT'] = new_backend_port
-            if new_frontend_port:
-                env_vars['FRONTEND_PORT'] = new_frontend_port
+            if new_openai_key:
+                env_vars['OPENAI_API_KEY'] = new_openai_key
+            if new_gemini_key:
+                env_vars['GEMINI_API_KEY'] = new_gemini_key
+            if new_llm_provider:
+                print(f"✏️ Updating LLM_PROVIDER from '{env_vars.get('LLM_PROVIDER', 'not set')}' to '{new_llm_provider}'")
+                env_vars['LLM_PROVIDER'] = new_llm_provider
+            if new_port:
+                env_vars['PORT'] = new_port
             
             # Write updated .env file
             with open(env_file_path, 'w') as f:
@@ -1343,7 +1368,7 @@ def manage_env_settings():
                     f.write(f"{key}={value}\n")
             
             print(f"✅ Updated .env file with new settings")
-            print(f"🔧 Updated fields: {[k for k, v in {'THOUGHTSPOT_BASE_URL': new_ts_url, 'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 'CLAUDE_API_KEY': new_claude_key}.items() if v]}")
+            print(f"🔧 Updated fields: {[k for k, v in {'THOUGHTSPOT_BASE_URL': new_ts_url, 'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 'CLAUDE_API_KEY': new_claude_key, 'OPENAI_API_KEY': new_openai_key, 'GEMINI_API_KEY': new_gemini_key, 'LLM_PROVIDER': new_llm_provider, 'PORT': new_port}.items() if v]}")
             
             # Reload environment variables
             from dotenv import load_dotenv
@@ -1356,8 +1381,10 @@ def manage_env_settings():
                     'THOUGHTSPOT_BASE_URL': new_ts_url, 
                     'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 
                     'CLAUDE_API_KEY': new_claude_key,
-                    'PORT': new_backend_port,
-                    'FRONTEND_PORT': new_frontend_port
+                    'OPENAI_API_KEY': new_openai_key,
+                    'GEMINI_API_KEY': new_gemini_key,
+                    'LLM_PROVIDER': new_llm_provider,
+                    'PORT': new_port
                 }.items() if v]
             })
             
@@ -1379,6 +1406,8 @@ def test_api_connections():
         ts_url = data.get('thoughtspot_base_url') or os.getenv('THOUGHTSPOT_BASE_URL')
         ts_token = data.get('thoughtspot_auth_token') or os.getenv('THOUGHTSPOT_AUTH_TOKEN')
         claude_key = data.get('claude_api_key') or os.getenv('CLAUDE_API_KEY')
+        openai_key = data.get('openai_api_key') or os.getenv('OPENAI_API_KEY')
+        gemini_key = data.get('gemini_api_key') or os.getenv('GEMINI_API_KEY')
         
         results = {}
         
@@ -1418,6 +1447,37 @@ def test_api_connections():
                 results['claude'] = {'status': 'error', 'message': f'Authentication failed: {str(e)}'}
         else:
             results['claude'] = {'status': 'error', 'message': 'API key not configured'}
+        
+        # Test OpenAI connection
+        if openai_key:
+            try:
+                import openai
+                client = openai.OpenAI(api_key=openai_key)
+                # Simple test message
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    max_tokens=10,
+                    messages=[{"role": "user", "content": "Hi"}]
+                )
+                results['openai'] = {'status': 'success', 'message': 'API key valid'}
+            except Exception as e:
+                results['openai'] = {'status': 'error', 'message': f'Authentication failed: {str(e)}'}
+        else:
+            results['openai'] = {'status': 'error', 'message': 'API key not configured'}
+        
+        # Test Gemini connection
+        if gemini_key:
+            try:
+                import google.generativeai as genai
+                genai.configure(api_key=gemini_key)
+                model = genai.GenerativeModel('gemini-2.0-flash-exp')
+                # Simple test message
+                response = model.generate_content("Hi")
+                results['gemini'] = {'status': 'success', 'message': 'API key valid'}
+            except Exception as e:
+                results['gemini'] = {'status': 'error', 'message': f'Authentication failed: {str(e)}'}
+        else:
+            results['gemini'] = {'status': 'error', 'message': 'API key not configured'}
         
         return jsonify({
             "success": True,

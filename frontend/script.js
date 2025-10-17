@@ -1117,7 +1117,6 @@ async function runAnalysis() {
     // Get analysis configuration
     const config = {
         scenario: selectedScenario,
-        llm_provider: document.getElementById('llm-provider').value,
         load_previous_plan: document.getElementById('load-previous-plan').value || null,
         load_previous_data: document.getElementById('load-previous-data').value || null,
         report_analysis_version: document.getElementById('report-analysis-version').value || null
@@ -1153,7 +1152,6 @@ async function runAnalysis() {
                 <span>Starting analysis for <strong>${selectedScenario.toUpperCase()}</strong>...</span>
             </div>
             <div style="margin-top: 15px; font-size: 13px; color: #6b7280;">
-                <div>• LLM Provider: ${config.llm_provider}</div>
                 <div>• Previous Plan: ${config.load_previous_plan || 'Generate New'}</div>
                 <div>• Previous Data: ${config.load_previous_data || 'Fetch Fresh'}</div>
                 <div>• Analysis Version: ${config.report_analysis_version || 'Run Full Analysis'}</div>
@@ -1820,11 +1818,17 @@ async function loadCurrentSettings() {
             document.getElementById('current-ts-url').textContent = result.settings.thoughtspot_base_url || 'Not configured';
             document.getElementById('current-ts-token').textContent = result.settings.thoughtspot_auth_token;
             document.getElementById('current-claude-key').textContent = result.settings.claude_api_key;
+            document.getElementById('current-openai-key').textContent = result.settings.openai_api_key || 'Not configured';
+            document.getElementById('current-gemini-key').textContent = result.settings.gemini_api_key || 'Not configured';
+            document.getElementById('current-llm-provider').textContent = result.settings.llm_provider || 'Not configured';
             document.getElementById('current-server-port').textContent = result.settings.port || '5005';
             
             // Fill form fields with current values (not masked ones)
             if (result.settings.thoughtspot_base_url) {
                 document.getElementById('thoughtspot-base-url').value = result.settings.thoughtspot_base_url;
+            }
+            if (result.settings.llm_provider) {
+                document.getElementById('default-llm-provider').value = result.settings.llm_provider;
             }
             if (result.settings.port) {
                 document.getElementById('server-port').value = result.settings.port;
@@ -1846,10 +1850,13 @@ async function saveSettings() {
         const tsUrl = document.getElementById('thoughtspot-base-url').value.trim();
         const tsToken = document.getElementById('thoughtspot-auth-token').value.trim();
         const claudeKey = document.getElementById('claude-api-key').value.trim();
+        const openaiKey = document.getElementById('openai-api-key').value.trim();
+        const geminiKey = document.getElementById('gemini-api-key').value.trim();
+        const llmProvider = document.getElementById('default-llm-provider').value.trim();
         const serverPort = document.getElementById('server-port').value.trim();
         
         // Validate that at least one field is provided
-        if (!tsUrl && !tsToken && !claudeKey && !serverPort) {
+        if (!tsUrl && !tsToken && !claudeKey && !openaiKey && !geminiKey && !llmProvider && !serverPort) {
             showMessage('❌ Please provide at least one setting to update', 'warning');
             return;
         }
@@ -1859,9 +1866,14 @@ async function saveSettings() {
         if (tsUrl) settingsData.thoughtspot_base_url = tsUrl;
         if (tsToken) settingsData.thoughtspot_auth_token = tsToken;
         if (claudeKey) settingsData.claude_api_key = claudeKey;
+        if (openaiKey) settingsData.openai_api_key = openaiKey;
+        if (geminiKey) settingsData.gemini_api_key = geminiKey;
+        // Always include LLM provider if it has a value (dropdown always has selection)
+        if (llmProvider) settingsData.llm_provider = llmProvider;
         if (serverPort) settingsData.port = serverPort;
         
         console.log('💾 Saving settings to .env file...');
+        console.log('📤 Data being sent:', settingsData);
         showMessage('🔄 Updating .env file...', 'info');
         
         const response = await apiCall('/api/settings/env', {
@@ -1885,6 +1897,8 @@ async function saveSettings() {
             // Clear password fields for security
             document.getElementById('thoughtspot-auth-token').value = '';
             document.getElementById('claude-api-key').value = '';
+            document.getElementById('openai-api-key').value = '';
+            document.getElementById('gemini-api-key').value = '';
             
             // Reload current settings to show updated status
             setTimeout(() => loadCurrentSettings(), 1000);
@@ -1902,6 +1916,9 @@ function clearSettings() {
     document.getElementById('thoughtspot-base-url').value = '';
     document.getElementById('thoughtspot-auth-token').value = '';
     document.getElementById('claude-api-key').value = '';
+    document.getElementById('openai-api-key').value = '';
+    document.getElementById('gemini-api-key').value = '';
+    document.getElementById('default-llm-provider').value = 'claude';
     document.getElementById('server-port').value = '';
     
     showMessage('🗑️ Settings form cleared', 'info');
@@ -1913,6 +1930,8 @@ async function testConnection() {
         const tsUrl = document.getElementById('thoughtspot-base-url').value.trim();
         const tsToken = document.getElementById('thoughtspot-auth-token').value.trim();
         const claudeKey = document.getElementById('claude-api-key').value.trim();
+        const openaiKey = document.getElementById('openai-api-key').value.trim();
+        const geminiKey = document.getElementById('gemini-api-key').value.trim();
         const serverPort = document.getElementById('server-port').value.trim();
         
         // Prepare test data
@@ -1920,6 +1939,8 @@ async function testConnection() {
         if (tsUrl) testData.thoughtspot_base_url = tsUrl;
         if (tsToken) testData.thoughtspot_auth_token = tsToken;
         if (claudeKey) testData.claude_api_key = claudeKey;
+        if (openaiKey) testData.openai_api_key = openaiKey;
+        if (geminiKey) testData.gemini_api_key = geminiKey;
         if (serverPort) testData.port = serverPort;
         
         console.log('🔍 Testing API connections...');

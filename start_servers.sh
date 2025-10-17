@@ -36,12 +36,16 @@ fi
 if [ -d "venv" ]; then
     echo "🐍 Activating virtual environment..."
     source venv/bin/activate
+    PYTHON_CMD="python"
+else
+    echo "⚠️  No virtual environment found. Using system Python..."
+    PYTHON_CMD="python3"
 fi
 
 # Start the unified server
 echo "🚀 Starting Unified Server..."
 cd backend
-python3 api_server.py &
+$PYTHON_CMD api_server.py &
 SERVER_PID=$!
 cd ..
 
