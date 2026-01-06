@@ -115,13 +115,15 @@ def call_claude_sonnet(system_prompt: str, output_format_prompt: str, user_messa
     #print("***********  ***********")
     #input("Enter your message for Claude (leave blank for none): ")
     
+    # Get Claude model from environment
+    model = os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-20250514')
+    
     try:
-        print("🤖 Calling Claude Sonnet 4...")
+        print(f"🤖 Calling Claude {model}...")
         print("⏳ Waiting for Claude response... (this may take 1-3 minutes)")
         
         response = client.messages.create(
-            #model="claude-sonnet-4-20250514",
-            model="claude-sonnet-4-5-20250929",
+            model=model,
             max_tokens=64000,
             temperature=0.7,
             stream=True,
@@ -153,7 +155,7 @@ def call_claude_sonnet(system_prompt: str, output_format_prompt: str, user_messa
 
 def call_openai_gpt(system_prompt: str, output_format_prompt: str, user_message: str = "") -> str:
     """
-    Call OpenAI GPT-4 with API key.
+    Call OpenAI GPT with API key and model selection.
     
     Args:
         system_prompt: Main system prompt
@@ -163,10 +165,12 @@ def call_openai_gpt(system_prompt: str, output_format_prompt: str, user_message:
     Returns:
         LLM response as string
     """
-    # Get API key from environment
+    # Get API key and model from environment
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set")
+    
+    model = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
     
     # Initialize OpenAI client
     client = openai.OpenAI(api_key=api_key)
@@ -177,13 +181,30 @@ def call_openai_gpt(system_prompt: str, output_format_prompt: str, user_message:
     if user_message:
         full_prompt += f"\n\nUser Message: {user_message}"
     
+    # Check if model is o1 or o3 series (they don't support system messages, temperature, or max_tokens)
+    is_reasoning_model = model.startswith('o1-') or model.startswith('o3-')
+    
     try:
-        print("🤖 Calling OpenAI GPT-4o-mini...")
+        print(f"🤖 Calling OpenAI {model}...")
         print("⏳ Waiting for OpenAI response... (this may take 1-3 minutes)")
         
-        response = client.chat.completions.create(
-            model="gpt-5",
-            messages=[
+        # Build messages based on model type
+        if is_reasoning_model:
+            # o1 and o3 models: no system message, no temperature, no max_tokens
+            messages = [
+                {
+                    "role": "user",
+                    "content": full_prompt
+                }
+            ]
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                stream=True
+            )
+        else:
+            # Standard models: use system message, temperature, max_tokens
+            messages = [
                 {
                     "role": "system",
                     "content": system_prompt
@@ -192,11 +213,14 @@ def call_openai_gpt(system_prompt: str, output_format_prompt: str, user_message:
                     "role": "user",
                     "content": f"{output_format_prompt}\n\n{user_message}" if user_message else output_format_prompt
                 }
-            ],
-            #temperature=0.7,
-            #max_tokens=64000,
-            stream=True
-        )
+            ]
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=0.7,
+                max_tokens=64000,
+                stream=True
+            )
         
         print("✅ OpenAI response started, processing stream...")
         

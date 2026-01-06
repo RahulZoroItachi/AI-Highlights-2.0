@@ -1,0 +1,13 @@
+[
+  {
+    "info": {
+      "name": "Engineering Excellence Framework",
+      "id": "6671b402-e6bf-4381-b5ba-3e483506f953",
+      "type": "liveboard",
+      "status": {
+        "error_message": "Error Code: FORBIDDEN Incident Id: dd800e39-34c1-4580-84f6-1286475ba969\ncom.thoughtspot.callosum.metadata.MetadataException: Error Code: FORBIDDEN Incident Id: dd800e39-34c1-4580-84f6-1286475ba969\nError Message: Cannot download TML due to lack of access to objects.",
+        "status_code": "ERROR"
+      }
+    }
+  }
+]

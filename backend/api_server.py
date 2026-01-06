@@ -1269,6 +1269,9 @@ def manage_env_settings():
             openai_key = os.getenv('OPENAI_API_KEY', '')
             gemini_key = os.getenv('GEMINI_API_KEY', '')
             llm_provider = os.getenv('LLM_PROVIDER', 'claude')
+            openai_model = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
+            claude_model = os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-20250514')
+            gemini_model = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash-exp')
             port = os.getenv('PORT', '5005')
             
             current_settings['thoughtspot_base_url'] = ts_url if ts_url else ''
@@ -1277,6 +1280,9 @@ def manage_env_settings():
             current_settings['openai_api_key'] = '***' + openai_key[-4:] if len(openai_key) > 4 else ('Set' if openai_key else 'Not set')
             current_settings['gemini_api_key'] = '***' + gemini_key[-4:] if len(gemini_key) > 4 else ('Set' if gemini_key else 'Not set')
             current_settings['llm_provider'] = llm_provider
+            current_settings['openai_model'] = openai_model
+            current_settings['claude_model'] = claude_model
+            current_settings['gemini_model'] = gemini_model
             current_settings['port'] = port
             
             return jsonify({
@@ -1310,6 +1316,9 @@ def manage_env_settings():
             new_openai_key = data.get('openai_api_key', '').strip()
             new_gemini_key = data.get('gemini_api_key', '').strip()
             new_llm_provider = data.get('llm_provider', '').strip()
+            new_openai_model = data.get('openai_model', '').strip()
+            new_claude_model = data.get('claude_model', '').strip()
+            new_gemini_model = data.get('gemini_model', '').strip()
             new_port = data.get('port', '').strip()
             
             print(f"🔍 Received data: llm_provider='{new_llm_provider}'")
@@ -1329,7 +1338,7 @@ def manage_env_settings():
                 })
             
             # Validate that at least one field is provided
-            if not any([new_ts_url, new_ts_token, new_claude_key, new_openai_key, new_gemini_key, new_llm_provider, new_port]):
+            if not any([new_ts_url, new_ts_token, new_claude_key, new_openai_key, new_gemini_key, new_llm_provider, new_openai_model, new_claude_model, new_gemini_model, new_port]):
                 return jsonify({
                     "success": False,
                     "error": "At least one setting must be provided"
@@ -1359,6 +1368,12 @@ def manage_env_settings():
             if new_llm_provider:
                 print(f"✏️ Updating LLM_PROVIDER from '{env_vars.get('LLM_PROVIDER', 'not set')}' to '{new_llm_provider}'")
                 env_vars['LLM_PROVIDER'] = new_llm_provider
+            if new_openai_model:
+                env_vars['OPENAI_MODEL'] = new_openai_model
+            if new_claude_model:
+                env_vars['CLAUDE_MODEL'] = new_claude_model
+            if new_gemini_model:
+                env_vars['GEMINI_MODEL'] = new_gemini_model
             if new_port:
                 env_vars['PORT'] = new_port
             
@@ -1368,7 +1383,7 @@ def manage_env_settings():
                     f.write(f"{key}={value}\n")
             
             print(f"✅ Updated .env file with new settings")
-            print(f"🔧 Updated fields: {[k for k, v in {'THOUGHTSPOT_BASE_URL': new_ts_url, 'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 'CLAUDE_API_KEY': new_claude_key, 'OPENAI_API_KEY': new_openai_key, 'GEMINI_API_KEY': new_gemini_key, 'LLM_PROVIDER': new_llm_provider, 'PORT': new_port}.items() if v]}")
+            print(f"🔧 Updated fields: {[k for k, v in {'THOUGHTSPOT_BASE_URL': new_ts_url, 'THOUGHTSPOT_AUTH_TOKEN': new_ts_token, 'CLAUDE_API_KEY': new_claude_key, 'OPENAI_API_KEY': new_openai_key, 'GEMINI_API_KEY': new_gemini_key, 'LLM_PROVIDER': new_llm_provider, 'OPENAI_MODEL': new_openai_model, 'CLAUDE_MODEL': new_claude_model, 'GEMINI_MODEL': new_gemini_model, 'PORT': new_port}.items() if v]}")
             
             # Reload environment variables
             from dotenv import load_dotenv
@@ -1384,6 +1399,9 @@ def manage_env_settings():
                     'OPENAI_API_KEY': new_openai_key,
                     'GEMINI_API_KEY': new_gemini_key,
                     'LLM_PROVIDER': new_llm_provider,
+                    'OPENAI_MODEL': new_openai_model,
+                    'CLAUDE_MODEL': new_claude_model,
+                    'GEMINI_MODEL': new_gemini_model,
                     'PORT': new_port
                 }.items() if v]
             })

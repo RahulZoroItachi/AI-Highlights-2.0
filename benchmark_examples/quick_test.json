@@ -1,0 +1,21 @@
+{
+  "scenario": "marketing_funnel_a",
+  "description": "Quick test with 2 configurations to validate setup",
+  "load_previous_plan": 1,
+  "load_previous_data": 1,
+  "configurations": [
+    {
+      "name": "Claude Sonnet 4 - Standard",
+      "llm_provider": "claude",
+      "claude_model": "claude-sonnet-4-20250514",
+      "temperature": 0.7
+    },
+    {
+      "name": "GPT-4o-mini - Standard",
+      "llm_provider": "openai",
+      "openai_model": "gpt-4o-mini",
+      "temperature": 0.7
+    }
+  ]
+}
+

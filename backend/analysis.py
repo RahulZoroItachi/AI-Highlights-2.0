@@ -64,15 +64,17 @@ def call_claude_for_analysis(system_prompt: str, csv_data: str) -> str:
     if not api_key:
         raise ValueError("CLAUDE_API_KEY environment variable not set")
     
+    model = os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-20250514')
+    
     client = Anthropic(api_key=api_key)
     
     # Combine system prompt with CSV data
     full_prompt = f"{system_prompt}\n\nCSV Data to analyze:\n{csv_data}"
     
     try:
-        print("🤖 Calling Claude for analysis...")
+        print(f"🤖 Calling Claude {model} for analysis...")
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=model,
             max_tokens=64000,
             temperature=0.7,
             stream=True,
@@ -102,10 +104,15 @@ def call_openai_for_analysis(system_prompt: str, csv_data: str) -> str:
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set")
     
+    model = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
+    
     client = openai.OpenAI(api_key=api_key)
     
+    # Check if model is o1 or o3 series (they don't support system messages, temperature, or max_tokens)
+    is_reasoning_model = model.startswith('o1-') or model.startswith('o3-')
+    
     try:
-        print("🤖 Calling OpenAI for analysis...")
+        print(f"🤖 Calling OpenAI {model} for analysis...")
         
         # If csv_data is empty or just whitespace, send everything in the user message
         # This happens during report generation where all content is in system_prompt
@@ -116,8 +123,16 @@ def call_openai_for_analysis(system_prompt: str, csv_data: str) -> str:
                     "content": system_prompt
                 }
             ]
+        elif is_reasoning_model:
+            # o1/o3 models: combine everything in user message (no system role)
+            messages = [
+                {
+                    "role": "user",
+                    "content": f"{system_prompt}\n\nCSV Data to analyze:\n{csv_data}"
+                }
+            ]
         else:
-            # For analysis steps, send system prompt and data separately
+            # Standard models: send system prompt and data separately
             messages = [
                 {
                     "role": "system",
@@ -129,13 +144,23 @@ def call_openai_for_analysis(system_prompt: str, csv_data: str) -> str:
                 }
             ]
         
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            temperature=0.7,
-            max_tokens=16000,
-            stream=True
-        )
+        # Build API call based on model type
+        if is_reasoning_model:
+            # o1/o3 models: no temperature or max_tokens
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                stream=True
+            )
+        else:
+            # Standard models: include temperature and max_tokens
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=0.7,
+                max_tokens=64000,
+                stream=True
+            )
         
         # Handle streaming response
         full_response = ""

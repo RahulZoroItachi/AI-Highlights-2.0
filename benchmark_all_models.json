@@ -1,0 +1,57 @@
+{
+  "scenario": "marketing_funnel_a",
+  "description": "Test all available models on marketing_funnel_a scenario",
+  "load_previous_plan": 1,
+  "load_previous_data": 1,
+  "configurations": [
+    {
+      "name": "1. Claude Opus 4.1 (Premium)",
+      "llm_provider": "claude",
+      "claude_model": "claude-opus-4-20250514",
+      "temperature": 0.7
+    },
+    {
+      "name": "2. Claude Sonnet 4 (Balanced)",
+      "llm_provider": "claude",
+      "claude_model": "claude-sonnet-4-20250514",
+      "temperature": 0.7
+    },
+    {
+      "name": "3. Claude Sonnet 4.5 (Latest)",
+      "llm_provider": "claude",
+      "claude_model": "claude-sonnet-4-5-20250929",
+      "temperature": 0.7
+    },
+    {
+      "name": "4. Claude Haiku 4.5 (Fast)",
+      "llm_provider": "claude",
+      "claude_model": "claude-haiku-4-20250514",
+      "temperature": 0.7
+    },
+    {
+      "name": "5. GPT-4o (Premium)",
+      "llm_provider": "openai",
+      "openai_model": "gpt-4o",
+      "temperature": 0.7
+    },
+    {
+      "name": "6. GPT-4o-mini (Fast & Cheap)",
+      "llm_provider": "openai",
+      "openai_model": "gpt-4o-mini",
+      "temperature": 0.7
+    },
+    {
+      "name": "7. o1-mini (Reasoning)",
+      "llm_provider": "openai",
+      "openai_model": "o1-mini",
+      "temperature": null
+    },
+    {
+      "name": "8. Gemini 2.0 Flash",
+      "llm_provider": "gemini",
+      "gemini_model": "gemini-2.0-flash-exp",
+      "temperature": 0.7
+    }
+  ]
+}
+

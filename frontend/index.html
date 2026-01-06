@@ -293,6 +293,38 @@
                         </select>
                         <small>Choose which LLM to use for analysis and input configuration</small>
                     </div>
+
+                    <div class="form-group">
+                        <label for="openai-model">OpenAI Model:</label>
+                        <select id="openai-model">
+                            <option value="gpt-4o">GPT-4o</option>
+                            <option value="gpt-4o-mini" selected>GPT-4o-mini (Default)</option>
+                            <option value="o1-mini">o1-mini</option>
+                            <option value="o3-mini">o3-mini</option>
+                        </select>
+                        <small>Select the OpenAI model to use (applies when OpenAI is selected as provider)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="claude-model">Claude Model:</label>
+                        <select id="claude-model">
+                            <option value="claude-opus-4-20250514">Claude Opus 4.1</option>
+                            <option value="claude-sonnet-4-20250514" selected>Claude Sonnet 4 (Default)</option>
+                            <option value="claude-sonnet-4-5-20250929">Claude Sonnet 4.5</option>
+                            <option value="claude-3-7-sonnet-20250219">Claude 3.7 Sonnet</option>
+                            <option value="claude-haiku-4-20250514">Claude Haiku 4.5</option>
+                        </select>
+                        <small>Select the Claude model to use (applies when Claude is selected as provider)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gemini-model">Gemini Model:</label>
+                        <select id="gemini-model">
+                            <option value="gemini-2.0-flash-exp" selected>Gemini 2.0 Flash (Default)</option>
+                            <option value="gemini-pro">Gemini Pro</option>
+                        </select>
+                        <small>Select the Gemini model to use (applies when Gemini is selected as provider)</small>
+                    </div>
                 </div>
 
                 <div class="form-section">
@@ -333,6 +365,18 @@
                             <span id="current-llm-provider" class="status-value">Not configured</span>
                         </div>
                         <div class="status-item">
+                            <span class="status-label">OpenAI Model:</span>
+                            <span id="current-openai-model" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Claude Model:</span>
+                            <span id="current-claude-model" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Gemini Model:</span>
+                            <span id="current-gemini-model" class="status-value">Not configured</span>
+                        </div>
+                        <div class="status-item">
                             <span class="status-label">Server Port:</span>
                             <span id="current-server-port" class="status-value">5005</span>
                         </div>
@@ -355,6 +399,6 @@
 
     <!-- Load backend configuration first -->
     <script src="config.js"></script>
-    <script src="script.js?v=llm-provider-fix-v1"></script>
+    <script src="script.js?v=model-selection-v1"></script>
 </body>
 </html>

@@ -1821,6 +1821,9 @@ async function loadCurrentSettings() {
             document.getElementById('current-openai-key').textContent = result.settings.openai_api_key || 'Not configured';
             document.getElementById('current-gemini-key').textContent = result.settings.gemini_api_key || 'Not configured';
             document.getElementById('current-llm-provider').textContent = result.settings.llm_provider || 'Not configured';
+            document.getElementById('current-openai-model').textContent = result.settings.openai_model || 'Not configured';
+            document.getElementById('current-claude-model').textContent = result.settings.claude_model || 'Not configured';
+            document.getElementById('current-gemini-model').textContent = result.settings.gemini_model || 'Not configured';
             document.getElementById('current-server-port').textContent = result.settings.port || '5005';
             
             // Fill form fields with current values (not masked ones)
@@ -1829,6 +1832,15 @@ async function loadCurrentSettings() {
             }
             if (result.settings.llm_provider) {
                 document.getElementById('default-llm-provider').value = result.settings.llm_provider;
+            }
+            if (result.settings.openai_model) {
+                document.getElementById('openai-model').value = result.settings.openai_model;
+            }
+            if (result.settings.claude_model) {
+                document.getElementById('claude-model').value = result.settings.claude_model;
+            }
+            if (result.settings.gemini_model) {
+                document.getElementById('gemini-model').value = result.settings.gemini_model;
             }
             if (result.settings.port) {
                 document.getElementById('server-port').value = result.settings.port;
@@ -1853,10 +1865,13 @@ async function saveSettings() {
         const openaiKey = document.getElementById('openai-api-key').value.trim();
         const geminiKey = document.getElementById('gemini-api-key').value.trim();
         const llmProvider = document.getElementById('default-llm-provider').value.trim();
+        const openaiModel = document.getElementById('openai-model').value.trim();
+        const claudeModel = document.getElementById('claude-model').value.trim();
+        const geminiModel = document.getElementById('gemini-model').value.trim();
         const serverPort = document.getElementById('server-port').value.trim();
         
         // Validate that at least one field is provided
-        if (!tsUrl && !tsToken && !claudeKey && !openaiKey && !geminiKey && !llmProvider && !serverPort) {
+        if (!tsUrl && !tsToken && !claudeKey && !openaiKey && !geminiKey && !llmProvider && !openaiModel && !claudeModel && !geminiModel && !serverPort) {
             showMessage('❌ Please provide at least one setting to update', 'warning');
             return;
         }
@@ -1868,8 +1883,11 @@ async function saveSettings() {
         if (claudeKey) settingsData.claude_api_key = claudeKey;
         if (openaiKey) settingsData.openai_api_key = openaiKey;
         if (geminiKey) settingsData.gemini_api_key = geminiKey;
-        // Always include LLM provider if it has a value (dropdown always has selection)
+        // Always include LLM provider and models if they have values (dropdowns always have selection)
         if (llmProvider) settingsData.llm_provider = llmProvider;
+        if (openaiModel) settingsData.openai_model = openaiModel;
+        if (claudeModel) settingsData.claude_model = claudeModel;
+        if (geminiModel) settingsData.gemini_model = geminiModel;
         if (serverPort) settingsData.port = serverPort;
         
         console.log('💾 Saving settings to .env file...');
@@ -1919,6 +1937,9 @@ function clearSettings() {
     document.getElementById('openai-api-key').value = '';
     document.getElementById('gemini-api-key').value = '';
     document.getElementById('default-llm-provider').value = 'claude';
+    document.getElementById('openai-model').value = 'gpt-4o-mini';
+    document.getElementById('claude-model').value = 'claude-sonnet-4-20250514';
+    document.getElementById('gemini-model').value = 'gemini-2.0-flash-exp';
     document.getElementById('server-port').value = '';
     
     showMessage('🗑️ Settings form cleared', 'info');
